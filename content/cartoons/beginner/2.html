@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon 2 - JingoJango</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Тот же самый CSS что и для 3.html */
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --accent-color: #ff6b6b;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --background-light: #f7fafc;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        .lesson-container {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 20px;
+        }
+
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius);
+            color: var(--white);
+        }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .video-section {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow-light);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .video-player {
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-player i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            z-index: 2;
+        }
+
+        .video-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../../../../images/hero-img.png') center/cover;
+            opacity: 0.3;
+        }
+
+        .video-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .vocabulary-section, .exercise-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .word-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .word-item {
+            padding: 15px;
+            background: var(--background-light);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .word-item:hover {
+            transform: translateX(5px);
+            background: var(--white);
+            box-shadow: var(--shadow-light);
+        }
+
+        .word-english {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .word-russian {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .exercise-item {
+            background: var(--background-light);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .exercise-question {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            padding: 12px 15px;
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .option:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .option.selected {
+            background: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid var(--background-light);
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .nav-btn.disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 3px;
+            width: 40%;
+            transition: width 0.3s ease;
+        }
+
+        .lesson-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h2><a href="../../../../index.html" style="text-decoration: none;">JingoJango</a></h2>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../../../../index.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../../../index.html#courses" class="nav-link">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../../../index.html#cartoons" class="nav-link">Cartoons</a>
+                    </li>
+                </ul>
+
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="lesson-container">
+        <div class="lesson-header">
+            <h1 class="lesson-title">Cartoon Lesson 2: Family & Friends</h1>
+            <p class="lesson-subtitle">Learn to talk about family members and friends</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="lesson-stats">
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Vocabulary Words</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Exercises</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8min</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-section">
+            <div class="video-player">
+                <i class="fas fa-play-circle"></i>
+                <h3>Family & Friends Cartoon</h3>
+                <p>Click play to watch the lesson</p>
+            </div>
+            <div class="video-controls">
+                <button class="btn btn-primary" onclick="playVideo()">
+                    <i class="fas fa-play"></i> Play Video
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Download Materials
+                </button>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="vocabulary-section">
+                <h3 class="section-title">
+                    <i class="fas fa-book"></i>
+                    New Vocabulary
+                </h3>
+                <ul class="word-list">
+                    <li class="word-item">
+                        <span class="word-english">Mother</span>
+                        <span class="word-russian">Мама</span>
+                    </li>
+                    <li class="word-item">
+                        <span class="word-english">Father</span>
+                        <span class="word-russian">Папа</span>
+                    </li>
+                    <li class="word-item">
+                        <span class="word-english">Brother</span>
+                        <span class="word-russian">Брат</span>
+                    </li>
+                    <li class="word-item">
+                        <span class="word-english">Sister</span>
+                        <span class="word-russian">Сестра</span>
+                    </li>
+                    <li class="word-item">
+                        <span class="word-english">Friend</span>
+                        <span class="word-russian">Друг</span>
+                    </li>
+                    <li class="word-item">
+                        <span class="word-english">Family</span>
+                        <span class="word-russian">Семья</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="exercise-section">
+                <h3 class="section-title">
+                    <i class="fas fa-pencil-alt"></i>
+                    Practice Exercises
+                </h3>
+                
+                <div class="exercise-item">
+                    <div class="exercise-question">
+                        1. Who is your mother's daughter?
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">A) Sister</div>
+                        <div class="option" onclick="selectOption(this)">B) Brother</div>
+                        <div class="option" onclick="selectOption(this)">C) Father</div>
+                        <div class="option" onclick="selectOption(this)">D) Friend</div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-question">
+                        2. Complete: "My father and mother are my ______"
+                    </div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this)">A) friends</div>
+                        <div class="option" onclick="selectOption(this)">B) parents</div>
+                        <div class="option" onclick="selectOption(this)">C) brothers</div>
+                        <div class="option" onclick="selectOption(this)">D) sisters</div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="checkAnswers()">
+                    <i class="fas fa-check"></i> Check Answers
+                </button>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="1.html" class="nav-btn">
+                <i class="fas fa-arrow-left"></i> Previous Lesson
+            </a>
+            <a href="3.html" class="nav-btn">
+                Next Lesson <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <script src="../../../../js/script.js"></script>
+    <script>
+        function playVideo() {
+            const videoPlayer = document.querySelector('.video-player');
+            videoPlayer.innerHTML = `
+                <div style="text-align: center; color: white; z-index: 2; position: relative;">
+                    <i class="fas fa-film" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3>Video Playing...</h3>
+                    <p>Family & Friends Cartoon</p>
+                    <div style="margin-top: 20px;">
+                        <div style="width: 80%; height: 4px; background: rgba(255,255,255,0.3); margin: 0 auto; border-radius: 2px;">
+                            <div style="width: 45%; height: 100%; background: white; border-radius: 2px;"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectOption(option) {
+            const options = option.parentElement.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+        }
+
+        function checkAnswers() {
+            alert('Answers checked! Good job!');
+        }
+
+        document.querySelectorAll('.word-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const englishWord = this.querySelector('.word-english').textContent;
+                const russianWord = this.querySelector('.word-russian').textContent;
+                alert(`Word: ${englishWord}\nTranslation: ${russianWord}`);
+            });
+        });
+    </script>
+</body>
+</html>
