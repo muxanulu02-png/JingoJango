@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon 4 - JingoJango</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #4a90e2;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 80px auto 20px;
+            padding: 20px;
+        }
+
+        .lesson-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            color: white;
+        }
+
+        .lesson-title {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .vocabulary-box, .exercises-box {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .box-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+        }
+
+        .word-list {
+            list-style: none;
+        }
+
+        .word-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .word-item:last-child {
+            border-bottom: none;
+        }
+
+        .word-en {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .word-ru {
+            color: #666;
+            font-style: italic;
+        }
+
+        .exercise-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #4a90e2;
+        }
+
+        .exercise-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option {
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #4a90e2;
+            background: #f0f8ff;
+        }
+
+        .option.selected {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: #357abd;
+        }
+
+        .nav-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .progress-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 4px;
+            width: 80%;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .stat {
+            padding: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .video-controls {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #357abd;
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="https://muxanulu02-png.github.io/JingoJango/" style="text-decoration: none; color: inherit;">JingoJango</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="https://muxanulu02-png.github.io/JingoJango/" class="nav-link">Home</a></li>
+                <li><a href="https://muxanulu02-png.github.io/JingoJango/#courses" class="nav-link">Courses</a></li>
+                <li><a href="https://muxanulu02-png.github.io/JingoJango/#cartoons" class="nav-link">Cartoons</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <div class="lesson-header">
+            <h1 class="lesson-title">Cartoon Lesson 4: Weather & Seasons</h1>
+            <p class="lesson-subtitle">Learn to talk about weather and different seasons in English</p>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Exercises</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12 min</div>
+                    <div class="stat-label">Duration</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="video-section">
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/XcW6cjBqj_w" 
+                        title="Weather and Seasons English Lesson" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <div class="video-controls">
+                    <button class="btn" onclick="playVideo()">
+                        <i class="fas fa-play"></i> Play Video
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Download Materials
+                    </button>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="vocabulary-box">
+                    <h3 class="box-title">Vocabulary</h3>
+                    <ul class="word-list">
+                        <li class="word-item">
+                            <span class="word-en">Sunny</span>
+                            <span class="word-ru">Солнечно</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Rainy</span>
+                            <span class="word-ru">Дождливо</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Cloudy</span>
+                            <span class="word-ru">Облачно</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Snowy</span>
+                            <span class="word-ru">Снежно</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Windy</span>
+                            <span class="word-ru">Ветрено</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Spring</span>
+                            <span class="word-ru">Весна</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Summer</span>
+                            <span class="word-ru">Лето</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Autumn</span>
+                            <span class="word-ru">Осень</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Winter</span>
+                            <span class="word-ru">Зима</span>
+                        </li>
+                        <li class="word-item">
+                            <span class="word-en">Temperature</span>
+                            <span class="word-ru">Температура</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="exercises-box">
+                    <h3 class="box-title">Exercises</h3>
+                    <div class="exercise-item">
+                        <div class="exercise-question">1. What season comes after winter?</div>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this)">A) Summer</div>
+                            <div class="option" onclick="selectOption(this)">B) Autumn</div>
+                            <div class="option" onclick="selectOption(this)">C) Spring</div>
+                            <div class="option" onclick="selectOption(this)">D) Rainy</div>
+                        </div>
+                    </div>
+                    <div class="exercise-item">
+                        <div class="exercise-question">2. Complete: "When it's ______, we need an umbrella."</div>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this)">A) sunny</div>
+                            <div class="option" onclick="selectOption(this)">B) windy</div>
+                            <div class="option" onclick="selectOption(this)">C) rainy</div>
+                            <div class="option" onclick="selectOption(this)">D) snowy</div>
+                        </div>
+                    </div>
+                    <div class="exercise-item">
+                        <div class="exercise-question">3. Which weather is hot with lots of sun?</div>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this)">A) Cloudy</div>
+                            <div class="option" onclick="selectOption(this)">B) Rainy</div>
+                            <div class="option" onclick="selectOption(this)">C) Sunny</div>
+                            <div class="option" onclick="selectOption(this)">D) Snowy</div>
+                        </div>
+                    </div>
+                    <div class="exercise-item">
+                        <div class="exercise-question">4. Match the season with typical weather:</div>
+                        <div class="options">
+                            <div class="option" onclick="selectOption(this)">A) Winter → Sunny and hot</div>
+                            <div class="option" onclick="selectOption(this)">B) Summer → Cold and snowy</div>
+                            <div class="option" onclick="selectOption(this)">C) Spring → Warm and flowers</div>
+                            <div class="option" onclick="selectOption(this)">D) Autumn → Very hot</div>
+                        </div>
+                    </div>
+                    <button class="btn" style="width: 100%; margin-top: 10px;" onclick="checkAnswers()">
+                        <i class="fas fa-check"></i> Check Answers
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="3.html" class="nav-btn">
+                <i class="fas fa-arrow-left"></i> Previous Lesson
+            </a>
+            <a href="5.html" class="nav-btn">
+                Next Lesson <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Interactive functions
+        function selectOption(option) {
+            const options = option.parentElement.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+        }
+
+        function checkAnswers() {
+            alert('Answers checked! Great job learning about weather and seasons!');
+        }
+
+        function playVideo() {
+            alert('Video is playing! Use YouTube controls to manage playback.');
+        }
+
+        // Add interactive vocabulary words
+        document.querySelectorAll('.word-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const englishWord = this.querySelector('.word-en').textContent;
+                const russianWord = this.querySelector('.word-ru').textContent;
+                alert(`Word: ${englishWord}\nTranslation: ${russianWord}\n\nTry using this word in a sentence about weather!`);
+            });
+        });
+    </script>
+</body>
+</html>
