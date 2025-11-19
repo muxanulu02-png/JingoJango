@@ -3,50 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JingoJango</title>
-    <!-- Подключение Bootstrap -->
+    <title>JingoJango - Изучение английского языка</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Подключение Font Awesome для иконок -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
         .navbar-brand {
-            font-weight: bold;
-            font-size: 1.5rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
         }
+        
         .nav-link {
-            color: #333 !important;
+            color: var(--primary-color) !important;
             font-weight: 500;
-            transition: color 0.3s ease;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            padding: 8px 20px !important;
         }
+        
         .nav-link:hover {
-            color: #007bff !important;
+            background: var(--secondary-color);
+            color: white !important;
+            transform: translateY(-2px);
         }
+        
         .nav-link i {
             margin-right: 8px;
             width: 20px;
             text-align: center;
         }
+        
+        .hero-section {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin-top: 50px;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .hero-section p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .btn-primary {
+            background: var(--secondary-color);
+            border: none;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .section-title {
+            color: white;
+            text-align: center;
+            margin: 60px 0 40px 0;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+        
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 40px 0;
+            margin-top: 80px;
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body>
-    <!-- Навигационное меню -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <!-- Логотип -->
             <a class="navbar-brand" href="index.html">
-                <i class="fas fa-gem text-primary"></i> JingoJango
+                <i class="fas fa-language"></i> JingoJango
             </a>
             
-            <!-- Кнопка для мобильных устройств -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <!-- Навигационные ссылки -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link active" href="index.html">
                             <i class="fas fa-home"></i> Главная
                         </a>
                     </li>
@@ -70,13 +174,96 @@
         </div>
     </nav>
 
-    <!-- Основной контент -->
-    <div class="container mt-4">
-        <h1>Добро пожаловать в JingoJango!</h1>
-        <p>Ваш контент здесь...</p>
+    <!-- Главная секция -->
+    <div class="container">
+        <div class="hero-section">
+            <h1>Изучайте английский с JingoJango</h1>
+            <p>Эффективные курсы английского языка для всех уровней подготовки</p>
+            <a href="catalog.html" class="btn btn-primary btn-lg">
+                <i class="fas fa-rocket"></i> Начать обучение
+            </a>
+        </div>
+
+        <!-- Особенности -->
+        <h2 class="section-title">Почему выбирают нас?</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Профессиональные преподаватели</h3>
+                    <p>Опытные педагоги с международными сертификатами</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Современная платформа</h3>
+                    <p>Интерактивные уроки и онлайн-упражнения</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Быстрые результаты</h3>
+                    <p>Заметный прогресс уже после первого месяца</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Групповые занятия</h3>
+                    <p>Обучение в мини-группах до 6 человек</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Индивидуальный подход</h3>
+                    <p>Персональная программа для каждого студента</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Сертификаты</h3>
+                    <p>Официальные документы об окончании курсов</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Подключение Bootstrap JS -->
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-language"></i> JingoJango</h5>
+                    <p>Лучшая платформа для изучения английского языка</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <p>© 2024 JingoJango. Все права защищены.</p>
+                    <p>Контакты: info@jingojango.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
