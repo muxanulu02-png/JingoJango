@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -26,6 +25,93 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Стили для казахских узоров */
+        .kazakh-patterns {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .kazakh-ornament {
+            position: absolute;
+            opacity: 0.2;
+        }
+
+        /* Позиции и размеры узоров */
+        .ornament-1 {
+            width: 120px;
+            top: 10%;
+            left: 5%;
+            animation: float-rotate 25s ease-in-out infinite;
+        }
+
+        .ornament-2 {
+            width: 80px;
+            top: 70%;
+            right: 8%;
+            animation: float-rotate 30s ease-in-out infinite reverse;
+        }
+
+        .ornament-3 {
+            width: 100px;
+            bottom: 15%;
+            left: 10%;
+            animation: float-rotate 35s ease-in-out infinite 5s;
+        }
+
+        .ornament-4 {
+            width: 90px;
+            top: 25%;
+            right: 15%;
+            animation: float-rotate 28s ease-in-out infinite 3s;
+        }
+
+        .ornament-5 {
+            width: 110px;
+            bottom: 45%;
+            left: 75%;
+            animation: float-rotate 32s ease-in-out infinite 7s;
+        }
+
+        .ornament-6 {
+            width: 70px;
+            top: 55%;
+            left: 80%;
+            animation: float-rotate 26s ease-in-out infinite 2s;
+        }
+
+        /* Анимации */
+        @keyframes float-rotate {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+            25% {
+                transform: translateY(-15px) rotate(90deg) scale(1.1);
+            }
+            50% {
+                transform: translateY(0) rotate(180deg) scale(1);
+            }
+            75% {
+                transform: translateY(10px) rotate(270deg) scale(0.9);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.15;
+            }
+            50% {
+                opacity: 0.25;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -47,6 +133,54 @@
 
     <main>
         <section class="hero">
+            <!-- Казахские узоры на фоне -->
+            <div class="kazakh-patterns">
+                <div class="kazakh-ornament ornament-1">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M20,50 Q50,20 80,50 Q50,80 20,50" fill="none" stroke="white" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="15" fill="none" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                
+                <div class="kazakh-ornament ornament-2">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="2"/>
+                        <path d="M40,40 L60,40 L60,60 L40,60 Z" fill="none" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                
+                <div class="kazakh-ornament ornament-3">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M50,20 L65,40 L85,45 L70,65 L75,85 L50,75 L25,85 L30,65 L15,45 L35,40 Z" 
+                              fill="none" stroke="white" stroke-width="2"/>
+                    </svg>
+                </div>
+                
+                <div class="kazakh-ornament ornament-4">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M20,50 C20,20 80,20 80,50 C80,80 20,80 20,50" 
+                              fill="none" stroke="white" stroke-width="2"/>
+                        <path d="M35,50 C35,35 65,35 65,50 C65,65 35,65 35,50" 
+                              fill="none" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                
+                <div class="kazakh-ornament ornament-5">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M25,25 L75,25 M75,25 L75,75 M75,75 L25,75 M25,75 L25,25" 
+                              fill="none" stroke="white" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="20" fill="none" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                </div>
+                
+                <div class="kazakh-ornament ornament-6">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M30,50 L50,30 L70,50 L50,70 Z" fill="none" stroke="white" stroke-width="2"/>
+                        <path d="M40,50 L50,40 L60,50 L50,60 Z" fill="none" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
