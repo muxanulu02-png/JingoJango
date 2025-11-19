@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,6 +14,156 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Стили для интерактивных элементов */
+        .directions-header {
+            cursor: pointer;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        
+        .directions-header:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .arrow {
+            float: right;
+            transition: transform 0.3s;
+        }
+        
+        .directions-list.active .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .directions-list {
+            display: none;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .directions-list.active {
+            display: block;
+        }
+        
+        .vocabulary-controls, .questions-controls, .grammar-controls {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .vocab-btn, .questions-btn, .grammar-btn, .sentence-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .vocab-btn:hover, .questions-btn:hover, .grammar-btn:hover, .sentence-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .answer {
+            display: none;
+            color: #2E8B57;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .answer.show {
+            display: block;
+        }
+        
+        .word-checkbox:checked + label .word {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .word-checkbox:checked + label .definition {
+            opacity: 0.7;
+        }
+        
+        .vocabulary-list.hide-words .word {
+            display: none;
+        }
+        
+        .vocabulary-list.hide-definitions .definition {
+            display: none;
+        }
+        
+        .sentence-input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .sentence-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        
+        .vocabulary-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .vocabulary-list li {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .word-checkbox {
+            margin-right: 10px;
+        }
+        
+        .word {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .definition {
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .grammar-select {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+        
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .script-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #4CAF50;
+            background-color: #f9f9f9;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            color: #2E8B57;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -48,7 +197,7 @@
                         <div class="directions-header">
                             <h3>Directions <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="direction-item">
                                 <span class="direction-number">1.</span>
                                 <h4>READ the VOCABULARY</h4>
@@ -80,7 +229,7 @@
                         <div class="directions-header">
                             <h3>Vocabulary <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <ul class="vocabulary-list">
                                 <li>
                                     <input type="checkbox" class="word-checkbox" id="word1">
@@ -107,7 +256,7 @@
                                     <input type="checkbox" class="word-checkbox" id="word4">
                                     <label for="word4">
                                         <span class="word">Wear boots (Ботинка кию)</span>
-                                        <span class="definition">To put on special shoes that protect the feet, usually when it’s muddy or rainy.</span>
+                                        <span class="definition">To put on special shoes that protect the feet, usually when it's muddy or rainy.</span>
                                     </label>
                                 </li>
                                 <li>
@@ -192,7 +341,7 @@
                         <div class="directions-header">
                             <h3>Questions <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="questions-container">
                                 <div class="question-item">
                                     <p class="question">1. What is Peppa doing?</p>
@@ -268,22 +417,22 @@
                                     <div class="options">
                                         <label>
                                             <input type="radio" name="q4" value="a">
-                                            a) "Stop, George! It’s too small!"
+                                            a) "Stop, George! It's too small!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q4" value="b">
-                                            b) "Stop, George! I must check if it’s safe for you."
+                                            b) "Stop, George! I must check if it's safe for you."
                                         </label>
                                         <label>
                                             <input type="radio" name="q4" value="c">
-                                            c) "George, don’t jump!"
+                                            c) "George, don't jump!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q4" value="d">
-                                            d) "George, it’s too big!"
+                                            d) "George, it's too big!"
                                         </label>
                                     </div>
-                                    <p class="answer">Answer: b) "Stop, George! I must check if it’s safe for you."</p>
+                                    <p class="answer">Answer: b) "Stop, George! I must check if it's safe for you."</p>
                                 </div>
 
                                 <div class="question-item">
@@ -291,7 +440,7 @@
                                     <div class="options">
                                         <label>
                                             <input type="radio" name="q5" value="a">
-                                            a) "It’s okay, let’s clean up."
+                                            a) "It's okay, let's clean up."
                                         </label>
                                         <label>
                                             <input type="radio" name="q5" value="b">
@@ -306,11 +455,11 @@
                                             d) "I love the mess!"
                                         </label>
                                     </div>
-                                    <p class="answer">Answer: a) "It’s okay, let’s clean up."</p>
+                                    <p class="answer">Answer: a) "It's okay, let's clean up."</p>
                                 </div>
 
                                 <div class="question-item">
-                                    <p class="question">6. Who is Peppa’s little brother?</p>
+                                    <p class="question">6. Who is Peppa's little brother?</p>
                                     <div class="options">
                                         <label>
                                             <input type="radio" name="q6" value="a">
@@ -360,7 +509,7 @@
                                     <div class="options">
                                         <label>
                                             <input type="radio" name="q8" value="a">
-                                            a) "Don’t jump!"
+                                            a) "Don't jump!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q8" value="b">
@@ -368,11 +517,11 @@
                                         </label>
                                         <label>
                                             <input type="radio" name="q8" value="c">
-                                            c) "It’s too dangerous!"
+                                            c) "It's too dangerous!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q8" value="d">
-                                            d) "It’s not fun."
+                                            d) "It's not fun."
                                         </label>
                                     </div>
                                     <p class="answer">Answer: b) "You must wear your boots."</p>
@@ -406,22 +555,22 @@
                                     <div class="options">
                                         <label>
                                             <input type="radio" name="q10" value="a">
-                                            a) "It’s only mud."
+                                            a) "It's only mud."
                                         </label>
                                         <label>
                                             <input type="radio" name="q10" value="b">
-                                            b) "Let’s clean up!"
+                                            b) "Let's clean up!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q10" value="c">
-                                            c) "I’ll do it later."
+                                            c) "I'll do it later."
                                         </label>
                                         <label>
                                             <input type="radio" name="q10" value="d">
-                                            d) "It’s too much to clean!"
+                                            d) "It's too much to clean!"
                                         </label>
                                     </div>
-                                    <p class="answer">Answer: a) "It’s only mud."</p>
+                                    <p class="answer">Answer: a) "It's only mud."</p>
                                 </div>
                             </div>
                             <div class="questions-controls">
@@ -434,7 +583,7 @@
                         <div class="directions-header">
                             <h3>Grammar <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="grammar-container">
                                 <!-- Grammar Exercise 1: To be -->
                                 <div class="grammar-item">
@@ -544,7 +693,7 @@
 
                                 <div class="grammar-item">
                                     <p class="question">8. Fill in the blank with the correct article (a, an, the):</p>
-                                    <p class="sentence">Daddy Pig says, "Let’s clean up 
+                                    <p class="sentence">Daddy Pig says, "Let's clean up 
                                         <select class="grammar-select" name="g8">
                                             <option value="">______</option>
                                             <option value="a">a</option>
@@ -608,7 +757,7 @@
                         <div class="directions-header">
                             <h3>Sentence Building <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="sentence-building-container">
                                 <div class="sentence-item">
                                     <div class="sentence-parts">
@@ -684,14 +833,14 @@
 
                                 <div class="sentence-item">
                                     <div class="sentence-parts">
-                                        <p>7. (clean up / before / Mummy / sees / let’s)</p>
+                                        <p>7. (clean up / before / Mummy / sees / let's)</p>
                                         <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
                                     </div>
                                     <div class="sentence-controls">
                                         <button class="sentence-btn" data-action="show">Show Answer</button>
                                         <button class="sentence-btn" data-action="hide">Hide Answer</button>
                                     </div>
-                                    <p class="answer">Answer: Let’s clean up before Mummy sees.</p>
+                                    <p class="answer">Answer: Let's clean up before Mummy sees.</p>
                                 </div>
 
                                 <div class="sentence-item">
@@ -712,7 +861,7 @@
                         <div class="directions-header">
                             <h3>Discussion <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="discussion-container">
                                 <div class="discussion-item">
                                     <p class="question">1. Do you like puddles? Why?</p>
@@ -742,7 +891,7 @@
                         <div class="directions-header">
                             <h3>Script <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="script-container">
                                 <div class="script-item">
                                     <p class="speaker">Peppa pig:</p>
@@ -754,7 +903,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa pig:</p>
-                                    <p class="text">Daddy, it’s stopped raining. Can we go out to play?</p>
+                                    <p class="text">Daddy, it's stopped raining. Can we go out to play?</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Daddy pig:</p>
@@ -794,7 +943,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa pig:</p>
-                                    <p class="text">George, let’s find some more puddles. (giggling)</p>
+                                    <p class="text">George, let's find some more puddles. (giggling)</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
@@ -814,7 +963,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa pig:</p>
-                                    <p class="text">Stop, George! I must check if it’s safe for you. (splat) - Good, it is safe for you.</p>
+                                    <p class="text">Stop, George! I must check if it's safe for you. (splat) - Good, it is safe for you.</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">George:</p>
@@ -834,7 +983,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa pig:</p>
-                                    <p class="text">Come on, George, let’s go and show Daddy.</p>
+                                    <p class="text">Come on, George, let's go and show Daddy.</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Daddy pig:</p>
@@ -870,7 +1019,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa Pig:</p>
-                                    <p class="text">Yes, yes, Daddy! We’ve been jumping in muddy puddles!</p>
+                                    <p class="text">Yes, yes, Daddy! We've been jumping in muddy puddles!</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Daddy Pig:</p>
@@ -882,7 +1031,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Daddy pig:</p>
-                                    <p class="text">Oh, well! It’s only mud. Let’s clean up quickly before Mummy sees the mess.</p>
+                                    <p class="text">Oh, well! It's only mud. Let's clean up quickly before Mummy sees the mess.</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa pig:</p>
@@ -902,7 +1051,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Peppa:</p>
-                                    <p class="text">It’s only mud.</p>
+                                    <p class="text">It's only mud.</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
@@ -922,6 +1071,94 @@
         </div>
     </footer>
 
-    <script src="../../../js/lesson.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Раскрывающиеся секции
+            const headers = document.querySelectorAll('.directions-header');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    const list = this.nextElementSibling;
+                    list.classList.toggle('active');
+                });
+            });
+
+            // Управление словарем
+            const vocabButtons = document.querySelectorAll('.vocab-btn');
+            const vocabularyList = document.querySelector('.vocabulary-list');
+            
+            vocabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    
+                    switch(action) {
+                        case 'hide-words':
+                            vocabularyList.classList.add('hide-words');
+                            vocabularyList.classList.remove('hide-definitions');
+                            break;
+                        case 'hide-definitions':
+                            vocabularyList.classList.add('hide-definitions');
+                            vocabularyList.classList.remove('hide-words');
+                            break;
+                        case 'show-all':
+                            vocabularyList.classList.remove('hide-words', 'hide-definitions');
+                            break;
+                    }
+                });
+            });
+
+            // Управление вопросами
+            const questionButtons = document.querySelectorAll('.questions-btn');
+            
+            questionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answers = document.querySelectorAll('.questions-container .answer');
+                    
+                    answers.forEach(answer => {
+                        if (action === 'show-answers') {
+                            answer.classList.add('show');
+                        } else {
+                            answer.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Управление грамматикой
+            const grammarButtons = document.querySelectorAll('.grammar-btn');
+            
+            grammarButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answers = document.querySelectorAll('.grammar-container .answer');
+                    
+                    answers.forEach(answer => {
+                        if (action === 'show-answers') {
+                            answer.classList.add('show');
+                        } else {
+                            answer.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Управление построением предложений
+            const sentenceButtons = document.querySelectorAll('.sentence-btn');
+            
+            sentenceButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answer = this.closest('.sentence-item').querySelector('.answer');
+                    
+                    if (action === 'show') {
+                        answer.classList.add('show');
+                    } else {
+                        answer.classList.remove('show');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
