@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,6 +14,106 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Стили для интерактивных элементов */
+        .directions-header {
+            cursor: pointer;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        
+        .directions-header:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .arrow {
+            float: right;
+            transition: transform 0.3s;
+        }
+        
+        .directions-list.active .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .directions-list {
+            display: none;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .directions-list.active {
+            display: block;
+        }
+        
+        .vocabulary-controls, .questions-controls, .grammar-controls {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .vocab-btn, .questions-btn, .grammar-btn, .sentence-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .vocab-btn:hover, .questions-btn:hover, .grammar-btn:hover, .sentence-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .answer {
+            display: none;
+            color: #2E8B57;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .answer.show {
+            display: block;
+        }
+        
+        .word-checkbox:checked + label .word {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .word-checkbox:checked + label .definition {
+            opacity: 0.7;
+        }
+        
+        .vocabulary-list.hide-words .word {
+            display: none;
+        }
+        
+        .vocabulary-list.hide-definitions .definition {
+            display: none;
+        }
+        
+        .sentence-input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .sentence-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -47,7 +146,7 @@
                         <div class="directions-header">
                             <h3>Directions <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="direction-item">
                                 <span class="direction-number">1.</span>
                                 <h4>READ the VOCABULARY</h4>
@@ -78,7 +177,7 @@
                         <div class="directions-header">
                             <h3>Vocabulary <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="vocabulary-list">
                                 <li>
                                     <input type="checkbox" id="word1" class="word-checkbox">
@@ -217,7 +316,7 @@
                         <div class="directions-header">
                             <h3>Questions <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="questions-container">
                                 <div class="question-item">
                                     <p class="question">1. What does Clarabelle say about her chickens?</p>
@@ -412,7 +511,7 @@
                         <div class="directions-header">
                             <h3>Grammar <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="grammar-container">
                                 <div class="grammar-item">
                                     <p class="question">1. Complete the sentences with the correct form of "to be" (am, is, are):</p>
@@ -519,7 +618,7 @@
                         <div class="directions-header">
                             <h3>Sentence Building <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="sentence-building-container">
                                 <div class="sentence-item">
                                     <div class="sentence-parts">
@@ -622,7 +721,7 @@
                         <div class="directions-header">
                             <h3>Discussion <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="discussion-container">
                                 <div class="discussion-item">
                                     <p class="question">1. Have you ever seen a strong wind or storm? What happened?</p>
@@ -653,7 +752,7 @@
                         <div class="directions-header">
                             <h3>Script <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="script-container">
                                 <div class="script-item">
                                     <p class="speaker">Mickey:</p>
@@ -798,6 +897,94 @@
         </div>
     </footer>
 
-    <script src="../../../js/lesson.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Раскрывающиеся секции
+            const headers = document.querySelectorAll('.directions-header');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    const list = this.nextElementSibling;
+                    list.classList.toggle('active');
+                });
+            });
+
+            // Управление словарем
+            const vocabButtons = document.querySelectorAll('.vocab-btn');
+            const vocabularyList = document.querySelector('.vocabulary-list');
+            
+            vocabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    
+                    switch(action) {
+                        case 'hide-words':
+                            vocabularyList.classList.add('hide-words');
+                            vocabularyList.classList.remove('hide-definitions');
+                            break;
+                        case 'hide-definitions':
+                            vocabularyList.classList.add('hide-definitions');
+                            vocabularyList.classList.remove('hide-words');
+                            break;
+                        case 'show-all':
+                            vocabularyList.classList.remove('hide-words', 'hide-definitions');
+                            break;
+                    }
+                });
+            });
+
+            // Управление вопросами
+            const questionButtons = document.querySelectorAll('.questions-btn');
+            
+            questionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answers = document.querySelectorAll('.questions-container .answer');
+                    
+                    answers.forEach(answer => {
+                        if (action === 'show-answers') {
+                            answer.classList.add('show');
+                        } else {
+                            answer.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Управление грамматикой
+            const grammarButtons = document.querySelectorAll('.grammar-btn');
+            
+            grammarButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answers = document.querySelectorAll('.grammar-container .answer');
+                    
+                    answers.forEach(answer => {
+                        if (action === 'show-answers') {
+                            answer.classList.add('show');
+                        } else {
+                            answer.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Управление построением предложений
+            const sentenceButtons = document.querySelectorAll('.sentence-btn');
+            
+            sentenceButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answer = this.closest('.sentence-item').querySelector('.answer');
+                    
+                    if (action === 'show') {
+                        answer.classList.add('show');
+                    } else {
+                        answer.classList.remove('show');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-</html> 
+</html>
