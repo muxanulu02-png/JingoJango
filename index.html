@@ -19,6 +19,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding-top: 80px;
         }
         
         .navbar {
@@ -58,8 +59,8 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 60px 40px;
-            margin-top: 50px;
+            padding: 80px 40px;
+            margin: 40px 0;
             color: white;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.2);
@@ -81,7 +82,7 @@
         .btn-primary {
             background: var(--secondary-color);
             border: none;
-            padding: 12px 35px;
+            padding: 15px 40px;
             border-radius: 30px;
             font-weight: 600;
             font-size: 1.1rem;
@@ -95,7 +96,7 @@
             box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
         }
         
-        .character-card {
+        .card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 15px;
@@ -108,18 +109,27 @@
             height: 100%;
         }
         
-        .character-card:hover {
+        .card:hover {
             transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.15);
         }
         
         .character-image {
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid var(--secondary-color);
+            border: 4px solid var(--secondary-color);
             margin-bottom: 20px;
+        }
+        
+        .teacher-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary-color);
+            margin-bottom: 15px;
         }
         
         .section-title {
@@ -130,12 +140,42 @@
             font-size: 2.5rem;
         }
         
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
         .footer {
             background: rgba(0, 0, 0, 0.3);
             color: white;
             padding: 40px 0;
             margin-top: 80px;
             backdrop-filter: blur(10px);
+        }
+        
+        .course-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .course-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .course-content {
+            padding: 20px;
+            color: white;
         }
     </style>
 </head>
@@ -179,40 +219,112 @@
     </nav>
 
     <!-- Главная секция -->
-    <div class="container" style="padding-top: 100px;">
+    <div class="container">
         <div class="hero-section">
-            <h1>Изучайте английский с любимыми персонажами!</h1>
-            <p>Веселые уроки с Пеппой, Микки Маусом и другими героями</p>
+            <h1>Изучайте английский с JingoJango</h1>
+            <p>Эффективные курсы английского языка для всех уровней подготовки</p>
             <a href="catalog.html" class="btn btn-primary btn-lg">
                 <i class="fas fa-rocket"></i> Начать обучение
             </a>
         </div>
 
-        <!-- Персонажи -->
-        <h2 class="section-title">Наши персонажи</h2>
+        <!-- Популярные курсы -->
+        <h2 class="section-title">Популярные курсы</h2>
         <div class="row">
             <div class="col-md-4">
-                <div class="character-card">
+                <div class="course-card">
+                    <img src="images/course1.jpg" alt="Английский для начинающих" class="course-image">
+                    <div class="course-content">
+                        <h4>Для начинающих</h4>
+                        <p>Основы английского языка с нуля</p>
+                        <span class="badge bg-primary">₸25,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="course-card">
+                    <img src="images/course2.jpg" alt="Разговорный английский" class="course-image">
+                    <div class="course-content">
+                        <h4>Разговорный английский</h4>
+                        <p>Улучшите свои разговорные навыки</p>
+                        <span class="badge bg-primary">₸30,000</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="course-card">
+                    <img src="images/course3.jpg" alt="Бизнес английский" class="course-image">
+                    <div class="course-content">
+                        <h4>Бизнес английский</h4>
+                        <p>Английский для работы и карьеры</p>
+                        <span class="badge bg-primary">₸35,000</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Персонажи для детей -->
+        <h2 class="section-title">Английский для детей</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
                     <img src="images/peppa-pig.jpg" alt="Пеппа Пиг" class="character-image">
-                    <h3>Пеппа Пиг</h3>
-                    <p>Изучайте английский с веселой свинкой Пеппой! Идеально для детей 3-6 лет.</p>
-                    <button class="btn btn-primary">Учить с Пеппой</button>
+                    <h3>С Пеппой Пиг</h3>
+                    <p>Веселые уроки для детей 3-6 лет</p>
+                    <button class="btn btn-primary">Начать</button>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="character-card">
+                <div class="card">
                     <img src="images/mickey-mouse.jpg" alt="Микки Маус" class="character-image">
-                    <h3>Микки Маус</h3>
-                    <p>Приключения с Микки Маусом! Подходит для детей 5-8 лет.</p>
-                    <button class="btn btn-primary">Учить с Микки</button>
+                    <h3>С Микки Маусом</h3>
+                    <p>Приключения для детей 5-8 лет</p>
+                    <button class="btn btn-primary">Начать</button>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="character-card">
+                <div class="card">
                     <img src="images/peppa-family.jpg" alt="Свинка Пеппа" class="character-image">
-                    <h3>Свинка Пеппа</h3>
-                    <p>Еще больше веселья с Пеппой и ее семьей! Для начинающих.</p>
-                    <button class="btn btn-primary">Учить с Пеппой</button>
+                    <h3>С семьей Пеппы</h3>
+                    <p>Семейное обучение для малышей</p>
+                    <button class="btn btn-primary">Начать</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Преподаватели -->
+        <h2 class="section-title">Наши преподаватели</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="images/teacher1.jpg" alt="Преподаватель" class="teacher-image">
+                    <h5>Айгуль Каримова</h5>
+                    <p>Опыт: 8 лет</p>
+                    <small>Сертификат TESOL</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="images/teacher2.jpg" alt="Преподаватель" class="teacher-image">
+                    <h5>Марк Джонсон</h5>
+                    <p>Опыт: 10 лет</p>
+                    <small>Носитель языка</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="images/teacher3.jpg" alt="Преподаватель" class="teacher-image">
+                    <h5>Сания Ахметова</h5>
+                    <p>Опыт: 6 лет</p>
+                    <small>Сертификат CELTA</small>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="images/teacher1.jpg" alt="Преподаватель" class="teacher-image">
+                    <h5>Данияр Искаков</h5>
+                    <p>Опыт: 7 лет</p>
+                    <small>Магистр лингвистики</small>
                 </div>
             </div>
         </div>
@@ -221,29 +333,29 @@
         <h2 class="section-title">Почему выбирают нас?</h2>
         <div class="row">
             <div class="col-md-4">
-                <div class="character-card">
-                    <div style="font-size: 3rem; color: #3498db; margin-bottom: 20px;">
+                <div class="card">
+                    <div class="feature-icon">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h3>Профессиональные преподаватели</h3>
+                    <h4>Профессиональные преподаватели</h4>
                     <p>Опытные педагоги с международными сертификатами</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="character-card">
-                    <div style="font-size: 3rem; color: #3498db; margin-bottom: 20px;">
+                <div class="card">
+                    <div class="feature-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h3>Современная платформа</h3>
+                    <h4>Современная платформа</h4>
                     <p>Интерактивные уроки и онлайн-упражнения</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="character-card">
-                    <div style="font-size: 3rem; color: #3498db; margin-bottom: 20px;">
+                <div class="card">
+                    <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Быстрые результаты</h3>
+                    <h4>Быстрые результаты</h4>
                     <p>Заметный прогресс уже после первого месяца</p>
                 </div>
             </div>
@@ -256,11 +368,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5><i class="fas fa-language"></i> JingoJango</h5>
-                    <p>Лучшая платформа для изучения английского языка</p>
+                    <p>Лучшая платформа для изучения английского языка в Казахстане</p>
                 </div>
                 <div class="col-md-6 text-end">
                     <p>© 2024 JingoJango. Все права защищены.</p>
-                    <p>Контакты: info@jingojango.com</p>
+                    <p>📞 +7 (777) 123-45-67</p>
+                    <p>✉️ info@jingojango.com</p>
                 </div>
             </div>
         </div>
