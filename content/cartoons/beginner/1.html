@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Добавляем стили для работы кнопок */
+        /* Стили для работы кнопок */
         .directions-header {
             cursor: pointer;
             padding: 15px;
@@ -24,6 +24,11 @@
             border-radius: 5px;
             margin: 10px 0;
             border: 1px solid #dee2e6;
+            transition: background-color 0.3s ease;
+        }
+        
+        .directions-header:hover {
+            background: #e9ecef;
         }
         
         .directions-header h3 {
@@ -54,33 +59,104 @@
             color: #28a745;
             font-weight: bold;
             margin-top: 10px;
+            padding: 10px;
+            background: #f8fff9;
+            border-radius: 4px;
+            border-left: 4px solid #28a745;
         }
         
         .vocabulary-controls, .questions-controls, .grammar-controls, .sentence-controls {
-            margin-top: 15px;
+            margin-top: 20px;
             text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
         }
         
         .vocab-btn, .questions-btn, .grammar-btn, .sentence-btn {
             background: #007bff;
             color: white;
             border: none;
-            padding: 8px 15px;
-            margin: 0 5px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 14px;
         }
         
         .vocab-btn:hover, .questions-btn:hover, .grammar-btn:hover, .sentence-btn:hover {
             background: #0056b3;
+            transform: translateY(-2px);
         }
         
         .sentence-input {
             width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .sentence-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        
+        .word-checkbox:checked + label .word {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .word-checkbox:checked + label .definition {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .vocabulary-list li {
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: transform 0.2s ease;
+        }
+        
+        .vocabulary-list li:hover {
+            transform: translateX(5px);
+            border-color: #007bff;
+        }
+        
+        .question-item, .grammar-item, .sentence-item, .discussion-item, .script-item {
+            padding: 20px;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .direction-item {
+            padding: 20px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .direction-number {
+            background: #007bff;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
         }
     </style>
 </head>
@@ -122,7 +198,26 @@
                                 <h4>READ the VOCABULARY</h4>
                                 <p>It is important to read the vocabulary before you watch the video. This will improve your ability to understand the video. It will also help you understand how the new vocabulary is used naturally.</p>
                             </div>
-                            <!-- остальные direction-items -->
+                            <div class="direction-item">
+                                <span class="direction-number">2.</span>
+                                <h4>WATCH the VIDEO</h4>
+                                <p>The first time you watch the video, just try to understand the overall situation.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">3.</span>
+                                <h4>ANSWER the QUESTIONS</h4>
+                                <p>First, try to answer all the questions from memory. Then rewatch the video and try to answer the questions that you missed.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">4.</span>
+                                <h4>WATCH and READ the SCRIPT</h4>
+                                <p>Watch the video again while you read the script. Reading and listening at the same time will help you hear each individual word and improve your listening accuracy.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">5.</span>
+                                <h4>DO the ACTIVITIES</h4>
+                                <p>There are several different activities that focus on listening accuracy, pronunciation, vocabulary, grammar, and sentence structure.</p>
+                            </div>
                         </div>
 
                         <!-- Vocabulary Section -->
@@ -138,7 +233,118 @@
                                         <span class="definition">A meal eaten outdoors, usually in a park or on a trip.</span>
                                     </label>
                                 </li>
-                                <!-- остальные слова -->
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word2">
+                                    <label for="word2">
+                                        <span class="word">Basket (Себет)</span>
+                                        <span class="definition">A container made of woven material, used to carry things.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word3">
+                                    <label for="word3">
+                                        <span class="word">Tummy (іш\құрсақ)</span>
+                                        <span class="definition">An informal word for stomach.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word4">
+                                    <label for="word4">
+                                        <span class="word">Tease (Мазақтау)</span>
+                                        <span class="definition">To make fun of someone in a playful way.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word5">
+                                    <label for="word5">
+                                        <span class="word">Exercise (Дене шынықтыру)</span>
+                                        <span class="definition">Physical activity done to keep the body healthy and fit.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word6">
+                                    <label for="word6">
+                                        <span class="word">Delicious (Дәмді)</span>
+                                        <span class="definition">Very tasty or enjoyable to eat.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word7">
+                                    <label for="word7">
+                                        <span class="word">Sleepy (Ұйқысы келетін)</span>
+                                        <span class="definition">Feeling like you want to sleep.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word8">
+                                    <label for="word8">
+                                        <span class="word">Feed (Тамақтандыру)</span>
+                                        <span class="definition">To give food to someone or something.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word9">
+                                    <label for="word9">
+                                        <span class="word">Bread (Нан)</span>
+                                        <span class="definition">A food made from flour, water, and usually yeast, baked into a loaf.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word10">
+                                    <label for="word10">
+                                        <span class="word">Cake (Торт)</span>
+                                        <span class="definition">A sweet baked food, often made from flour, sugar, and eggs.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word11">
+                                    <label for="word11">
+                                        <span class="word">Wasp (Шіркей)</span>
+                                        <span class="definition">A type of insect, often yellow and black, that can sting.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word12">
+                                    <label for="word12">
+                                        <span class="word">Shoo (Қашыңыз)</span>
+                                        <span class="definition">To tell someone or something to go away, especially animals or insects.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word13">
+                                    <label for="word13">
+                                        <span class="word">Pest (Зиянкес\жау)</span>
+                                        <span class="definition">An annoying person or thing, often referring to insects.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word14">
+                                    <label for="word14">
+                                        <span class="word">Slice (Тілім)</span>
+                                        <span class="definition">A thin piece of something, like a piece of cake or bread.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word15">
+                                    <label for="word15">
+                                        <span class="word">Scram (Жүгіру, кету)</span>
+                                        <span class="definition">To leave quickly, often used when telling someone or something to go away.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word16">
+                                    <label for="word16">
+                                        <span class="word">Run around (Жүгіру)</span>
+                                        <span class="definition">To move quickly in different directions, often in an energetic way.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" class="word-checkbox" id="word17">
+                                    <label for="word17">
+                                        <span class="word">Stay still (Қозғалмау)</span>
+                                        <span class="definition">To not move; remain in one position.</span>
+                                    </label>
+                                </li>
                             </ul>
                             <div class="vocabulary-controls">
                                 <button class="vocab-btn" onclick="hideWords()">Hide Words</button>
@@ -163,7 +369,20 @@
                                     </div>
                                     <p class="answer">Answer: c) A picnic basket</p>
                                 </div>
-                                <!-- остальные вопросы -->
+
+                                <div class="question-item">
+                                    <p class="question">2. What does Peppa say about Daddy Pig's tummy?</p>
+                                    <div class="options">
+                                        <label><input type="radio" name="q2" value="a"> a) It's big.</label>
+                                        <label><input type="radio" name="q2" value="b"> b) It's small.</label>
+                                        <label><input type="radio" name="q2" value="c"> c) It's round.</label>
+                                        <label><input type="radio" name="q2" value="d"> d) It's flat.</label>
+                                    </div>
+                                    <p class="answer">Answer: a) It's big.</p>
+                                </div>
+
+                                <!-- Остальные вопросы... -->
+
                             </div>
                             <div class="questions-controls">
                                 <button class="questions-btn" onclick="showAnswers('questions')">Show Answers</button>
@@ -179,19 +398,16 @@
                             <div class="grammar-container">
                                 <div class="grammar-item">
                                     <p class="question">1. Choose the correct form of the verb "to be":</p>
-                                    <p class="sentence">Peppa and her family 
-                                        <select class="grammar-select" name="g1">
-                                            <option value="">______</option>
-                                            <option value="a">is</option>
-                                            <option value="b">are</option>
-                                            <option value="c">am</option>
-                                            <option value="d">be</option>
-                                        </select> 
-                                        going for a picnic.
-                                    </p>
+                                    <p class="sentence">Peppa and her family <select class="grammar-select" name="g1">
+                                        <option value="">______</option>
+                                        <option value="a">is</option>
+                                        <option value="b">are</option>
+                                        <option value="c">am</option>
+                                        <option value="d">be</option>
+                                    </select> going for a picnic.</p>
                                     <p class="answer">Answer: b) are</p>
                                 </div>
-                                <!-- остальные grammar items -->
+                                <!-- Остальные grammar items... -->
                             </div>
                             <div class="grammar-controls">
                                 <button class="grammar-btn" onclick="showAnswers('grammar')">Show Answers</button>
@@ -216,7 +432,7 @@
                                     </div>
                                     <p class="answer">Answer: Daddy Pig is bringing the picnic basket.</p>
                                 </div>
-                                <!-- остальные sentence items -->
+                                <!-- Остальные sentence items... -->
                             </div>
                         </div>
 
@@ -229,7 +445,7 @@
                                 <div class="discussion-item">
                                     <p class="question">1. What is Daddy Pig bringing for the picnic?</p>
                                 </div>
-                                <!-- остальные discussion items -->
+                                <!-- Остальные discussion items... -->
                             </div>
                         </div>
 
@@ -243,7 +459,7 @@
                                     <p class="speaker">Narrator:</p>
                                     <p class="text">It's a lovely bright sunny day. Peppa and her family are going for a picnic. Daddy pig is bringing the picnic basket.</p>
                                 </div>
-                                <!-- остальной скрипт -->
+                                <!-- Остальной скрипт... -->
                             </div>
                         </div>
                     </div>
@@ -258,7 +474,7 @@
         </div>
     </footer>
 
-    <!-- Скрипты для работы кнопок -->
+    <!-- Скрипты для работы всех кнопок -->
     <script>
         // Функция для открытия/закрытия секций
         function toggleSection(element) {
