@@ -1,493 +1,826 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartoon 3 - JingoJango</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #f5f5f5;
-            color: #333;
-        }
-
-        .header {
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 15px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4a90e2;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-link {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-link:hover {
-            color: #4a90e2;
-        }
-
-        .main-container {
-            max-width: 1200px;
-            margin: 80px auto 20px;
-            padding: 20px;
-        }
-
-        .lesson-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 10px;
-            color: white;
-        }
-
-        .lesson-title {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        .lesson-subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .content-wrapper {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 768px) {
-            .content-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .video-section {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .video-container {
-            width: 100%;
-            height: 400px;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .video-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .vocabulary-box, .exercises-box {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .box-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: #333;
-            border-bottom: 2px solid #4a90e2;
-            padding-bottom: 10px;
-        }
-
-        .word-list {
-            list-style: none;
-        }
-
-        .word-item {
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .word-item:last-child {
-            border-bottom: none;
-        }
-
-        .word-en {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .word-ru {
-            color: #666;
-            font-style: italic;
-        }
-
-        .exercise-item {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 8px;
-            border-left: 4px solid #4a90e2;
-        }
-
-        .exercise-question {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .option {
-            padding: 10px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .option:hover {
-            border-color: #4a90e2;
-            background: #f0f8ff;
-        }
-
-        .option.selected {
-            background: #4a90e2;
-            color: white;
-            border-color: #4a90e2;
-        }
-
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .nav-btn {
-            padding: 12px 25px;
-            background: #4a90e2;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-btn:hover {
-            background: #357abd;
-        }
-
-        .nav-btn.disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .progress-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 4px;
-            width: 60%;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .stat {
-            padding: 10px;
-        }
-
-        .stat-number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #4a90e2;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .video-controls {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            background: #4a90e2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 0 5px;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background: #357abd;
-        }
-
-        .btn-secondary {
-            background: #666;
-        }
-
-        .btn-secondary:hover {
-            background: #555;
-        }
-    </style>
+    <title>Mickey and Donald Have a Farm - English Cartoons</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Изучайте английский с мультфильмом Mickey and Donald Have a Farm. Простые и увлекательные уроки для начинающих.">
+    <meta name="keywords" content="mickey mouse, donald duck, английский для детей, изучение английского, мультфильмы на английском">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="../../../css/styles.css">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav-container">
+    <header class="main-header">
+        <div class="container">
             <div class="logo">
-                <a href="https://muxanulu02-png.github.io/JingoJango/" style="text-decoration: none; color: inherit;">JingoJango</a>
+                <a href="../../../index.html">
+                    <h1>🎬 English Cartoons</h1>
+                </a>
             </div>
-            <ul class="nav-menu">
-                <li><a href="https://muxanulu02-png.github.io/JingoJango/" class="nav-link">Home</a></li>
-                <li><a href="https://muxanulu02-png.github.io/JingoJango/#courses" class="nav-link">Courses</a></li>
-                <li><a href="https://muxanulu02-png.github.io/JingoJango/#cartoons" class="nav-link">Cartoons</a></li>
-            </ul>
-        </nav>
+        </div>
     </header>
 
-    <div class="main-container">
-        <div class="lesson-header">
-            <h1 class="lesson-title">Cartoon Lesson 3: Daily Routines</h1>
-            <p class="lesson-subtitle">Learn to talk about your daily activities in English</p>
-        </div>
-
-        <div class="progress-section">
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Mickey and Donald Have a Farm</h2>
             </div>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-number">15</div>
-                    <div class="stat-label">Words</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">3</div>
-                    <div class="stat-label">Exercises</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">10 min</div>
-                    <div class="stat-label">Duration</div>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <div class="content-wrapper">
-            <div class="video-section">
-                <div class="video-container">
-                    <iframe 
-                        src="https://www.youtube.com/embed/XOnHtStmbCI" 
-                        title="Daily Routines English Lesson" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                </div>
-                <div class="video-controls">
-                    <button class="btn" onclick="playVideo()">
-                        <i class="fas fa-play"></i> Play Video
-                    </button>
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-download"></i> Download Materials
-                    </button>
-                </div>
-            </div>
-
-            <div class="sidebar">
-                <div class="vocabulary-box">
-                    <h3 class="box-title">Vocabulary</h3>
-                    <ul class="word-list">
-                        <li class="word-item">
-                            <span class="word-en">Wake up</span>
-                            <span class="word-ru">Просыпаться</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Brush teeth</span>
-                            <span class="word-ru">Чистить зубы</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Have breakfast</span>
-                            <span class="word-ru">Завтракать</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Go to school</span>
-                            <span class="word-ru">Идти в школу</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Study</span>
-                            <span class="word-ru">Учиться</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Have lunch</span>
-                            <span class="word-ru">Обедать</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Play with friends</span>
-                            <span class="word-ru">Играть с друзьями</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Do homework</span>
-                            <span class="word-ru">Делать уроки</span>
-                        </li>
-                        <li class="word-item">
-                            <span class="word-en">Go to bed</span>
-                            <span class="word-ru">Ложиться спать</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="exercises-box">
-                    <h3 class="box-title">Exercises</h3>
-                    <div class="exercise-item">
-                        <div class="exercise-question">1. What do you do first in the morning?</div>
-                        <div class="options">
-                            <div class="option" onclick="selectOption(this)">A) Go to bed</div>
-                            <div class="option" onclick="selectOption(this)">B) Wake up</div>
-                            <div class="option" onclick="selectOption(this)">C) Have dinner</div>
-                            <div class="option" onclick="selectOption(this)">D) Do homework</div>
+        <section class="section">
+            <div class="container">
+                <div class="lesson-content">
+                    <div class="video-container">
+                        <div class="video-wrapper">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/XOnHtStmbCI?si=CnrT_KK8wM07nrHx&start=194&end=410" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                     </div>
-                    <div class="exercise-item">
-                        <div class="exercise-question">2. Complete: "I ______ my teeth after breakfast."</div>
-                        <div class="options">
-                            <div class="option" onclick="selectOption(this)">A) wake</div>
-                            <div class="option" onclick="selectOption(this)">B) brush</div>
-                            <div class="option" onclick="selectOption(this)">C) have</div>
-                            <div class="option" onclick="selectOption(this)">D) go</div>
+
+                    <div class="lesson-text">
+                        <div class="directions-header">
+                            <h3>Directions <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="direction-item">
+                                <span class="direction-number">1.</span>
+                                <h4>READ the VOCABULARY</h4>
+                                <p>It is important to read the vocabulary before you watch the video. This will improve your ability to understand the video. It will also help you understand how the new vocabulary is used naturally.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">2.</span>
+                                <h4>WATCH the VIDEO</h4>
+                                <p>The first time you watch the video, just try to understand the overall situation.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">3.</span>
+                                <h4>ANSWER the QUESTIONS</h4>
+                                <p>First, try to answer all the questions from memory. Then rewatch the video and try to answer the questions that you missed.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">4.</span>
+                                <h4>WATCH and READ the SCRIPT</h4>
+                                <p>Watch the video again while you read the script. Reading and listening at the same time will help you hear each individual word and improve your listening accuracy.</p>
+                            </div>
+                            <div class="direction-item">
+                                <span class="direction-number">5.</span>
+                                <h4>DO the ACTIVITIES</h4>
+                                <p>There are several different activities that focus on listening accuracy, pronunciation, vocabulary, grammar, and sentence structure.</p>
+                            </div>
+                        </div>
+
+                        <div class="directions-header">
+                            <h3>Vocabulary <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="vocabulary-list">
+                                <li>
+                                    <input type="checkbox" id="word1" class="word-checkbox">
+                                    <label for="word1">
+                                        <span class="word">Squeak</span>
+                                        <span class="definition">(Шиқылдау) - A high-pitched sound made, often by something small or old, like a door or a toy.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word2" class="word-checkbox">
+                                    <label for="word2">
+                                        <span class="word">Honk</span>
+                                        <span class="definition">(Сигнал беру) - A loud sound made by a horn, like on a car or truck.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word3" class="word-checkbox">
+                                    <label for="word3">
+                                        <span class="word">Giggle</span>
+                                        <span class="definition">(Қыңқылдау) - To laugh lightly in a silly way.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word4" class="word-checkbox">
+                                    <label for="word4">
+                                        <span class="word">Size</span>
+                                        <span class="definition">(Өлшем) - How big or small something is.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word5" class="word-checkbox">
+                                    <label for="word5">
+                                        <span class="word">Problem</span>
+                                        <span class="definition">(Мәселе) - Something that needs to be fixed or solved.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word6" class="word-checkbox">
+                                    <label for="word6">
+                                        <span class="word">Out of control</span>
+                                        <span class="definition">(Бақылаусыз) - When something is not being managed or is acting wildly.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word7" class="word-checkbox">
+                                    <label for="word7">
+                                        <span class="word">Tractor</span>
+                                        <span class="definition">(Трактор) - A large vehicle used for farming or pulling heavy equipment.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word8" class="word-checkbox">
+                                    <label for="word8">
+                                        <span class="word">Screech</span>
+                                        <span class="definition">(Шиқылдау, шыңғырған дыбыс) - A loud, high-pitched noise, like when brakes are applied suddenly.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word9" class="word-checkbox">
+                                    <label for="word9">
+                                        <span class="word">Professor</span>
+                                        <span class="definition">(Профессор) - A teacher or expert, especially in a particular subject.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word10" class="word-checkbox">
+                                    <label for="word10">
+                                        <span class="word">Red means stop, Green means go</span>
+                                        <span class="definition">(Қызыл тоқтайды, Жасыл жүреді) - This refers to traffic lights, where red is a signal to stop and green is a signal to go.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word11" class="word-checkbox">
+                                    <label for="word11">
+                                        <span class="word">Pull</span>
+                                        <span class="definition">(Тарту) - To move something towards oneself using force.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word12" class="word-checkbox">
+                                    <label for="word12">
+                                        <span class="word">Of no use</span>
+                                        <span class="definition">(Пайдасы жоқ) - When something is not helpful or doesn't work.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word13" class="word-checkbox">
+                                    <label for="word13">
+                                        <span class="word">Goofed up</span>
+                                        <span class="definition">(Қателесу) - To make a mistake or do something wrong.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word14" class="word-checkbox">
+                                    <label for="word14">
+                                        <span class="word">Step aside</span>
+                                        <span class="definition">(Жанама тұру) - To move to the side or out of the way.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word15" class="word-checkbox">
+                                    <label for="word15">
+                                        <span class="word">De-lish</span>
+                                        <span class="definition">(Дәмді) - A short way of saying something is delicious or very tasty.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word16" class="word-checkbox">
+                                    <label for="word16">
+                                        <span class="word">Howdy</span>
+                                        <span class="definition">(Сәлем) - A friendly way of saying hello.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word17" class="word-checkbox">
+                                    <label for="word17">
+                                        <span class="word">Raise animals</span>
+                                        <span class="definition">(Жануарларды өсіру) - To take care of and grow animals, like cows, chickens, etc., on a farm.</span>
+                                    </label>
+                                </li>
+                                <li>
+                                    <input type="checkbox" id="word18" class="word-checkbox">
+                                    <label for="word18">
+                                        <span class="word">Pick</span>
+                                        <span class="definition">(Жинау) - To gather something, like fruit, from a tree or plant.</span>
+                                    </label>
+                                </li>
+                            </div>
+                            <div class="vocabulary-controls">
+                                <button class="vocab-btn" data-action="hide-words">Hide Words</button>
+                                <button class="vocab-btn" data-action="hide-definitions">Hide Definitions</button>
+                                <button class="vocab-btn" data-action="show-all">Show All</button>
+                            </div>
+                        </div>
+
+                        <div class="directions-header">
+                            <h3>Questions <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="questions-container">
+                                <div class="question-item">
+                                    <p class="question">1. Who says "Oh, look at that. Just my size"?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q1" value="a">
+                                            a) Mickey
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q1" value="b">
+                                            b) Goofy
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q1" value="c">
+                                            c) Donald
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q1" value="d">
+                                            d) Professor
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: a) Mickey</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">2. What is Goofy doing when he says, "Whoa, you tricky, little tractor!"?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q2" value="a">
+                                            a) Driving a car
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q2" value="b">
+                                            b) Riding a tractor
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q2" value="c">
+                                            c) Running
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q2" value="d">
+                                            d) Flying
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: b) Riding a tractor</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">3. Who says, "We need the professor!"?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q3" value="a">
+                                            a) Goofy
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q3" value="b">
+                                            b) Mickey
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q3" value="c">
+                                            c) Donald
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q3" value="d">
+                                            d) Daisy
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: c) Donald</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">4. What does the professor say to Goofy?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q4" value="a">
+                                            a) "Slow down already!"
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q4" value="b">
+                                            b) "Goofy, you're too fast!"
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q4" value="c">
+                                            c) "Pull the green lever!"
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q4" value="d">
+                                            d) "Stop the tractor, Goofy!"
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: a) "Slow down already!"</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">5. Who is the first to say "Howdy, girls!"?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q5" value="a">
+                                            a) Mickey
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q5" value="b">
+                                            b) Goofy
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q5" value="c">
+                                            c) Pluto
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q5" value="d">
+                                            d) Donald
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: b) Goofy</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">6. What are Daisy and Minnie doing?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q6" value="a">
+                                            a) Playing music
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q6" value="b">
+                                            b) Picking apples
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q6" value="c">
+                                            c) Driving the tractor
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q6" value="d">
+                                            d) Eating fruits
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: b) Picking apples</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">7. Where does Mickey want to take everyone?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q7" value="a">
+                                            a) To the Clubhouse Farm
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q7" value="b">
+                                            b) To the city
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q7" value="c">
+                                            c) To the forest
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q7" value="d">
+                                            d) To the beach
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: a) To the Clubhouse Farm</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">8. What does Goofy say after causing a problem with the tractor?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q8" value="a">
+                                            a) "I goofed up, Mickey."
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q8" value="b">
+                                            b) "I'm sorry, Mickey."
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q8" value="c">
+                                            c) "I'm fast, Mickey!"
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q8" value="d">
+                                            d) "I'm scared, Mickey!"
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: a) "I goofed up, Mickey."</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">9. Who says, "Don't mention it, pal"?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q9" value="a">
+                                            a) Mickey
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q9" value="b">
+                                            b) Donald
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q9" value="c">
+                                            c) Goofy
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q9" value="d">
+                                            d) Professor
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: b) Donald</p>
+                                </div>
+
+                                <div class="question-item">
+                                    <p class="question">10. What are Mickey and his friends growing at the Clubhouse Farm?</p>
+                                    <div class="options">
+                                        <label>
+                                            <input type="radio" name="q10" value="a">
+                                            a) Flowers
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q10" value="b">
+                                            b) Fruits and veggies
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q10" value="c">
+                                            c) Trees
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="q10" value="d">
+                                            d) Plants
+                                        </label>
+                                    </div>
+                                    <p class="answer">Answer: b) Fruits and veggies</p>
+                                </div>
+                            </div>
+                            <div class="questions-controls">
+                                <button class="questions-btn" data-action="show-answers">Show Answers</button>
+                                <button class="questions-btn" data-action="hide-answers">Hide Answers</button>
+                            </div>
+                        </div>
+
+                        <div class="directions-header">
+                            <h3>Grammar <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="grammar-container">
+                                <div class="grammar-item">
+                                    <p class="question">1. Fill in the blank with the correct form of "to be":</p>
+                                    <p class="sentence">Mickey: Now that we <select class="grammar-select" name="g1">
+                                        <option value="">______</option>
+                                        <option value="a">am</option>
+                                        <option value="b">is</option>
+                                        <option value="c">are</option>
+                                        <option value="d">be</option>
+                                    </select> ready, let's head on over to...</p>
+                                    <p class="answer">Answer: c) are</p>
+                                </div>
+
+                                <div class="grammar-item">
+                                    <p class="question">2. Fill in the blank with the correct form of "to be":</p>
+                                    <p class="sentence">Goofy: I know, Professor, but I don't think it <select class="grammar-select" name="g2">
+                                        <option value="">______</option>
+                                        <option value="a">am</option>
+                                        <option value="b">is</option>
+                                        <option value="c">are</option>
+                                        <option value="d">be</option>
+                                    </select> knows!</p>
+                                    <p class="answer">Answer: b) is</p>
+                                </div>
+
+                                <div class="grammar-item">
+                                    <p class="question">3. Fill in the blank with the correct form of "to be":</p>
+                                    <p class="sentence">Donald: We <select class="grammar-select" name="g3">
+                                        <option value="">______</option>
+                                        <option value="a">am</option>
+                                        <option value="b">is</option>
+                                        <option value="c">are</option>
+                                        <option value="d">be</option>
+                                    </select> in a hurry!</p>
+                                    <p class="answer">Answer: c) are</p>
+                                </div>
+
+                                <div class="grammar-item">
+                                    <p class="question">4. Fill in the blank with the correct form of "to be":</p>
+                                    <p class="sentence">Mickey: We <select class="grammar-select" name="g4">
+                                        <option value="">______</option>
+                                        <option value="a">am</option>
+                                        <option value="b">is</option>
+                                        <option value="c">are</option>
+                                        <option value="d">be</option>
+                                    </select> going to stop that tractor!</p>
+                                    <p class="answer">Answer: c) are</p>
+                                </div>
+
+                                <div class="grammar-item">
+                                    <p class="question">5. Fill in the blank with the correct form of "to be":</p>
+                                    <p class="sentence">Professor: It <select class="grammar-select" name="g5">
+                                        <option value="">______</option>
+                                        <option value="a">am</option>
+                                        <option value="b">is</option>
+                                        <option value="c">are</option>
+                                        <option value="d">be</option>
+                                    </select> of no use, boys. Goofy can't hear a word I'm saying.</p>
+                                    <p class="answer">Answer: b) is</p>
+                                </div>
+                            </div>
+                            <div class="grammar-controls">
+                                <button class="grammar-btn" data-action="show-answers">Show Answers</button>
+                                <button class="grammar-btn" data-action="hide-answers">Hide Answers</button>
+                            </div>
+                        </div>
+
+                        <div class="directions-header">
+                            <h3>Sentence Building <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="sentence-building-container">
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>1. ready / we / now / are</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: We are ready now.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>2. show / I / you / want / to / around / the / farm</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: I want to show you around the farm.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>3. stop / the / tractor / need / to / we</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: We need to stop the tractor.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>4. tractor / too / fast / is / going / the</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: The tractor is going too fast.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>5. show / to / me / how / Donald / stop / the / tractor / to\wants</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: Donald wants to show me how to stop the tractor.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>6. I / goofed / Mickey / up</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: I goofed up, Mickey.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>7. going / farm / to / the / we / Clubhouse\are</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: We are going to the Clubhouse Farm.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>8. stop / the / I / don't / think / it / knows / how\to</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: I don't think it knows how to stop.</p>
+                                </div>
+
+                                <div class="sentence-item">
+                                    <div class="sentence-parts">
+                                        <p>9. too / fast / going / the / tractor / is</p>
+                                        <input type="text" class="sentence-input" placeholder="Напишите предложение здесь...">
+                                    </div>
+                                    <div class="sentence-controls">
+                                        <button class="sentence-btn" data-action="show">Show Answer</button>
+                                        <button class="sentence-btn" data-action="hide">Hide Answer</button>
+                                    </div>
+                                    <p class="answer">Answer: The tractor is going too fast.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="directions-header">
+                            <h3>Discussion <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="discussion-container">
+                                <div class="discussion-item">
+                                    <p class="question">1. What are Mouseketools?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">2. Why does Donald say there is a problem?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">3. What does the professor want Goofy to do?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">4. Does Goofy listen to the professor? Why?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">5. What happens when Donald tries to stop the tractor?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">6. What do Mickey and his friends do on the farm?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">7. What fruits or vegetables do you think they grow on the farm?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">8. How do Mickey and his friends greet each other?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">9. What is Daisy doing on the farm?</p>
+                                </div>
+
+                                <div class="discussion-item">
+                                    <p class="question">10. Have you ever been to a farm? What did you see there?</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="directions-header">
+                            <h3>Script <span class="arrow">▼</span></h3>
+                        </div>
+                        <div class="directions-list" style="display: none;">
+                            <div class="script-container">
+                                <div class="script-item">
+                                    <p class="speaker">Mickey:</p>
+                                    <p class="text">Now that we got our Mouseketools, let's head on over to….. -Oh! Ah! (squeaking, honking, giggling) Oh look at that. Just my size. (doorbell rings)</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Donald:</p>
+                                    <p class="text">Mickey! There's a problem. Oh, howdy, everybody!</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Mickey:</p>
+                                    <p class="text">Pluto! Donald!</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Donald:</p>
+                                    <p class="text">Come on. Goofy's out of control! And we got to stop him.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Mickey:</p>
+                                    <p class="text">Whoa! Come on, everybody. Follow me.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Donald:</p>
+                                    <p class="text">We need the professor!</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Goofy:</p>
+                                    <p class="text">Whoa, you tricky, little tractor! Whoa! (tires screech)</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Professor:</p>
+                                    <p class="text">Goofy! Slow down already! The Clikety-Clack Tractor doesn't supposed to go that fast!</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Goofy:</p>
+                                    <p class="text">I know, Professor, but I don't think it knows!</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Professor:</p>
+                                    <p class="text">Red means stop. Green means go. To stop the tractor, pull the red lever.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Goofy:</p>
+                                    <p class="text">What did you say? (painting)</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Professor:</p>
+                                    <p class="text">It's of no use, boys. Goofy can't hear a word I'm saying even.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Mickey:</p>
+                                    <p class="text">We just got to stop that tractor.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Donald:</p>
+                                    <p class="text">Step aside. I'll show you how it's done.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Goofy:</p>
+                                    <p class="text">Golly-gee thanks, Donald!</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Donald:</p>
+                                    <p class="text">Don't mention it, pal.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Goofy:</p>
+                                    <p class="text">Sorry, I goofed up, Mickey.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Mickey:</p>
+                                    <p class="text">Aw, that's ok. You took us right to where I wanted to go. Welcome to the Clubhouse Farm! Here, we grow fruits and veggies, and raise animals. Let me show you around.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Goofy:</p>
+                                    <p class="text">Howdy, girls (singing a song)</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Mickey:</p>
+                                    <p class="text">Howdy, Minnie</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Donald:</p>
+                                    <p class="text">Hi, Daisy</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Both:</p>
+                                    <p class="text">Hello, boys! And howdy-doo to you, too.</p>
+                                </div>
+
+                                <div class="script-item">
+                                    <p class="speaker">Daisy:</p>
+                                    <p class="text">We're picking lots of apples today. They're de-lish! (singing a song)</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="exercise-item">
-                        <div class="exercise-question">3. Put in correct order: get dressed → brush teeth → wake up</div>
-                        <div class="options">
-                            <div class="option" onclick="selectOption(this)">A) wake up → get dressed → brush teeth</div>
-                            <div class="option" onclick="selectOption(this)">B) wake up → brush teeth → get dressed</div>
-                            <div class="option" onclick="selectOption(this)">C) brush teeth → wake up → get dressed</div>
-                            <div class="option" onclick="selectOption(this)">D) get dressed → wake up → brush teeth</div>
-                        </div>
-                    </div>
-                    <button class="btn" style="width: 100%; margin-top: 10px;" onclick="checkAnswers()">
-                        <i class="fas fa-check"></i> Check Answers
-                    </button>
                 </div>
             </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>🎬 &copy; 2024 English Cartoons. Все права защищены. 🎬</p>
         </div>
+    </footer>
 
-        <div class="navigation">
-            <a href="2.html" class="nav-btn">
-                <i class="fas fa-arrow-left"></i> Previous Lesson
-            </a>
-            <a href="4.html" class="nav-btn">
-                Next Lesson <i class="fas fa-arrow-right"></i>
-            </a>
-        </div>
-    </div>
-
-    <script>
-        // Interactive functions
-        function selectOption(option) {
-            // Remove selected class from all options in this question
-            const options = option.parentElement.querySelectorAll('.option');
-            options.forEach(opt => opt.classList.remove('selected'));
-            
-            // Add selected class to clicked option
-            option.classList.add('selected');
-        }
-
-        function checkAnswers() {
-            alert('Answers checked! In a real application, this would validate your answers and show results.');
-        }
-
-        function playVideo() {
-            const iframe = document.querySelector('iframe');
-            // YouTube iframe API would be used here for actual control
-            alert('Video is already playing! Use the YouTube controls to play/pause.');
-        }
-
-        // Add interactive vocabulary words
-        document.querySelectorAll('.word-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const englishWord = this.querySelector('.word-en').textContent;
-                const russianWord = this.querySelector('.word-ru').textContent;
-                alert(`Word: ${englishWord}\nTranslation: ${russianWord}\n\nTry using this word in a sentence!`);
-            });
-        });
-    </script>
+    <script src="../../../js/lesson.js"></script>
 </body>
-</html>
+</html> 
