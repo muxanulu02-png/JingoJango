@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,6 +14,174 @@
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Стили для интерактивных элементов */
+        .directions-header {
+            cursor: pointer;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        
+        .directions-header:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .arrow {
+            float: right;
+            transition: transform 0.3s;
+        }
+        
+        .directions-list.active .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .directions-list {
+            display: none;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .directions-list.active {
+            display: block;
+        }
+        
+        .vocabulary-controls, .questions-controls, .grammar-controls {
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .vocab-btn, .questions-btn, .grammar-btn, .sentence-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .vocab-btn:hover, .questions-btn:hover, .grammar-btn:hover, .sentence-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .answer {
+            display: none;
+            color: #2E8B57;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .answer.show {
+            display: block;
+        }
+        
+        .word-checkbox:checked + label .word {
+            text-decoration: line-through;
+            color: #888;
+        }
+        
+        .word-checkbox:checked + label .definition {
+            opacity: 0.7;
+        }
+        
+        .vocabulary-list.hide-words .word {
+            display: none;
+        }
+        
+        .vocabulary-list.hide-definitions .definition {
+            display: none;
+        }
+        
+        .sentence-input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .sentence-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        
+        .vocabulary-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .vocabulary-list li {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .word-checkbox {
+            margin-right: 10px;
+        }
+        
+        .word {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .definition {
+            color: #666;
+            margin-left: 10px;
+        }
+        
+        .grammar-select {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+        
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        .script-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #4CAF50;
+            background-color: #f9f9f9;
+        }
+        
+        .speaker {
+            font-weight: bold;
+            color: #2E8B57;
+            margin-bottom: 5px;
+        }
+        
+        .direction-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 3px solid #2196F3;
+        }
+        
+        .direction-number {
+            background-color: #2196F3;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -48,7 +215,7 @@
                         <div class="directions-header">
                             <h3>Directions <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="direction-item">
                                 <span class="direction-number">1.</span>
                                 <h4>READ the VOCABULARY</h4>
@@ -80,7 +247,7 @@
                         <div class="directions-header">
                             <h3>Vocabulary <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <ul class="vocabulary-list">
                                 <li>
                                     <input type="checkbox" class="word-checkbox" id="word1">
@@ -241,7 +408,7 @@
                         <div class="directions-header">
                             <h3>Questions <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="questions-container">
                                 <div class="question-item">
                                     <p class="question">1. Who says, "I am the most powerful"?</p>
@@ -275,7 +442,7 @@
                                         </label>
                                         <label>
                                             <input type="radio" name="q2" value="b">
-                                            b) Take off the man’s jacket
+                                            b) Take off the man's jacket
                                         </label>
                                         <label>
                                             <input type="radio" name="q2" value="c">
@@ -286,7 +453,7 @@
                                             d) Make it snow
                                         </label>
                                     </div>
-                                    <p class="answer">Answer: b) Take off the man’s jacket</p>
+                                    <p class="answer">Answer: b) Take off the man's jacket</p>
                                 </div>
 
                                 <div class="question-item">
@@ -409,7 +576,7 @@
                                     <div class="options">
                                         <label>
                                             <input type="radio" name="q8" value="a">
-                                            a) "It’s too hot!"
+                                            a) "It's too hot!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q8" value="b">
@@ -417,7 +584,7 @@
                                         </label>
                                         <label>
                                             <input type="radio" name="q8" value="c">
-                                            c) "It’s too cold!"
+                                            c) "It's too cold!"
                                         </label>
                                         <label>
                                             <input type="radio" name="q8" value="d">
@@ -483,7 +650,7 @@
                         <div class="directions-header">
                             <h3>Grammar <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="grammar-container">
                                 <!-- Grammar Exercise 1: Present Simple -->
                                 <div class="grammar-item">
@@ -565,9 +732,9 @@
                                     <p class="answer">Answer: a) blew</p>
                                 </div>
 
-                                <!-- Grammar Exercise 6: Verb “Have got” -->
+                                <!-- Grammar Exercise 6: Verb "Have got" -->
                                 <div class="grammar-item">
-                                    <p class="question">6. Verb “Have got”</p>
+                                    <p class="question">6. Verb "Have got"</p>
                                     <p class="sentence">The man 
                                         <select class="grammar-select" name="g6">
                                             <option value="">______</option>
@@ -623,7 +790,7 @@
                         <div class="directions-header">
                             <h3>Sentence Building <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="sentence-building-container">
                                 <div class="sentence-item">
                                     <div class="sentence-parts">
@@ -682,7 +849,7 @@
                                         <button class="sentence-btn" data-action="show">Show Answer</button>
                                         <button class="sentence-btn" data-action="hide">Hide Answer</button>
                                     </div>
-                                    <p class="answer">Answer: It’s snowing !</p>
+                                    <p class="answer">Answer: It's snowing !</p>
                                 </div>
 
                                 <div class="sentence-item">
@@ -706,7 +873,7 @@
                                         <button class="sentence-btn" data-action="show">Show Answer</button>
                                         <button class="sentence-btn" data-action="hide">Hide Answer</button>
                                     </div>
-                                    <p class="answer">Answer: “Is that right?</p>
+                                    <p class="answer">Answer: "Is that right?</p>
                                 </div>
 
                                 <div class="sentence-item">
@@ -727,7 +894,7 @@
                         <div class="directions-header">
                             <h3>Discussion <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="discussion-container">
                                 <div class="discussion-item">
                                     <p class="question">1. What would you do if it started snowing suddenly?</p>
@@ -748,7 +915,7 @@
                                     <p class="question">6. What happens when the man feels hot?</p>
                                 </div>
                                 <div class="discussion-item">
-                                    <p class="question">7. If it’s cold, do you zip up your jacket like the man?</p>
+                                    <p class="question">7. If it's cold, do you zip up your jacket like the man?</p>
                                 </div>
                                 <div class="discussion-item">
                                     <p class="question">8. What is the moral of the story?</p>
@@ -760,7 +927,7 @@
                         <div class="directions-header">
                             <h3>Script <span class="arrow">▼</span></h3>
                         </div>
-                        <div class="directions-list" style="display: none;">
+                        <div class="directions-list">
                             <div class="script-container">
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
@@ -796,7 +963,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Wind:</p>
-                                    <p class="text">"Let’s have a contest to see who is more powerful, whoever can remove the man’s jacket first wins."</p>
+                                    <p class="text">"Let's have a contest to see who is more powerful, whoever can remove the man's jacket first wins."</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
@@ -812,19 +979,19 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Man:</p>
-                                    <p class="text">"Well look at that! It’s snowing!" says the man.</p>
+                                    <p class="text">"Well look at that! It's snowing!" says the man.</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Man:</p>
-                                    <p class="text">"Snow wasn’t in the weather forecast today…"</p>
+                                    <p class="text">"Snow wasn't in the weather forecast today…"</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
-                                    <p class="text">He pulls his hood over his head. The wind blows his strongest gust towards the man, but the man’s jacket stays on.</p>
+                                    <p class="text">He pulls his hood over his head. The wind blows his strongest gust towards the man, but the man's jacket stays on.</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Man:</p>
-                                    <p class="text">"Hmmmm. It’s a bit fresh today… A winter storm must be coming…"</p>
+                                    <p class="text">"Hmmmm. It's a bit fresh today… A winter storm must be coming…"</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
@@ -860,7 +1027,7 @@
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Man:</p>
-                                    <p class="text">"Goodness me, it’s so hot!"</p>
+                                    <p class="text">"Goodness me, it's so hot!"</p>
                                 </div>
                                 <div class="script-item">
                                     <p class="speaker">Narrator:</p>
@@ -888,6 +1055,94 @@
         </div>
     </footer>
 
-    <script src="../../../js/lesson.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Раскрывающиеся секции
+            const headers = document.querySelectorAll('.directions-header');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    const list = this.nextElementSibling;
+                    list.classList.toggle('active');
+                });
+            });
+
+            // Управление словарем
+            const vocabButtons = document.querySelectorAll('.vocab-btn');
+            const vocabularyList = document.querySelector('.vocabulary-list');
+            
+            vocabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    
+                    switch(action) {
+                        case 'hide-words':
+                            vocabularyList.classList.add('hide-words');
+                            vocabularyList.classList.remove('hide-definitions');
+                            break;
+                        case 'hide-definitions':
+                            vocabularyList.classList.add('hide-definitions');
+                            vocabularyList.classList.remove('hide-words');
+                            break;
+                        case 'show-all':
+                            vocabularyList.classList.remove('hide-words', 'hide-definitions');
+                            break;
+                    }
+                });
+            });
+
+            // Управление вопросами
+            const questionButtons = document.querySelectorAll('.questions-btn');
+            
+            questionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answers = document.querySelectorAll('.questions-container .answer');
+                    
+                    answers.forEach(answer => {
+                        if (action === 'show-answers') {
+                            answer.classList.add('show');
+                        } else {
+                            answer.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Управление грамматикой
+            const grammarButtons = document.querySelectorAll('.grammar-btn');
+            
+            grammarButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answers = document.querySelectorAll('.grammar-container .answer');
+                    
+                    answers.forEach(answer => {
+                        if (action === 'show-answers') {
+                            answer.classList.add('show');
+                        } else {
+                            answer.classList.remove('show');
+                        }
+                    });
+                });
+            });
+
+            // Управление построением предложений
+            const sentenceButtons = document.querySelectorAll('.sentence-btn');
+            
+            sentenceButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const action = this.getAttribute('data-action');
+                    const answer = this.closest('.sentence-item').querySelector('.answer');
+                    
+                    if (action === 'show') {
+                        answer.classList.add('show');
+                    } else {
+                        answer.classList.remove('show');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
