@@ -9,162 +9,88 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-        }
-        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding-top: 80px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
         }
         
+        /* Навигация */
         .navbar {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
         }
         
         .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary-color) !important;
+            font-weight: bold;
+            color: #2c5aa0 !important;
+            font-size: 24px;
         }
         
         .nav-link {
-            color: var(--primary-color) !important;
+            color: #333 !important;
             font-weight: 500;
-            margin: 0 10px;
+            margin: 0 5px;
+            padding: 8px 15px !important;
+            border-radius: 5px;
             transition: all 0.3s ease;
-            border-radius: 25px;
-            padding: 8px 20px !important;
         }
         
-        .nav-link:hover {
-            background: var(--secondary-color);
+        .nav-link:hover,
+        .nav-link.active {
+            background: #2c5aa0;
             color: white !important;
-            transform: translateY(-2px);
         }
         
-        .nav-link i {
-            margin-right: 8px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .hero-section {
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 80px 40px;
-            margin: 40px 0;
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
             color: white;
+            padding: 80px 0;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
         }
         
-        .hero-section p {
-            font-size: 1.3rem;
+        .hero p {
+            font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
         }
         
-        .btn-primary {
-            background: var(--secondary-color);
+        .btn-hero {
+            background: #ff6b35;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
             border: none;
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1.1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
         
-        .btn-primary:hover {
-            background: #2980b9;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.6);
+        .btn-hero:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
         }
         
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            color: white;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-        
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-        
-        .character-image {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--secondary-color);
-            margin-bottom: 20px;
-        }
-        
-        .teacher-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--secondary-color);
-            margin-bottom: 15px;
-        }
-        
-        .section-title {
-            color: white;
-            text-align: center;
-            margin: 60px 0 40px 0;
-            font-weight: 700;
-            font-size: 2.5rem;
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--secondary-color);
-        }
-        
-        .footer {
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            padding: 40px 0;
-            margin-top: 80px;
-            backdrop-filter: blur(10px);
-        }
-        
+        /* Карточки курсов */
         .course-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            background: white;
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+            border: none;
         }
         
         .course-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
         .course-image {
@@ -175,13 +101,101 @@
         
         .course-content {
             padding: 20px;
+        }
+        
+        .course-title {
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 10px;
+        }
+        
+        .course-price {
+            color: #ff6b35;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .btn-course {
+            background: #2c5aa0;
             color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-course:hover {
+            background: #1e3a8a;
+        }
+        
+        /* Секции */
+        .section-title {
+            text-align: center;
+            color: #2c5aa0;
+            font-weight: bold;
+            margin: 60px 0 40px 0;
+            font-size: 2.5rem;
+        }
+        
+        /* Особенности */
+        .feature-box {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: #2c5aa0;
+            margin-bottom: 20px;
+        }
+        
+        /* Футер */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 50px 0 20px 0;
+            margin-top: 50px;
+        }
+        
+        .footer h5 {
+            color: #ff6b35;
+            margin-bottom: 20px;
+        }
+        
+        .footer a {
+            color: #ddd;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            color: #ff6b35;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Навигация -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-language"></i> JingoJango
@@ -218,113 +232,62 @@
         </div>
     </nav>
 
-    <!-- Главная секция -->
-    <div class="container">
-        <div class="hero-section">
-            <h1>Изучайте английский с JingoJango</h1>
-            <p>Эффективные курсы английского языка для всех уровней подготовки</p>
-            <a href="catalog.html" class="btn btn-primary btn-lg">
-                <i class="fas fa-rocket"></i> Начать обучение
-            </a>
+    <!-- Герой секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1>Изучайте английский с JingoJango</h1>
+                    <p>Эффективные курсы английского языка для всех уровней подготовки. Начните говорить на английском уже через месяц!</p>
+                    <a href="catalog.html" class="btn btn-hero btn-lg">
+                        <i class="fas fa-rocket"></i> Начать обучение бесплатно
+                    </a>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Популярные курсы -->
+    <!-- Популярные курсы -->
+    <div class="container">
         <h2 class="section-title">Популярные курсы</h2>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6">
                 <div class="course-card">
                     <img src="images/course1.jpg" alt="Английский для начинающих" class="course-image">
                     <div class="course-content">
-                        <h4>Для начинающих</h4>
-                        <p>Основы английского языка с нуля</p>
-                        <span class="badge bg-primary">₸25,000</span>
+                        <h4 class="course-title">Английский для начинающих</h4>
+                        <p>Идеальный старт для тех, кто только начинает изучать английский язык.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="course-price">₸25,000</span>
+                            <button class="btn btn-course">Выбрать</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6">
                 <div class="course-card">
                     <img src="images/course2.jpg" alt="Разговорный английский" class="course-image">
                     <div class="course-content">
-                        <h4>Разговорный английский</h4>
-                        <p>Улучшите свои разговорные навыки</p>
-                        <span class="badge bg-primary">₸30,000</span>
+                        <h4 class="course-title">Разговорный английский</h4>
+                        <p>Улучшите свои разговорные навыки и преодолейте языковой барьер.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="course-price">₸30,000</span>
+                            <button class="btn btn-course">Выбрать</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6">
                 <div class="course-card">
                     <img src="images/course3.jpg" alt="Бизнес английский" class="course-image">
                     <div class="course-content">
-                        <h4>Бизнес английский</h4>
-                        <p>Английский для работы и карьеры</p>
-                        <span class="badge bg-primary">₸35,000</span>
+                        <h4 class="course-title">Бизнес английский</h4>
+                        <p>Английский для работы, переговоров и деловой переписки.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="course-price">₸35,000</span>
+                            <button class="btn btn-course">Выбрать</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Персонажи для детей -->
-        <h2 class="section-title">Английский для детей</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="images/peppa-pig.jpg" alt="Пеппа Пиг" class="character-image">
-                    <h3>С Пеппой Пиг</h3>
-                    <p>Веселые уроки для детей 3-6 лет</p>
-                    <button class="btn btn-primary">Начать</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="images/mickey-mouse.jpg" alt="Микки Маус" class="character-image">
-                    <h3>С Микки Маусом</h3>
-                    <p>Приключения для детей 5-8 лет</p>
-                    <button class="btn btn-primary">Начать</button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="images/peppa-family.jpg" alt="Свинка Пеппа" class="character-image">
-                    <h3>С семьей Пеппы</h3>
-                    <p>Семейное обучение для малышей</p>
-                    <button class="btn btn-primary">Начать</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Преподаватели -->
-        <h2 class="section-title">Наши преподаватели</h2>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="images/teacher1.jpg" alt="Преподаватель" class="teacher-image">
-                    <h5>Айгуль Каримова</h5>
-                    <p>Опыт: 8 лет</p>
-                    <small>Сертификат TESOL</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="images/teacher2.jpg" alt="Преподаватель" class="teacher-image">
-                    <h5>Марк Джонсон</h5>
-                    <p>Опыт: 10 лет</p>
-                    <small>Носитель языка</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="images/teacher3.jpg" alt="Преподаватель" class="teacher-image">
-                    <h5>Сания Ахметова</h5>
-                    <p>Опыт: 6 лет</p>
-                    <small>Сертификат CELTA</small>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="images/teacher1.jpg" alt="Преподаватель" class="teacher-image">
-                    <h5>Данияр Искаков</h5>
-                    <p>Опыт: 7 лет</p>
-                    <small>Магистр лингвистики</small>
                 </div>
             </div>
         </div>
@@ -332,31 +295,40 @@
         <!-- Особенности -->
         <h2 class="section-title">Почему выбирают нас?</h2>
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box">
                     <div class="feature-icon">
-                        <i class="fas fa-graduation-cap"></i>
+                        <i class="fas fa-user-tie"></i>
                     </div>
-                    <h4>Профессиональные преподаватели</h4>
-                    <p>Опытные педагоги с международными сертификатами</p>
+                    <h4>Опытные преподаватели</h4>
+                    <p>Преподаватели с международными сертификатами и опытом работы от 5 лет</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box">
                     <div class="feature-icon">
-                        <i class="fas fa-laptop-code"></i>
+                        <i class="fas fa-laptop"></i>
                     </div>
-                    <h4>Современная платформа</h4>
-                    <p>Интерактивные уроки и онлайн-упражнения</p>
+                    <h4>Онлайн платформа</h4>
+                    <p>Современная интерактивная платформа для эффективного обучения</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h4>Быстрые результаты</h4>
-                    <p>Заметный прогресс уже после первого месяца</p>
+                    <h4>Быстрый результат</h4>
+                    <p>Заметный прогресс уже после первого месяца занятий</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-box">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h4>Сертификат</h4>
+                    <p>Получите официальный сертификат по окончании курса</p>
                 </div>
             </div>
         </div>
@@ -366,14 +338,31 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <h5>JingoJango</h5>
+                    <p>Лучшая платформа для изучения английского языка в Казахстане. Мы помогаем нашим студентам достигать своих целей в изучении языка.</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Контакты</h5>
+                    <p><i class="fas fa-phone"></i> +7 (777) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@jingojango.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> г. Алматы, ул. Кабанбай батыра 123</p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5>Быстрые ссылки</h5>
+                    <p><a href="index.html">Главная</a></p>
+                    <p><a href="catalog.html">Каталог курсов</a></p>
+                    <p><a href="about.html">О нас</a></p>
+                    <p><a href="contact.html">Контакты</a></p>
+                </div>
+            </div>
+            <hr style="background: #555; margin: 30px 0;">
+            <div class="row">
                 <div class="col-md-6">
-                    <h5><i class="fas fa-language"></i> JingoJango</h5>
-                    <p>Лучшая платформа для изучения английского языка в Казахстане</p>
+                    <p>&copy; 2024 JingoJango. Все права защищены.</p>
                 </div>
                 <div class="col-md-6 text-end">
-                    <p>© 2024 JingoJango. Все права защищены.</p>
-                    <p>📞 +7 (777) 123-45-67</p>
-                    <p>✉️ info@jingojango.com</p>
+                    <p>Сделано с <i class="fas fa-heart" style="color: #ff6b35;"></i> для вас</p>
                 </div>
             </div>
         </div>
