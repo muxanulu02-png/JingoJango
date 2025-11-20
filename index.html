@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -262,9 +261,8 @@
         </div>
     </footer>
     <script src="js/scroll.js"></script>
-        <script src="js/scroll.js"></script>
 
-<!-- ======= НАСТОЯЩИЙ ИИ С API ======= -->
+<!-- ======= ИИ ЧАТ-БОТ ======= -->
 <div id="ai-chatbot" style="
     position: fixed;
     bottom: 20px;
@@ -300,7 +298,7 @@
         <div class="message bot-message">
             <div class="message-header">
                 <strong>AI Assistant:</strong> 
-                <small>just now</small>
+                <small>только что</small>
             </div>
             <div class="message-text">
                 Привет! Я настоящий ИИ-помощник! 🤖<br><br>
@@ -356,10 +354,10 @@
             ">📨</button>
         </div>
         <div style="display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap;">
-            <button onclick="quickQuestion('Объясни Present Simple')" class="quick-btn">📖 Present Simple</button>
+            <button onclick="quickQuestion('Объясни Present Simple')" class="quick-btn">📖 Грамматика</button>
             <button onclick="quickQuestion('Переведи: кошка')" class="quick-btn">🔤 Перевод</button>
-            <button onclick="quickQuestion('Составь диалог')" class="quick-btn">💬 Диалог</button>
-            <button onclick="quickQuestion('Помоги с домашкой')" class="quick-btn">🏠 Домашка</button>
+            <button onclick="quickQuestion('Составь диалог на английском')" class="quick-btn">💬 Диалог</button>
+            <button onclick="quickQuestion('Помоги с домашним заданием')" class="quick-btn">🏠 Домашка</button>
         </div>
     </div>
 </div>
@@ -486,119 +484,103 @@
 let isChatOpen = false;
 let conversationHistory = [];
 
-// Бесплатные AI API endpoints
-const AI_SERVICES = {
-    // Бесплатный прокси для OpenAI
-    deepseek: async (message) => {
-        try {
-            const response = await fetch('https://api.deepseek.com/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer free-tier' // Это пример, нужен реальный ключ
-                },
-                body: JSON.stringify({
-                    model: "deepseek-chat",
-                    messages: [{role: "user", content: message}],
-                    max_tokens: 500
-                })
-            });
-            const data = await response.json();
-            return data.choices[0].message.content;
-        } catch (error) {
-            return await fallbackAI(message);
-        }
-    },
+// 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 
+// ⚠️ ВСТАВЬТЕ ВАШ API КЛЮЧ ЗДЕСЬ:
+const DEEPSEEK_API_KEY = 'sk-42f265cba95548d4b303f2309fb19bde';
+// 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 
 
-    // Hugging Face Inference API (бесплатно)
-    huggingface: async (message) => {
-        try {
-            const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-large', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer free', // Нужен реальный токен
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ inputs: message })
-            });
-            const data = await response.json();
-            return data.generated_text || data[0]?.generated_text;
-        } catch (error) {
-            return await fallbackAI(message);
-        }
+// Функция для вызова DeepSeek API
+async function callDeepSeekAPI(userMessage) {
+    if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === 'sk-ваш-ключ-здесь') {
+        throw new Error('API ключ не настроен');
     }
-};
+    
+    try {
+        const response = await fetch('https://api.deepseek.com/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "deepseek-chat",
+                messages: [
+                    { 
+                        role: "system", 
+                        content: `Ты - дружелюбный AI помощник для изучения английского языка. Ты помогаешь детям и начинающим изучать английский через мультфильмы и сказки.
 
-// Умный fallback AI с расширенной логикой
-async function fallbackAI(userMessage) {
-    // Расширенная база знаний для изучения английского
+Твоя роль:
+- Объясняй грамматику простыми словами
+- Переводи слова и предложения
+- Создавай учебные диалоги и упражнения
+- Помогай с домашними заданиями
+- Мотивируй учеников
+
+Отвечай на русском и английском, используй эмодзи для наглядности. Будь терпеливым и поддерживающим учителем!`
+                    },
+                    { role: "user", content: userMessage }
+                ],
+                max_tokens: 2000,
+                temperature: 0.7,
+                stream: false
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        return data.choices[0].message.content;
+        
+    } catch (error) {
+        console.error('DeepSeek API Error:', error);
+        throw error;
+    }
+}
+
+// Умный локальный ИИ как запасной вариант
+async function enhancedLocalAI(userMessage) {
+    const lowerMessage = userMessage.toLowerCase();
+    
     const knowledgeBase = {
         grammar: {
-            'present simple': 'Present Simple используется для регулярных действий, фактов и расписаний. Пример: "I work every day." ⏰',
-            'present continuous': 'Present Continuous для действий сейчас. Пример: "I am working now." 🎯',
-            'past simple': 'Past Simple для завершенных действий в прошлом. Пример: "I worked yesterday." 📅',
-            'future simple': 'Future Simple для спонтанных решений. Пример: "I will work tomorrow." 🔮'
+            'present simple': `📚 **Present Simple** (Настоящее Простое)\n\n**Используем для:**\n• Регулярных действий ⏰: "I work every day"\n• Фактов 🌍: "The sun rises in the east"\n• Расписаний 📅: "The train leaves at 5 PM"\n\n**Примеры:**\n✅ "She speaks English well"\n✅ "We play football on Saturdays"`,
+            'present continuous': `📚 **Present Continuous** (Настоящее Длительное)\n\n**Используем для:**\n• Действий сейчас 🎯: "I am reading now"\n• Временных ситуаций ⏳: "She is staying with friends"\n\n**Формула:** am/is/are + глагол-ing`,
+            'past simple': `📚 **Past Simple** (Прошедшее Простое)\n\n**Используем для:**\n• Завершенных действий 📅: "I visited London"\n\n**Правильные глаголы:** + ed (work → worked)\n**Неправильные:** 2-я форма (go → went)`,
         },
         vocabulary: {
-            'кошка': 'cat 🐱',
-            'собака': 'dog 🐶',
-            'дом': 'house 🏠',
-            'школа': 'school 🏫',
-            'учитель': 'teacher 👩‍🏫',
-            'студент': 'student 👨‍🎓',
-            'книга': 'book 📚',
-            'ручка': 'pen ✏️'
-        },
-        phrases: {
-            'привет': 'Hello! Hi! 👋',
-            'как дела': 'How are you? 😊',
-            'спасибо': 'Thank you! Thanks! 🙏',
-            'пожалуйста': 'Please! You are welcome! 💝'
-        },
-        exercises: {
-            'диалог': `Диалог для практики:\n\nA: Hello! How are you?\nB: I'm fine, thank you! And you?\nA: I'm great! What did you learn today?\nB: I learned new English words! 🎯`,
-            'упражнение': `Упражнение: Переведите на английский:\n1. Я люблю читать книги\n2. Мой друг играет в футбол\n3. Мы учим английский каждый день 📝`
+            'кошка': '🐱 **cat** - [кэт] - кошка\n• "I have a cat" - У меня есть кошка',
+            'собака': '🐶 **dog** - [дог] - собака\n• "My dog is smart" - Моя собака умная',
+            'дом': '🏠 **house** - [хаус] - дом\n• "We live in a house" - Мы живем в доме',
+            'школа': '🏫 **school** - [скул] - школа\n• "I go to school" - Я хожу в школу'
         }
     };
 
-    const lowerMessage = userMessage.toLowerCase();
-    
-    // Поиск в базе знаний
     for (const [category, items] of Object.entries(knowledgeBase)) {
         for (const [key, value] of Object.entries(items)) {
             if (lowerMessage.includes(key)) {
-                return `📚 По вашему запросу "${key}":\n\n${value}\n\nХотите узнать больше? Задайте уточняющий вопрос! 💡`;
+                return value + `\n\n💡 Нужна дополнительная помощь? Спроси меня!`;
             }
         }
     }
 
-    // Умные ответы на общие вопросы
+    if (lowerMessage.includes('привет') || lowerMessage.includes('hello')) {
+        return `👋 **Привет! Рад тебя видеть!**\n\nЯ твой ИИ-помощник для изучения английского! 🎓\n\nС чего начнем? 😊`;
+    }
+
     if (lowerMessage.includes('как учить')) {
-        return `🎯 Советы по изучению английского:\n\n1. Смотри мультики на английском (как на этом сайте!)\n2. Практикуйся каждый день по 15 минут\n3. Используй новые слова в предложениях\n4. Не бойся ошибок - это часть обучения!\n5. Разговаривай вслух на английском 🗣️`;
+        return `🎯 **Советы по изучению английского:**\n\n1. **Смотри мультики на английском** 🎬\n2. **Практикуйся регулярно** ⏰\n3. **Говори вслух** 🗣️\n4. **Используй новые слова** 📝\n5. **Получай удовольствие!** 🎉`;
     }
 
-    if (lowerMessage.includes('грамматик')) {
-        return `📖 По грамматике могу объяснить:\n• Present Simple/Continuous\n• Past Simple\n• Future forms\n• Времена группы Perfect\n• Модальные глаголы\n\nЧто именно вас интересует? 💭`;
-    }
-
-    if (lowerMessage.includes('перевод')) {
-        return `🔤 Для перевода слов:\n1. Напишите слово на русском - я переведу\n2. Или напишите английское слово - объясню значение\n3. Могу показать примеры использования\n\nКакое слово перевести? 📝`;
-    }
-
-    if (lowerMessage.includes('домашк') || lowerMessage.includes('homework')) {
-        return `🏠 Помощь с домашним заданием:\n• Проверю упражнения\n• Объясню правила\n• Приведу примеры\n• Помогу составить предложения\n\nПокажите задание - помогу разобраться! ✨`;
-    }
-
-    // Генерация контекстных ответов
-    const contextualResponses = [
-        "Отличный вопрос! Для изучения английского рекомендую практиковаться с мультиками на этом сайте - они специально подобраны для обучения! 🎬",
-        "Интересно! Давайте разберем это подробнее. Что именно в английском языке вызывает у вас затруднения? 💭",
-        "Отлично, что вы интересуетесь английским! Могу помочь с грамматикой, лексикой или разговорной практикой. Что вас интересует? 📚",
-        "Как здорово, что вы учите языки! Для эффективного обучения рекомендую смотреть мультики с субтитрами и повторять фразы за персонажами! 🎯",
-        "Прекрасный вопрос для практики! Давайте обсудим это на английском? What do you think about this topic? 💬"
+    const smartResponses = [
+        "Отличный вопрос! 🎯 Давай разберем его подробно.",
+        "Интересно! 💭 Для обучения рекомендую смотреть мультики на этом сайте!",
+        "Прекрасно, что ты учишь английский! 🌟 Помни: практика - ключ к успеху!",
+        "Отлично! 🚀 Давай превратим это в увлекательное занятие!"
     ];
 
-    return contextualResponses[Math.floor(Math.random() * contextualResponses.length)];
+    return smartResponses[Math.floor(Math.random() * smartResponses.length)];
 }
 
 // Функции управления чатом
@@ -643,43 +625,30 @@ async function sendMessage() {
     
     if (!message) return;
 
-    // Блокируем кнопку во время отправки
     sendBtn.disabled = true;
     sendBtn.innerHTML = '⏳';
+    sendBtn.style.background = 'linear-gradient(135deg, #ffa726, #ff9800)';
     
     addMessage(message, 'user');
     input.value = '';
 
-    // Показываем индикатор набора
     const typingIndicator = document.getElementById('typing-indicator');
     typingIndicator.style.display = 'block';
 
     try {
-        // Пытаемся использовать настоящий ИИ
-        const aiResponse = await getAIResponse(message);
+        // Сначала пробуем использовать DeepSeek API
+        const aiResponse = await callDeepSeekAPI(message);
         addBotMessage(aiResponse);
     } catch (error) {
-        console.error('AI Error:', error);
-        addBotMessage("⚠️ Сейчас использую локальный режим. Для полного доступа к ИИ нужен API ключ.\n\n" + await fallbackAI(message));
+        console.error('API Error:', error);
+        // Если API не работает, используем локальный ИИ
+        const localResponse = await enhancedLocalAI(message);
+        addBotMessage(localResponse);
     } finally {
-        // Восстанавливаем кнопку
         sendBtn.disabled = false;
         sendBtn.innerHTML = '📨';
+        sendBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
         typingIndicator.style.display = 'none';
-    }
-}
-
-async function getAIResponse(userMessage) {
-    // Сначала пытаемся использовать настоящий ИИ API
-    try {
-        // Здесь можно подключить реальный API
-        // return await AI_SERVICES.deepseek(userMessage);
-        // return await AI_SERVICES.huggingface(userMessage);
-        
-        // Пока используем улучшенный fallback
-        return await fallbackAI(userMessage);
-    } catch (error) {
-        return await fallbackAI(userMessage);
     }
 }
 
@@ -690,15 +659,13 @@ function addMessage(text, sender) {
     
     const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     
-    if (sender === 'user') {
-        messageDiv.innerHTML = `
-            <div class="message-header">
-                <strong>Вы:</strong>
-                <small>${time}</small>
-            </div>
-            <div class="message-text">${text}</div>
-        `;
-    }
+    messageDiv.innerHTML = `
+        <div class="message-header">
+            <strong>${sender === 'user' ? 'Вы' : 'AI Assistant'}:</strong>
+            <small>${time}</small>
+        </div>
+        <div class="message-text">${text}</div>
+    `;
     
     messages.appendChild(messageDiv);
     messages.scrollTop = messages.scrollHeight;
@@ -742,15 +709,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('🧠 JuniorLingo AI загружен!');
 });
-
-// Для подключения настоящего ИИ API нужно:
-// 1. Получить API ключ от OpenAI, DeepSeek или Hugging Face
-// 2. Заменить 'free-tier' на реальный ключ
-// 3. Раскомментировать вызовы AI_SERVICES
 </script>
-<!-- ======= КОНЕЦ НАСТОЯЩЕГО ИИ ======= -->
+<!-- ======= КОНЕЦ ИИ ЧАТ-БОТА ======= -->
 
-</body>
-</html>
 </body>
 </html>
