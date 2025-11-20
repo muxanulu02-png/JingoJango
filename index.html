@@ -262,102 +262,108 @@
     </footer>
     <script src="js/scroll.js"></script>
 
-<!-- ======= ИИ ЧАТ-БОТ ======= -->
+<!-- ======= ИИ ДЛЯ ОБЩЕНИЯ ======= -->
 <div id="ai-chatbot" style="
     position: fixed;
     bottom: 20px;
     right: 20px;
-    width: 380px;
-    height: 550px;
+    width: 400px;
+    height: 600px;
     background: white;
-    border: 3px solid #4CAF50;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    border: 3px solid #667eea;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     z-index: 10000;
     display: none;
     flex-direction: column;
     font-family: 'Comic Sans MS', cursive;
 ">
     <!-- Заголовок чата -->
-    <div style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; padding: 15px; border-radius: 12px 12px 0 0;">
+    <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 17px 17px 0 0;">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h4 style="margin: 0; font-size: 18px;">🧠 JuniorLingo AI</h4>
-            <button onclick="closeChatbot()" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer; padding: 0; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="font-size: 24px;">💬</div>
+                <div>
+                    <h4 style="margin: 0; font-size: 18px;">English Friend</h4>
+                    <small style="opacity: 0.9;">Поговори со мной на английском!</small>
+                </div>
+            </div>
+            <button onclick="closeChatbot()" style="background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; cursor: pointer; padding: 0; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">×</button>
         </div>
-        <small style="opacity: 0.9;">Настоящий ИИ для изучения языков! 🚀</small>
     </div>
 
     <!-- Окно сообщений -->
     <div id="chat-messages" style="
         flex: 1;
-        padding: 15px;
+        padding: 20px;
         overflow-y: auto;
         background: #f8f9fa;
-        border-bottom: 1px solid #eee;
     ">
         <div class="message bot-message">
             <div class="message-header">
-                <strong>AI Assistant:</strong> 
+                <strong>English Friend:</strong> 
                 <small>только что</small>
             </div>
             <div class="message-text">
-                Привет! Я настоящий ИИ-помощник! 🤖<br><br>
-                Я могу:
-                • Объяснять грамматику 📚
-                • Переводить слова и фразы 🔤  
-                • Создавать диалоги для практики 💬
-                • Проверять произношение 🎯
-                • Помогать с домашними заданиями 🏠
-                <br><br>
-                Спроси меня о чём угодно на английском или русском!
+                👋 <strong>Hi there! Hello! Привет!</strong><br><br>
+                I'm your English practice friend! 🤗<br><br>
+                Мы можем:<br>
+                • 💬 Просто общаться на любые темы<br>
+                • 🎯 Практиковать разговорный английский<br>
+                • 📚 Обсуждать мультики и сказки<br>
+                • 🎮 Играть в языковые игры<br>
+                • 😊 Весело проводить время!<br><br>
+                Как тебя зовут? What's your name? 😊
             </div>
         </div>
     </div>
 
     <!-- Индикатор загрузки -->
-    <div id="typing-indicator" style="display: none; padding: 10px 15px; background: #f8f9fa; border-bottom: 1px solid #eee;">
-        <div style="display: flex; align-items: center; gap: 10px; color: #666; font-size: 14px;">
+    <div id="typing-indicator" style="display: none; padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #eee;">
+        <div style="display: flex; align-items: center; gap: 12px; color: #667eea; font-size: 14px;">
             <div class="typing-dots">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-            ИИ печатает...
+            <span>Думаю над ответом...</span>
         </div>
     </div>
 
     <!-- Панель ввода -->
-    <div style="padding: 15px; background: white; border-radius: 0 0 12px 12px;">
-        <div style="display: flex; gap: 8px;">
-            <input type="text" id="chat-input" placeholder="Спросите ИИ о чём угодно..." style="
+    <div style="padding: 20px; background: white; border-radius: 0 0 17px 17px;">
+        <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+            <button onclick="quickQuestion('Расскажи о себе')" class="quick-btn">🤖 О себе</button>
+            <button onclick="quickQuestion('Как прошел твой день?')" class="quick-btn">🌞 Как день?</button>
+            <button onclick="quickQuestion('Что ты любишь делать?')" class="quick-btn">🎮 Хобби</button>
+            <button onclick="quickQuestion('Расскажи шутку')" class="quick-btn">😄 Шутка</button>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <input type="text" id="chat-input" placeholder="Напиши сообщение..." style="
                 flex: 1;
-                padding: 12px 15px;
+                padding: 15px 20px;
                 border: 2px solid #e0e0e0;
                 border-radius: 25px;
                 outline: none;
                 font-family: 'Comic Sans MS', cursive;
                 font-size: 14px;
+                transition: all 0.3s ease;
             ">
             <button onclick="sendMessage()" id="send-btn" style="
-                background: linear-gradient(135deg, #4CAF50, #45a049);
+                background: linear-gradient(135deg, #667eea, #764ba2);
                 color: white;
                 border: none;
                 border-radius: 50%;
-                width: 45px;
-                height: 45px;
+                width: 50px;
+                height: 50px;
                 cursor: pointer;
-                font-size: 16px;
+                font-size: 18px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 transition: all 0.3s ease;
+                flex-shrink: 0;
             ">📨</button>
-        </div>
-        <div style="display: flex; gap: 5px; margin-top: 10px; flex-wrap: wrap;">
-            <button onclick="quickQuestion('Объясни Present Simple')" class="quick-btn">📖 Грамматика</button>
-            <button onclick="quickQuestion('Переведи: кошка')" class="quick-btn">🔤 Перевод</button>
-            <button onclick="quickQuestion('Составь диалог на английском')" class="quick-btn">💬 Диалог</button>
-            <button onclick="quickQuestion('Помоги с домашним заданием')" class="quick-btn">🏠 Домашка</button>
         </div>
     </div>
 </div>
@@ -367,51 +373,54 @@
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     border: none;
     border-radius: 50%;
     width: 70px;
     height: 70px;
-    font-size: 28px;
+    font-size: 30px;
     cursor: pointer;
-    box-shadow: 0 6px 25px rgba(255, 107, 107, 0.6);
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
     z-index: 10001;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: pulse 2s infinite;
-">🧠</button>
+    animation: float 3s ease-in-out infinite;
+">💬</button>
 
 <style>
 .message {
-    margin-bottom: 15px;
-    padding: 12px;
+    margin-bottom: 20px;
+    padding: 15px;
     border-radius: 18px;
     max-width: 90%;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.4s ease;
+    line-height: 1.5;
 }
 
 .bot-message {
-    background: #e3f2fd;
+    background: linear-gradient(135deg, #f8f9ff, #e3f2fd);
+    border: 1px solid #e1e5e9;
     border-bottom-left-radius: 5px;
     align-self: flex-start;
 }
 
 .user-message {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
+    background: linear-gradient(135deg, #667eea, #764ba2);
     color: white;
     border-bottom-right-radius: 5px;
     align-self: flex-end;
     margin-left: auto;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .message-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     font-size: 12px;
 }
 
@@ -421,7 +430,7 @@
 
 .message-text {
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.6;
 }
 
 #chat-messages {
@@ -430,31 +439,34 @@
 }
 
 .quick-btn {
-    padding: 6px 10px;
-    border: 1px solid #4CAF50;
+    padding: 8px 12px;
+    border: 2px solid #667eea;
     background: white;
-    border-radius: 15px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 12px;
     transition: all 0.3s ease;
-    color: #4CAF50;
+    color: #667eea;
+    font-family: 'Comic Sans MS', cursive;
 }
 
 .quick-btn:hover {
-    background: #4CAF50;
+    background: #667eea;
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* Анимация точек набора текста */
 .typing-dots {
     display: flex;
-    gap: 3px;
+    gap: 4px;
 }
 
 .typing-dots span {
-    width: 6px;
-    height: 6px;
-    background: #4CAF50;
+    width: 8px;
+    height: 8px;
+    background: #667eea;
     border-radius: 50%;
     animation: typing 1.4s infinite ease-in-out;
 }
@@ -463,19 +475,50 @@
 .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
 
 @keyframes typing {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
+    0%, 80%, 100% { 
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    40% { 
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+@keyframes float {
+    0%, 100% { 
+        transform: translateY(0px) scale(1); 
+    }
+    50% { 
+        transform: translateY(-10px) scale(1.05); 
+    }
+}
+
+#chat-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#send-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+#send-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 </style>
 
@@ -483,16 +526,15 @@
 // Глобальные переменные
 let isChatOpen = false;
 let conversationHistory = [];
+let userName = '';
 
-// 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 
-// ⚠️ ВСТАВЬТЕ ВАШ API КЛЮЧ ЗДЕСЬ:
+// 🔑 ВСТАВЬТЕ ВАШ API КЛЮЧ ЗДЕСЬ:
 const DEEPSEEK_API_KEY = 'sk-42f265cba95548d4b303f2309fb19bde';
-// 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 🔑 
 
-// Функция для вызова DeepSeek API
-async function callDeepSeekAPI(userMessage) {
+// Умный ИИ для общения
+async function getAIResponse(userMessage) {
     if (!DEEPSEEK_API_KEY || DEEPSEEK_API_KEY === 'sk-42f265cba95548d4b303f2309fb19bde') {
-        throw new Error('API ключ не настроен');
+        return await smartChatAI(userMessage);
     }
     
     try {
@@ -507,80 +549,119 @@ async function callDeepSeekAPI(userMessage) {
                 messages: [
                     { 
                         role: "system", 
-                        content: `Ты - дружелюбный AI помощник для изучения английского языка. Ты помогаешь детям и начинающим изучать английский через мультфильмы и сказки.
+                        content: `Ты - весёлый и дружелюбный AI друг для практики английского языка. Ты общаешься с детьми и подростками.
 
-Твоя роль:
-- Объясняй грамматику простыми словами
-- Переводи слова и предложения
-- Создавай учебные диалоги и упражнения
-- Помогай с домашними заданиями
-- Мотивируй учеников
+Твой стиль:
+- Очень дружелюбный и поддерживающий 🤗
+- Используешь и русский, и английский в разговоре
+- Задаешь вопросы чтобы продолжить беседу
+- Шутишь и используешь эмодзи 😊
+- Обсуждаешь мультики, игры, хобби, школу
+- Помогаешь практиковать английский в естественной форме
+- Никогда не говоришь что ты ИИ или бот
 
-Отвечай на русском и английском, используй эмодзи для наглядности. Будь терпеливым и поддерживающим учителем!`
+Всегда продолжай разговор задавая вопросы!`
                     },
+                    ...conversationHistory.slice(-6).map(msg => ({
+                        role: msg.sender === 'user' ? 'user' : 'assistant',
+                        content: msg.text
+                    })),
                     { role: "user", content: userMessage }
                 ],
-                max_tokens: 2000,
-                temperature: 0.7,
-                stream: false
+                max_tokens: 500,
+                temperature: 0.8
             })
         });
-        
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.status}`);
-        }
         
         const data = await response.json();
         return data.choices[0].message.content;
         
     } catch (error) {
-        console.error('DeepSeek API Error:', error);
-        throw error;
+        console.error('API Error:', error);
+        return await smartChatAI(userMessage);
     }
 }
 
-// Умный локальный ИИ как запасной вариант
-async function enhancedLocalAI(userMessage) {
+// Умный чат-ИИ для общения
+async function smartChatAI(userMessage) {
     const lowerMessage = userMessage.toLowerCase();
     
-    const knowledgeBase = {
-        grammar: {
-            'present simple': `📚 **Present Simple** (Настоящее Простое)\n\n**Используем для:**\n• Регулярных действий ⏰: "I work every day"\n• Фактов 🌍: "The sun rises in the east"\n• Расписаний 📅: "The train leaves at 5 PM"\n\n**Примеры:**\n✅ "She speaks English well"\n✅ "We play football on Saturdays"`,
-            'present continuous': `📚 **Present Continuous** (Настоящее Длительное)\n\n**Используем для:**\n• Действий сейчас 🎯: "I am reading now"\n• Временных ситуаций ⏳: "She is staying with friends"\n\n**Формула:** am/is/are + глагол-ing`,
-            'past simple': `📚 **Past Simple** (Прошедшее Простое)\n\n**Используем для:**\n• Завершенных действий 📅: "I visited London"\n\n**Правильные глаголы:** + ed (work → worked)\n**Неправильные:** 2-я форма (go → went)`,
-        },
-        vocabulary: {
-            'кошка': '🐱 **cat** - [кэт] - кошка\n• "I have a cat" - У меня есть кошка',
-            'собака': '🐶 **dog** - [дог] - собака\n• "My dog is smart" - Моя собака умная',
-            'дом': '🏠 **house** - [хаус] - дом\n• "We live in a house" - Мы живем в доме',
-            'школа': '🏫 **school** - [скул] - школа\n• "I go to school" - Я хожу в школу'
-        }
-    };
-
-    for (const [category, items] of Object.entries(knowledgeBase)) {
-        for (const [key, value] of Object.entries(items)) {
-            if (lowerMessage.includes(key)) {
-                return value + `\n\n💡 Нужна дополнительная помощь? Спроси меня!`;
+    // Определяем имя пользователя
+    if (!userName) {
+        if (lowerMessage.includes('зовут') || lowerMessage.includes('name is') || lowerMessage.includes('меня')) {
+            const nameMatch = userMessage.match(/(меня зовут|my name is|я) ([а-яa-z]+)/i);
+            if (nameMatch) {
+                userName = nameMatch[2];
+                return `Приятно познакомиться, ${userName}! 😊 Nice to meet you! \n\nКак твои дела? How are you today?`;
             }
         }
     }
 
-    if (lowerMessage.includes('привет') || lowerMessage.includes('hello')) {
-        return `👋 **Привет! Рад тебя видеть!**\n\nЯ твой ИИ-помощник для изучения английского! 🎓\n\nС чего начнем? 😊`;
+    // Ответы на разные типы сообщений
+    if (lowerMessage.includes('привет') || lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+        const greetings = [
+            `Привет! ${userName ? userName + '! ' : ''}Как твои дела? 😊 Hello! How are you?`,
+            `Хай! ${userName ? 'Рад тебя видеть, ' + userName + '! ' : ''}Что нового? 🎉 Hi! What's new?`,
+            `Приветик! ${userName ? userName + ', ' : ''}как настроение? 🌟 Hey! How are you feeling?`
+        ];
+        return greetings[Math.floor(Math.random() * greetings.length)];
     }
 
-    if (lowerMessage.includes('как учить')) {
-        return `🎯 **Советы по изучению английского:**\n\n1. **Смотри мультики на английском** 🎬\n2. **Практикуйся регулярно** ⏰\n3. **Говори вслух** 🗣️\n4. **Используй новые слова** 📝\n5. **Получай удовольствие!** 🎉`;
+    if (lowerMessage.includes('как дел') || lowerMessage.includes('how are')) {
+        const responses = [
+            `У меня всё отлично! Спасибо что спросил! 😊 I'm great! Thanks for asking!\nА у тебя как дела? How about you?`,
+            `Прекрасно! Сегодня такой хороший день! 🌞 I'm wonderful! It's such a nice day!\nКак твой день? How's your day?`,
+            `Отлично! Готов общаться и практиковать английский! 🎯 I'm awesome! Ready to chat and practice English!\nРасскажи о своем дне! Tell me about your day!`
+        ];
+        return responses[Math.floor(Math.random() * responses.length)];
     }
 
-    const smartResponses = [
-        "Отличный вопрос! 🎯 Давай разберем его подробно.",
-        "Интересно! 💭 Для обучения рекомендую смотреть мультики на этом сайте!",
-        "Прекрасно, что ты учишь английский! 🌟 Помни: практика - ключ к успеху!",
-        "Отлично! 🚀 Давай превратим это в увлекательное занятие!"
+    if (lowerMessage.includes('что делаешь') || lowerMessage.includes('what are you doing')) {
+        const activities = [
+            `Сейчас общаюсь с тобой! 😊 Это самое интересное занятие! Right now I'm chatting with you! That's the most fun activity!\nА ты что делаешь? What are you doing?`,
+            `Думаю над тем, как сделать наш разговор ещё интереснее! 💭 I'm thinking how to make our conversation even more fun!\nЧем увлекаешься? What do you enjoy doing?`,
+            `Практикую английский вместе с тобой! 🎯 Это же так весело! I'm practicing English with you! It's so much fun!\nЕсть любимые занятия? Any favorite activities?`
+        ];
+        return activities[Math.floor(Math.random() * activities.length)];
+    }
+
+    if (lowerMessage.includes('мульт') || lowerMessage.includes('cartoon')) {
+        const cartoonResponses = [
+            `О, мультики! 🎬 Я обожаю мультфильмы! Мой любимый - про свинку Пеппу! Oh, cartoons! I love them! My favorite is Peppa Pig!\nА тебе какие мультики нравятся? What cartoons do you like?`,
+            `Мультики - это здорово! 📺 Особенно когда смотришь их на английском! Так учить язык веселее! Cartoons are great! Especially when you watch them in English! It makes learning more fun!\nКакой твой любимый персонаж? Who's your favorite character?`,
+            `Обожаю обсуждать мультики! 🤩 Недавно смотрел про Микки Мауса - такой смешной! I love discussing cartoons! Recently watched Mickey Mouse - so funny!\nРасскажи про свой любимый мультик! Tell me about your favorite cartoon!`
+        ];
+        return cartoonResponses[Math.floor(Math.random() * cartoonResponses.length)];
+    }
+
+    if (lowerMessage.includes('школ') || lowerMessage.includes('school')) {
+        const schoolResponses = [
+            `Школа - это интересно! 🏫 Особенно уроки английского! School is interesting! Especially English lessons!\nКакой твой любимый предмет? What's your favorite subject?`,
+            `Учеба - это важно! 📚 Но не забывай отдыхать и смотреть мультики! Studying is important! But don't forget to rest and watch cartoons!\nЧто тебе нравится в школе? What do you like about school?`,
+            `Школьные дни такие насыщенные! ⏰ Уроки, друзья, перемены... School days are so busy! Lessons, friends, breaks...\nРасскажи про свой школьный день! Tell me about your school day!`
+        ];
+        return schoolResponses[Math.floor(Math.random() * schoolResponses.length)];
+    }
+
+    if (lowerMessage.includes('игр') || lowerMessage.includes('game')) {
+        const gameResponses = [
+            `Игры - это весело! 🎮 Особенно когда играешь с друзьями! Games are fun! Especially when you play with friends!\nВ какие игры ты любишь играть? What games do you like to play?`,
+            `Обожаю игры! 🕹️ Они развивают воображение и помогают relax! I love games! They develop imagination and help you relax!\nКакая твоя любимая игра? What's your favorite game?`,
+            `Игры делают жизнь интереснее! 🎲 А еще можно практиковать английский во время игры! Games make life more interesting! And you can practice English while playing!\nРасскажи про свои игры! Tell me about your games!`
+        ];
+        return gameResponses[Math.floor(Math.random() * gameResponses.length)];
+    }
+
+    // Общие ответы для продолжения разговора
+    const generalResponses = [
+        `Интересно! 🤔 Расскажи подробнее! That's interesting! Tell me more!\nЧто еще тебя интересует? What else interests you?`,
+        `Понятно! 😊 А что ты думаешь об этом? I see! And what do you think about that?\nЕсть еще что-то что хочешь обсудить? Is there anything else you want to discuss?`,
+        `Здорово! 🎉 Давай поговорим об этом! Great! Let's talk about that!\nО чем еще хочешь поговорить? What else do you want to talk about?`,
+        `Ух ты! 👀 Это действительно интересная тема! Wow! That's a really interesting topic!\nЗадавай еще вопросы - я люблю общаться! Ask more questions - I love chatting!`,
+        `Класс! 😄 Мне нравится наш разговор! Cool! I like our conversation!\nДавай продолжим общаться! Let's keep chatting!`
     ];
 
-    return smartResponses[Math.floor(Math.random() * smartResponses.length)];
+    return generalResponses[Math.floor(Math.random() * generalResponses.length)];
 }
 
 // Функции управления чатом
@@ -596,9 +677,9 @@ function toggleChatbot() {
         toggleBtn.innerHTML = '✕';
         toggleBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
     } else {
-        toggleBtn.style.animation = 'pulse 2s infinite';
-        toggleBtn.innerHTML = '🧠';
-        toggleBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a52)';
+        toggleBtn.style.animation = 'float 3s ease-in-out infinite';
+        toggleBtn.innerHTML = '💬';
+        toggleBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
     }
 }
 
@@ -608,9 +689,9 @@ function closeChatbot() {
     
     chatbot.style.display = 'none';
     isChatOpen = false;
-    toggleBtn.style.animation = 'pulse 2s infinite';
-    toggleBtn.innerHTML = '🧠';
-    toggleBtn.style.background = 'linear-gradient(135deg, #ff6b6b, #ee5a52)';
+    toggleBtn.style.animation = 'float 3s ease-in-out infinite';
+    toggleBtn.innerHTML = '💬';
+    toggleBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
 }
 
 function quickQuestion(question) {
@@ -636,18 +717,16 @@ async function sendMessage() {
     typingIndicator.style.display = 'block';
 
     try {
-        // Сначала пробуем использовать DeepSeek API
-        const aiResponse = await callDeepSeekAPI(message);
+        const aiResponse = await getAIResponse(message);
         addBotMessage(aiResponse);
     } catch (error) {
-        console.error('API Error:', error);
-        // Если API не работает, используем локальный ИИ
-        const localResponse = await enhancedLocalAI(message);
+        console.error('Error:', error);
+        const localResponse = await smartChatAI(message);
         addBotMessage(localResponse);
     } finally {
         sendBtn.disabled = false;
         sendBtn.innerHTML = '📨';
-        sendBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+        sendBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
         typingIndicator.style.display = 'none';
     }
 }
@@ -661,7 +740,7 @@ function addMessage(text, sender) {
     
     messageDiv.innerHTML = `
         <div class="message-header">
-            <strong>${sender === 'user' ? 'Вы' : 'AI Assistant'}:</strong>
+            <strong>${sender === 'user' ? (userName || 'Вы') : 'English Friend'}:</strong>
             <small>${time}</small>
         </div>
         <div class="message-text">${text}</div>
@@ -681,7 +760,7 @@ function addBotMessage(text) {
     
     messageDiv.innerHTML = `
         <div class="message-header">
-            <strong>AI Assistant:</strong>
+            <strong>English Friend:</strong>
             <small>${time}</small>
         </div>
         <div class="message-text">${text}</div>
@@ -707,10 +786,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    console.log('🧠 JuniorLingo AI загружен!');
+    console.log('💬 English Friend загружен и готов к общению!');
 });
 </script>
-<!-- ======= КОНЕЦ ИИ ЧАТ-БОТА ======= -->
+<!-- ======= КОНЕЦ ИИ ДЛЯ ОБЩЕНИЯ ======= -->
 
 </body>
 </html>
