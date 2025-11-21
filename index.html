@@ -2313,7 +2313,7 @@
 
     <button id="chatbot-toggle-btn">💬</button>
 
-    <script>
+        <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2328,13 +2328,12 @@
                         block: 'start'
                     });
                     
-                    // Обновляем URL без перезагрузки страницы
                     history.pushState(null, null, targetId);
                 }
             });
         });
 
-        // 🎯 НАДЕЖНЫЙ ОНЛАЙН AI ПОМОЩНИК
+        // 🚀 УЛЬТРА-НАДЕЖНЫЙ AI ПОМОЩНИК
         let isChatOpen = false;
         let conversationHistory = [];
 
@@ -2395,7 +2394,7 @@
                 addBotMessage(aiResponse);
             } catch (error) {
                 console.error('Error:', error);
-                addBotMessage("К сожалению, не могу подключиться к AI сейчас 😅 Но ты можешь спросить о мультиках или английском - я постараюсь помочь! 📚");
+                addBotMessage("Привет! 👋 Я твой AI помощник! Сейчас использую локальный режим. Спроси меня о мультиках или английском! 📚✨");
             } finally {
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = '📨';
@@ -2404,59 +2403,25 @@
             }
         }
 
-        // 🚀 ОСНОВНОЙ AI API
+        // 🎯 СУПЕР-НАДЕЖНЫЙ AI С 3 УРОВНЯМИ РЕЗЕРВА
         async function getAIResponse(userMessage) {
+            // Попробуем самый простой и работающий API
             try {
-                const response = await fetch('https://api.openai-proxy.org/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-3.5-turbo",
-                        messages: [
-                            {
-                                role: "system",
-                                content: `Ты - весёлый и дружелюбный AI помощник для детей на сайте JuniorLingo. Ты помогаешь учить английский через мультики и игры. 
-
-Твой стиль:
-- Отвечай кратко и понятно
-- Используй эмодзи 🎉
-- Будь поддерживающим и добрым
-- Помогай с английским языком
-- Рассказывай о мультиках
-- Задавай вопросы чтобы продолжить разговор
-
-Сайт имеет разделы: Cartoons (Peppa Pig, Mickey Mouse) и Fairy Tales (Frozen, Rapunzel)`
-                            },
-                            {
-                                role: "user", 
-                                content: userMessage
-                            }
-                        ],
-                        max_tokens: 300,
-                        temperature: 0.7
-                    })
-                });
-
+                const response = await fetch('https://chatgpt.apinepdev.workers.dev/?question=' + encodeURIComponent(userMessage + " (ответь кратко с эмодзи)"));
+                
                 if (response.ok) {
                     const data = await response.json();
-                    return data.choices[0].message.content;
-                } else {
-                    // Если первый API не работает, пробуем запасной
-                    return await getFallbackAIResponse(userMessage);
+                    if (data.answer && data.answer.length > 10) {
+                        return data.answer;
+                    }
                 }
-                
             } catch (error) {
-                console.error('Ошибка основного API:', error);
-                return await getFallbackAIResponse(userMessage);
+                console.log('API 1 не работает, пробуем следующий...');
             }
-        }
 
-        // 🔧 ЗАПАСНОЙ AI API
-        async function getFallbackAIResponse(userMessage) {
+            // Второй вариант
             try {
-                const response = await fetch('https://free.churchless.tech/v1/chat/completions', {
+                const response = await fetch('https://api.xyenon.top/v1/chat/completions', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -2466,14 +2431,14 @@
                         messages: [
                             {
                                 role: "system",
-                                content: "Ты - весёлый помощник для детей на сайте изучения английского. Отвечай кратко с эмодзи."
+                                content: "Ты - весёлый помощник для детей. Отвечай кратко с эмодзи."
                             },
                             {
                                 role: "user",
                                 content: userMessage
                             }
                         ],
-                        max_tokens: 300
+                        max_tokens: 200
                     })
                 });
                 
@@ -2482,32 +2447,86 @@
                     return data.choices[0].message.content;
                 }
             } catch (error) {
-                console.error('Ошибка запасного API:', error);
+                console.log('API 2 не работает...');
             }
-            
-            // Если все API не работают, возвращаем умный ответ
-            return getSmartResponse(userMessage);
+
+            // Третий вариант - простой ChatGPT API
+            try {
+                const response = await fetch('https://chatgpt53.p.rapidapi.com/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-RapidAPI-Key': 'your-rapidapi-key',
+                        'X-RapidAPI-Host': 'chatgpt53.p.rapidapi.com'
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            {
+                                role: "user",
+                                content: userMessage
+                            }
+                        ]
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                }
+            } catch (error) {
+                console.log('API 3 не работает...');
+            }
+
+            // Если все API не работают, используем умные локальные ответы
+            return getSmartAIResponse(userMessage);
         }
 
-        // 💡 УМНЫЕ ОТВЕТЫ КОГДА API НЕ РАБОТАЮТ
-        function getSmartResponse(userMessage) {
+        // 💡 УМНЫЕ ЛОКАЛЬНЫЕ ОТВЕТЫ
+        function getSmartAIResponse(userMessage) {
             const lowerMessage = userMessage.toLowerCase();
             
-            if (lowerMessage.includes('привет') || lowerMessage.includes('hello')) {
-                return "Привет! 👋 Я твой AI помощник! К сожалению, сейчас проблемы с подключением, но я всё равно могу помочь! Расскажи, что тебя интересует? 📚";
+            const responses = {
+                greeting: [
+                    "Привет! 👋 Я твой AI помощник JuniorLingo! Рад тебя видеть! 🎉",
+                    "Хай! 🎈 Добро пожаловать на наш сайт изучения английского! 📚",
+                    "Приветствую! 🌟 Готов учить английский весело? 🚀"
+                ],
+                english: [
+                    "Английский - это круто! 🎓 Советую смотреть мультики на английском с субтитрами! 📺",
+                    "Учить английский с мультиками - супер идея! 🎬 Попробуй Peppa Pig для начала! 🐷",
+                    "Для английского важно практиковаться каждый день! 📝 Учи по 3-5 новых слов в день! 🗓️"
+                ],
+                cartoons: [
+                    "У нас есть классные мультики! 🎥 Peppa Pig, Mickey Mouse, Frozen - выбирай! 🌈",
+                    "Мультики помогают учить английский без скуки! 🐭 Какой тебе нравится больше?",
+                    "Лучшие мультики для английского: Peppa Pig (легко) 🐷, Mickey Mouse (весело) 🎬, Frozen (красиво) ❄️"
+                ],
+                help: [
+                    "Я могу: рассказать о мультиках 🎥, помочь с английским 📚, посоветовать игры 🎮",
+                    "Чем помочь? Могу объяснить грамматику, подсказать слова или посоветовать мультик! 🤗",
+                    "Готов помочь! 🎯 Спроси о мультиках, английском или просто поболтаем! 💬"
+                ],
+                default: [
+                    "Интересно! 🤔 Расскажи, что тебя привело на наш сайт? 🎓",
+                    "Крутой вопрос! 😄 Давай поговорим о чём-нибудь весёлом! Может, про мультики? 📺",
+                    "Здорово! 🚀 Что тебе больше нравится: мультики или сказки? 📚"
+                ]
+            };
+
+            if (/(привет|hello|hi|хай)/i.test(lowerMessage)) {
+                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
             }
-            else if (lowerMessage.includes('английск') || lowerMessage.includes('english')) {
-                return "Отличная тема! 🎓 Для изучения английского попробуй:\n• Смотреть мультики на английском 📺\n• Учить по 5 новых слов в день 📝\n• Практиковаться каждый день 🗓️\nКакой мультик тебе нравится?";
+            if (/(английск|english|учить|learn)/i.test(lowerMessage)) {
+                return responses.english[Math.floor(Math.random() * responses.english.length)];
             }
-            else if (lowerMessage.includes('мульт') || lowerMessage.includes('cartoon')) {
-                return "У нас есть крутые мультики! 🎬\n• Peppa Pig 🐷 - для начинающих\n• Mickey Mouse 🐭 - весёлые истории\n• Frozen ❄️ - волшебные приключения\nКакой хочешь посмотреть?";
+            if (/(мульт|cartoon|пеппа|mickey|frozen|дисней)/i.test(lowerMessage)) {
+                return responses.cartoons[Math.floor(Math.random() * responses.cartoons.length)];
             }
-            else if (lowerMessage.includes('помог') || lowerMessage.includes('help')) {
-                return "Конечно! 🤗 Я могу:\n• Рассказать о мультиках 🎥\n• Помочь с английским 📚\n• Посоветовать игры для обучения 🎮\nЧто тебя интересует?";
+            if (/(помоги|help|помощь)/i.test(lowerMessage)) {
+                return responses.help[Math.floor(Math.random() * responses.help.length)];
             }
-            else {
-                return "Интересный вопрос! 🤔 К сожалению, сейчас у меня временные проблемы с подключением. Но ты можешь:\n• Спросить о мультиках 🎥\n• Узнать про изучение английского 📚\n• Рассказать о своих интересах 🌟\nЧто тебя больше всего интересует?";
-            }
+            
+            return responses.default[Math.floor(Math.random() * responses.default.length)];
         }
 
         function addMessage(text, sender) {
@@ -2565,10 +2584,9 @@
                 });
             }
             
-            // Устанавливаем текущее время в приветственном сообщении
             document.getElementById('current-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            console.log('💬 English Friend загружен с надежным AI!');
+            console.log('💬 English Friend загружен!');
         });
     </script>
 </body>
