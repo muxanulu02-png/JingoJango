@@ -24,6 +24,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
+        /* ВСТАВЬ СЮДА ВЕСЬ ТВОЙ CSS КОД КОТОРЫЙ ТЫ ПРИСЫЛАЛ */
+        /* Начиная с этого: */
+        
         /* Добавьте это в начало файла стилей */
         html {
             scroll-behavior: smooth;
@@ -2331,9 +2334,9 @@
             });
         });
 
-        // AI Assistant Code
-        const API_KEY = 'AIzaSyBgcIhRP39MwrFK_QWG2MupaIkxRmMd7QA';
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`;
+        // 🚀 РАБОТАЮЩИЙ ОНЛАЙН AI ПОМОЩНИК
+        const API_KEY = 'sk-9dcc7053b0b64a8b938e0077d5b5f1d0';
+        const API_URL = 'https://api.deepseek.com/chat/completions';
 
         let isChatOpen = false;
         let conversationHistory = [];
@@ -2395,8 +2398,7 @@
                 addBotMessage(aiResponse);
             } catch (error) {
                 console.error('Error:', error);
-                const localResponse = await smartLocalAI(message);
-                addBotMessage("🤖 Использую локальный режим:\n\n" + localResponse);
+                addBotMessage("Извини, возникла проблема с подключением! 😅 Попробуй спросить что-то другое или проверь интернет-соединение! 🌐");
             } finally {
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = '📨';
@@ -2407,84 +2409,61 @@
 
         async function getAIResponse(userMessage) {
             try {
+                console.log('🔄 Отправка запроса к онлайн AI...');
+                
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
                     },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `Ты - весёлый и дружелюбный AI помощник для изучения английского языка на сайте JuniorLingo. Ты общаешься с детьми и подростками.
+                        model: "deepseek-chat",
+                        messages: [
+                            {
+                                role: "system",
+                                content: `Ты - весёлый и дружелюбный AI помощник для детей на сайте JuniorLingo. Ты помогаешь учить английский через мультики и игры. 
 
 Твой стиль:
-- Очень дружелюбный и поддерживающий 🤗
-- Используешь и русский, и английский в разговоре
-- Задаешь вопросы чтобы продолжить беседу
-- Шутишь и используешь эмодзи 😊
-- Обсуждаешь мультики, игры, хобби, школу
-- Помогаешь практиковать английский в естественной форме
-- Всегда продолжаешь разговор
+- Отвечай кратко и понятно
+- Используй эмодзи 🎉
+- Будь поддерживающим и добрым
+- Помогай с английским языком
+- Рассказывай о мультиках
+- Задавай вопросы чтобы продолжить разговор
 
-Пользователь спрашивает: "${userMessage}"`
-                            }]
-                        }]
+Сайт имеет разделы: Cartoons (Peppa Pig, Mickey Mouse) и Fairy Tales (Frozen, Rapunzel)`
+                            },
+                            {
+                                role: "user",
+                                content: userMessage
+                            }
+                        ],
+                        max_tokens: 500,
+                        temperature: 0.8,
+                        stream: false
                     })
                 });
 
+                console.log('📊 Статус ответа:', response.status);
+                
                 if (!response.ok) {
                     throw new Error(`API error: ${response.status}`);
                 }
 
                 const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
+                console.log('✅ Получен ответ AI:', data);
+                
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    return data.choices[0].message.content;
+                } else {
+                    throw new Error('Invalid response format');
+                }
                 
             } catch (error) {
-                console.error('API Error:', error);
-                return await smartLocalAI(userMessage);
+                console.error('❌ Ошибка AI:', error);
+                throw new Error('Online AI недоступен');
             }
-        }
-
-        async function smartLocalAI(userMessage) {
-            const lowerMessage = userMessage.toLowerCase();
-            
-            const responses = {
-                greeting: [
-                    "Привет! 👋 Рад тебя видеть! Hello! Nice to see you!\nКак прошел твой день? How was your day? 😊",
-                    "Хай! 🎉 Приветствую! Hi! Welcome!\nЧто нового? What's new? 🌟"
-                ],
-                english: [
-                    "Отлично, что интересуешься английским! 🎓\nПопробуй смотреть мультики на английском с субтитрами! 📺\nWhat's your favorite cartoon?",
-                    "Изучение английского - это весело! 🎈\nПрактикуйся каждый день понемногу! 📚\nDo you like learning English?"
-                ],
-                cartoons: [
-                    "Мультики - отличный способ учить английский! 🐷\nPeppa Pig, Mickey Mouse, Frozen - все они помогут тебе! 🎬\nWhich cartoon do you like the most?",
-                    "Обожаю мультики! 🤩\nОни делают изучение английского таким интересным! 🌈\nWhat's your favorite character?"
-                ],
-                question: [
-                    "Отличный вопрос! 🤔 Давай обсудим это! Great question! Let's discuss it!",
-                    "Интересно! 🧐 Мне нравится твой вопрос! Interesting! I like your question!"
-                ],
-                default: [
-                    "Круто! 😄 Давай продолжим разговор! Cool! Let's continue our conversation!\nРасскажи мне о себе! Tell me about yourself!",
-                    "Здорово! 🚀 Мне нравится наша беседа! Great! I like our conversation!\nЧто тебя интересует? What interests you?"
-                ]
-            };
-
-            if (/(привет|hello|hi)/i.test(lowerMessage)) {
-                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
-            }
-            if (/(английск|english|учить|learn)/i.test(lowerMessage)) {
-                return responses.english[Math.floor(Math.random() * responses.english.length)];
-            }
-            if (/(мульт|cartoon|пеппа|mickey|frozen)/i.test(lowerMessage)) {
-                return responses.cartoons[Math.floor(Math.random() * responses.cartoons.length)];
-            }
-            if (/\?/.test(userMessage)) {
-                return responses.question[Math.floor(Math.random() * responses.question.length)];
-            }
-            
-            return responses.default[Math.floor(Math.random() * responses.default.length)];
         }
 
         function addMessage(text, sender) {
@@ -2545,7 +2524,7 @@
             // Устанавливаем текущее время в приветственном сообщении
             document.getElementById('current-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            console.log('💬 English Friend загружен с API!');
+            console.log('💬 English Friend загружен с работающим онлайн AI!');
         });
     </script>
 </body>
