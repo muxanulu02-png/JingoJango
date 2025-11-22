@@ -2311,9 +2311,9 @@
         <div id="typing-indicator">AI теріп жатыр...</div>
     </div>
 
-    <button id="chatbot-toggle-btn">💬</button>
+    <button id="chatbot-toggle-btn" onclick="toggleChatbot()">💬</button>
 
-        <script>
+    <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -2333,7 +2333,7 @@
             });
         });
 
-        // 🚀 УЛЬТРА-НАДЕЖНЫЙ AI ПОМОЩНИК
+        // 🚀 AI ПОМОЩНИК С КАЗАХСКИМ ИНТЕРФЕЙСОМ И ПОДДЕРЖКОЙ РУССКОГО
         let isChatOpen = false;
         let conversationHistory = [];
 
@@ -2394,7 +2394,8 @@
                 addBotMessage(aiResponse);
             } catch (error) {
                 console.error('Error:', error);
-                addBotMessage("Сәлем! 👋 Мен сенің AI көмекшісімін! Қазір жергілікті режимді қолданамын. Маған мультфильмдер немесе ағылшын тілі туралы сұра! 📚✨");
+                const smartResponse = getSmartAIResponse(message);
+                addBotMessage(smartResponse);
             } finally {
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = '📨';
@@ -2403,52 +2404,140 @@
             }
         }
 
-        // 💡 УМНЫЕ ЛОКАЛЬНЫЕ ОТВЕТЫ НА КАЗАХСКОМ
+        // 🎯 AI С ФИЛЬТРАЦИЕЙ РЕКЛАМЫ И ПОДДЕРЖКОЙ КАЗАХСКОГО И РУССКОГО
+        async function getAIResponse(userMessage) {
+            // Попробуем несколько API
+            const apis = [
+                // API 1
+                async () => {
+                    const response = await fetch('https://chatgpt.apinepdev.workers.dev/?question=' + 
+                        encodeURIComponent(userMessage + " (ответь кратко на казахском или русском с эмодзи)"));
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.answer && data.answer.length > 10) {
+                            let cleanAnswer = data.answer;
+                            
+                            // ФИЛЬТРУЕМ РЕКЛАМУ
+                            cleanAnswer = cleanAnswer.replace(/Join our community:.*t\.me\/nepdevsz.*/gi, '');
+                            cleanAnswer = cleanAnswer.replace(/Join our community.*/gi, '');
+                            cleanAnswer = cleanAnswer.replace(/t\.me\/nepdevsz/gi, '');
+                            cleanAnswer = cleanAnswer.replace(/https:\/\/t\.me\/nepdevsz/gi, '');
+                            cleanAnswer = cleanAnswer.replace(/@nepdevsz/gi, '');
+                            
+                            cleanAnswer = cleanAnswer.replace(/\n\s*\n/g, '\n');
+                            
+                            return cleanAnswer.trim() || getSmartAIResponse(userMessage);
+                        }
+                    }
+                    throw new Error('API 1 failed');
+                },
+                
+                // API 2
+                async () => {
+                    const response = await fetch('https://api.xyenon.top/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-3.5-turbo",
+                            messages: [
+                                {
+                                    role: "system", 
+                                    content: "Ты - помощник для изучения английского. Отвечай кратко на казахском или русском с эмодзи. Не добавляй рекламу."
+                                },
+                                {
+                                    role: "user",
+                                    content: userMessage
+                                }
+                            ],
+                            max_tokens: 200
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        let answer = data.choices[0].message.content;
+                        
+                        // ФИЛЬТРУЕМ РЕКЛАМУ
+                        answer = answer.replace(/Join our community:.*t\.me\/nepdevsz.*/gi, '');
+                        answer = answer.replace(/t\.me\/nepdevsz/gi, '');
+                        
+                        return answer;
+                    }
+                    throw new Error('API 2 failed');
+                }
+            ];
+
+            // Пробуем все API по очереди
+            for (let api of apis) {
+                try {
+                    const response = await api();
+                    if (response && response.length > 5) {
+                        return response;
+                    }
+                } catch (error) {
+                    console.log('API attempt failed:', error.message);
+                    continue;
+                }
+            }
+
+            // Если все API не работают, используем локальные ответы
+            throw new Error('All APIs failed');
+        }
+
+        // 💡 УМНЫЕ ЛОКАЛЬНЫЕ ОТВЕТЫ НА КАЗАХСКОМ И РУССКОМ
         function getSmartAIResponse(userMessage) {
             const lowerMessage = userMessage.toLowerCase();
             
             const responses = {
                 greeting: [
-                    "Сәлем! 👋 Мен сенің JuniorLingo AI көмекшісімін! Сені көргеніме қуаныштымын! 🎉",
-                    "Салем! 🎈 Біздің ағылшын тілін үйрену сайтымызға қош келдің! 📚",
-                    "Ассалаумағалейкум! 🌟 Ағылшын тілін көңілді үйренуге дайынсың ба? 🚀"
+                    "Сәлем! 👋 Мен сенің JuniorLingo AI көмекшісімін! Рад тебя видеть! 🎉",
+                    "Привет! 🎈 Добро пожаловать на наш сайт изучения английского! 📚",
+                    "Салем! 🌟 Ағылшын тілін көңілді үйренуге дайынсың ба? 🚀"
                 ],
                 english: [
-                    "Ағылшын тілі - керемет! 🎓 Ағылшын тіліндегі мультфильмдерді субтитрмен көруді ұсынамын! 📺",
-                    "Ағылшын тілін мультфильмдер арқылы үйрену - тамаша идея! 🎬 Бастау үшін Peppa Pig-ті көр! 🐷",
-                    "Ағылшын тілі үшін күн сайын жаттығу маңызды! 📝 Күніне 3-5 жаңа сөзді үйрен! 🗓️"
+                    "Ағылшын тілі - керемет! 🎓 Советую смотреть мультики на английском с субтитрами! 📺",
+                    "Учить английский с мультиками - супер идея! 🎬 Попробуй Peppa Pig для начала! 🐷",
+                    "Ағылшын тілі үшін күн сайын жаттығу маңызды! 📝 Учи по 3-5 новых слов в день! 🗓️"
                 ],
                 cartoons: [
-                    "Бізде керемет мультфильмдер бар! 🎥 Peppa Pig, Mickey Mouse, Frozen - таңда! 🌈",
-                    "Мультфильмдер ағылшын тілін зеріксіз үйренуге көмектеседі! 🐭 Сенің қайсысы ұнайды?",
-                    "Ағылшын тілі үшін ең жақсы мультфильмдер: Peppa Pig (жеңіл) 🐷, Mickey Mouse (көңілді) 🎬, Frozen (әдемі) ❄️"
+                    "Бізде керемет мультфильмдер бар! 🎥 Peppa Pig, Mickey Mouse, Frozen - выбирай! 🌈",
+                    "Мультики помогают учить английский без скуки! 🐭 Какой тебе нравится больше?",
+                    "Ағылшын тілі үшін ең жақсы мультфильмдер: Peppa Pig (жеңіл) 🐷, Mickey Mouse (весело) 🎬, Frozen (красиво) ❄️"
                 ],
                 help: [
                     "Мен: мультфильмдер туралы айта аламын 🎥, ағылшын тіліне көмектесе аламын 📚, ойындар ұсына аламын 🎮",
-                    "Қандай көмек керек? Грамматиканы түсіндіре аламын, сөздерді айта аламын немесе мультфильм ұсына аламын! 🤗",
-                    "Көмектесуге дайынмын! 🎯 Мультфильмдер, ағылшын тілі туралы сұра немесе жай әңгімелейік! 💬"
+                    "Чем помочь? Могу объяснить грамматику, подсказать слова или посоветовать мультик! 🤗",
+                    "Готов помочь! 🎯 Спроси о мультиках, английском или просто поболтаем! 💬"
                 ],
                 default: [
-                    "Қызықты! 🤔 Біздің сайтқа сені не әкелді? 🎓",
-                    "Тамаша сұрақ! 😄 Кешіріңіз, бірақ мен тек қазақ тілінде жауап бере аламын. Көңілді нәрсе туралы әңгімелейік! Мүмкін мультфильмдер туралы? 📺",
-                    "Керемет! 🚀 Сізге не ұнайды: мультфильмдер немесе ертегілер? 📚"
+                    "Қызықты! 🤔 Расскажи, что тебя привело на наш сайт? 🎓",
+                    "Интересно! 🤔 Біздің сайтқа сені не әкелді? 🎓",
+                    "Крутой вопрос! 😄 Давай поговорим о чём-нибудь весёлом! Может, про мультики? 📺"
                 ]
             };
 
-            if (/(сәлем|салем|салам|привет|hello|hi|хай)/i.test(lowerMessage)) {
-                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
+            // Определяем язык запроса и отвечаем соответственно
+            if (/(сәлем|салем|салам|привет|hello|hi|хай|здравств)/i.test(lowerMessage)) {
+                return randomChoice(responses.greeting);
             }
-            if (/(ағылшын|english|учить|learn|үйрен)/i.test(lowerMessage)) {
-                return responses.english[Math.floor(Math.random() * responses.english.length)];
+            if (/(ағылшын|english|учить|learn|үйрен|английск)/i.test(lowerMessage)) {
+                return randomChoice(responses.english);
             }
             if (/(мульт|cartoon|пеппа|mickey|frozen|дисней)/i.test(lowerMessage)) {
-                return responses.cartoons[Math.floor(Math.random() * responses.cartoons.length)];
+                return randomChoice(responses.cartoons);
             }
             if (/(помоги|help|помощь|көмек|жәрдем)/i.test(lowerMessage)) {
-                return responses.help[Math.floor(Math.random() * responses.help.length)];
+                return randomChoice(responses.help);
             }
             
-            return responses.default[Math.floor(Math.random() * responses.default.length)];
+            return randomChoice(responses.default);
+        }
+
+        function randomChoice(array) {
+            return array[Math.floor(Math.random() * array.length)];
         }
 
         function addMessage(text, sender) {
@@ -2494,9 +2583,6 @@
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
             const chatInput = document.getElementById('chat-input');
-            const toggleBtn = document.getElementById('chatbot-toggle-btn');
-            
-            toggleBtn.onclick = toggleChatbot;
             
             if (chatInput) {
                 chatInput.addEventListener('keypress', function(e) {
@@ -2510,12 +2596,6 @@
             
             console.log('💬 Қазақ Көмекшісі жүктелді!');
         });
-
-        // 🎯 AI С ФИЛЬТРАЦИЕЙ РЕКЛАМЫ
-        async function getAIResponse(userMessage) {
-            // Используем только локальные ответы на казахском
-            return getSmartAIResponse(userMessage);
-        }
     </script>
 </body>
 </html>
