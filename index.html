@@ -2666,13 +2666,13 @@ async function searchQuestion() {
     showTypingIndicator();
     
     try {
-        // Сначала пробуем API
-        const apiResponse = await getAIResponse(question);
+        // Используем getAIResponse который теперь учитывает язык
+        const response = await getAIResponse(question);
         hideTypingIndicator();
-        addMessage(apiResponse, 'bot');
+        addMessage(response, 'bot');
     } catch (error) {
-        // Если API не работает, используем локальные ответы
         hideTypingIndicator();
+        // В случае ошибки используем локальные ответы
         const localResponse = getLocalAIResponse(question);
         addMessage(localResponse, 'bot');
     }
@@ -2716,11 +2716,24 @@ function hideTypingIndicator() {
     indicator.style.display = 'none';
 }
 
-// 🎯 AI С ФИЛЬТРАЦИЕЙ РЕКЛАМЫ (ваш API)
+// 🎯 AI С ФИЛЬТРАЦИЕЙ РЕКЛАМЫ И ПОДДЕРЖКОЙ ЯЗЫКОВ
 async function getAIResponse(userMessage) {
-    // Попробуем самый простой и работающий API
+    // Сначала пробуем локальные ответы на выбранном языке
+    const localResponse = getLocalAIResponse(userMessage);
+    
+    // Если нашли локальный ответ - используем его
+    if (!localResponse.includes('Кешіріңіз') && !localResponse.includes('Извините') && !localResponse.includes('Sorry')) {
+        return localResponse;
+    }
+    
+    // Если локального ответа нет, пробуем API
     try {
-        const response = await fetch('https://chatgpt.apinepdev.workers.dev/?question=' + encodeURIComponent(userMessage + " (ответь кратко с эмодзи)"));
+        // Добавляем язык в запрос к API
+        const languagePrompt = currentLanguage === 'kz' ? ' (жауапты қазақ тілінде бер, қысқа жауап бер, эмодзи қос)' :
+                              currentLanguage === 'ru' ? ' (ответь на русском языке, кратко, с эмодзи)' :
+                              ' (answer in English, briefly, with emoji)';
+        
+        const response = await fetch('https://chatgpt.apinepdev.workers.dev/?question=' + encodeURIComponent(userMessage + languagePrompt));
         
         if (response.ok) {
             const data = await response.json();
@@ -2747,6 +2760,12 @@ async function getAIResponse(userMessage) {
 
     // Второй вариант API (если первый не работает)
     try {
+        const systemMessage = currentLanguage === 'kz' ? 
+            "Сен балаларға арналған көңілді көмекшісің. Жауапты қазақ тілінде бер, қысқа болсын, эмодзи қос. Жарнама қоспа." :
+            currentLanguage === 'ru' ?
+            "Ты - весёлый помощник для детей. Отвечай на русском языке, кратко, с эмодзи. Не добавляй рекламу." :
+            "You are a fun helper for children. Answer in English, briefly, with emoji. Don't add advertising.";
+            
         const response = await fetch('https://api.xyenon.top/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -2757,7 +2776,7 @@ async function getAIResponse(userMessage) {
                 messages: [
                     {
                         role: "system", 
-                        content: "Ты - весёлый помощник для детей. Отвечай кратко с эмодзи. Не добавляй рекламу."
+                        content: systemMessage
                     },
                     {
                         role: "user",
