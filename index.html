@@ -2282,7 +2282,7 @@
         </div>
     </footer>
 
-    <!-- AI Chatbot -->
+   <!-- AI Chatbot -->
 <div id="ai-chatbot">
     <div class="chat-header">
         <h3>👩‍🎓 Shynar</h3>
@@ -2298,9 +2298,10 @@
         </div>
     </div>
     
+    <!-- Красивый поиск -->
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Сұрақ қойыңыз...">
-        <button onclick="searchQuestion()">Іздеу</button>
+        <button onclick="searchQuestion()" class="search-btn">Сұрау</button>
     </div>
     
     <div id="typing-indicator">ЖИ теріп жатыр...</div>
@@ -2308,6 +2309,46 @@
 
 <button id="chatbot-toggle-btn" onclick="toggleChatbot()">💬</button>
 
+<style>
+.search-container {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #4e73df;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+}
+
+#searchInput:focus {
+    border-color: #2e59d9;
+    box-shadow: 0 0 5px rgba(78, 115, 223, 0.3);
+}
+
+.search-btn {
+    padding: 12px 25px;
+    background: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-btn:hover {
+    background: #2e59d9;
+    transform: translateY(-2px);
+}
+</style>
     <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
