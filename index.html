@@ -2289,31 +2289,227 @@
             <h3>👩‍🎓 Shynar</h3>
             <button class="close-chat" onclick="closeChatbot()">×</button>
         </div>
-        <div id="chat-messages">
-            <div class="message bot-message">
-                <div class="message-header">
-                    <strong>Shynar:</strong>
-                    <small id="current-time"></small>
+       <div id="chat-messages">
+        <!-- Языковой выбор -->
+        <div class="message bot-message">
+            <div class="message-header">
+                <strong>Shynar:</strong>
+            </div>
+            <div class="message-text">
+                <p>Сәлем! 👋 Тілді таңдаңыз / Привет! 👋 Выберите язык</p>
+                <div class="language-buttons">
+                    <button onclick="selectLanguage('kz')" class="lang-btn">Қазақша</button>
+                    <button onclick="selectLanguage('ru')" class="lang-btn">Русский</button>
                 </div>
-                <div class="message-text">Сәлем! 👋 Менен кез келген нәрсе туралы сұрай аласың! 🎓✨</div>
             </div>
         </div>
-        <div class="quick-questions">
-            <div class="quick-buttons">
-                <button class="quick-btn" onclick="quickQuestion('Как учить английский?')">Как учить английский?</button>
-                <button class="quick-btn" onclick="quickQuestion('Расскажи о мультиках')">О мультиках</button>
-                <button class="quick-btn" onclick="quickQuestion('Помоги с домашкой')">Помоги с домашкой</button>
-            </div>
-        </div>
-        <div class="chat-input-container">
-            <input type="text" id="chat-input" placeholder="Напиши сообщение...">
-            <button id="send-btn" onclick="sendMessage()">📨</button>
-        </div>
-        <div id="typing-indicator">ЖИ печатает...</div>
+    </div>
+    
+    <!-- Поле поиска (изначально скрыто) -->
+    <div class="search-container" id="searchContainer" style="display: none;">
+        <input type="text" id="searchInput" placeholder="Сұрақ қойыңыз..." onkeypress="handleSearchEnter(event)">
+        <button onclick="searchQuestion()" class="search-btn">Сұрау</button>
     </div>
 
-    <button id="chatbot-toggle-btn">💬</button>
+    <!-- Кнопка смены языка -->
+    <div class="language-change-container" id="changeLanguageBtn" style="display: none;">
+        <button onclick="changeLanguage()" class="change-lang-btn">
+            🌐 KAZ / RUS
+        </button>
+    </div>
+    
+    <div id="typing-indicator">ЖИ теріп жатыр...</div>
+</div>
 
+<button id="chatbot-toggle-btn" onclick="toggleChatbot()">💬</button>
+
+<script>
+let currentLanguage = '';
+
+// Выбор языка
+function selectLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Показываем поле поиска и кнопку смены языка
+    document.getElementById('searchContainer').style.display = 'flex';
+    document.getElementById('changeLanguageBtn').style.display = 'block';
+    
+    // Меняем placeholder и текст кнопки
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.querySelector('.search-btn');
+    
+    if (lang === 'kz') {
+        searchInput.placeholder = 'Сұрақ қойыңыз...';
+        searchBtn.textContent = 'Сұрау';
+        searchBtn.style.padding = '12px 20px';
+        addMessage('Тіл таңдалды! Қандай сұрағыңыз бар?', 'bot');
+    } else {
+        searchInput.placeholder = 'Задайте вопрос...';
+        searchBtn.textContent = 'Спроси';
+        searchBtn.style.padding = '12px 20px';
+        addMessage('Язык выбран! Какой у вас вопрос?', 'bot');
+    }
+    
+    // Убираем кнопки выбора языка
+    const langButtons = document.querySelector('.language-buttons');
+    if (langButtons) {
+        langButtons.style.display = 'none';
+    }
+}
+
+// Функция для смены языка во время беседы
+function changeLanguage() {
+    if (currentLanguage === 'kz') {
+        selectLanguage('ru');
+        addMessage('Язык изменен на русский!', 'bot');
+    } else {
+        selectLanguage('kz');
+        addMessage('Тіл қазақ тіліне өзгертілді!', 'bot');
+    }
+}
+
+// Функция для получения ответа от AI с учетом ВЫБРАННОГО языка
+async function getAIResponse(question) {
+    // Используем ТОЛЬКО выбранный язык
+    const responseLanguage = currentLanguage;
+    
+    const responsesKZ = {
+        'сәлем': 'Сәлеметсіз бе! Қандай көмек керек?',
+        'салем': 'Сәлеметсіз бе! Қандай көмек керек?',
+        'ағылшын': 'Ағылшын тілін үйрену үшін тәжірибе керек! Күнделікті жаттығулар жасаңыз.',
+        'үй жұмысы': 'Үй жұмысына көмектесемін! Қандай тапсырма?',
+        'мультфильм': 'Мультфильмдер туралы айтайын! Сіз қандай мультфильмді жақсы көресіз?',
+        'қалайсың': 'Рахмет, жақсы! Сіз қалайсыз?',
+        'рахмет': 'Әзіресе! Әлі де сұрақтарыңыз бар ма?',
+        'көмек': 'Әрине, көмектесемін! Қандай мәселе?'
+    };
+    
+    const responsesRU = {
+        'привет': 'Привет! Чем могу помочь?',
+        'здравствуй': 'Здравствуйте! Как ваши дела?',
+        'английский': 'Для изучения английского нужна практика! Занимайтесь ежедневно.',
+        'домашка': 'Помогу с домашкой! Какое задание?',
+        'домашняя': 'Помогу с домашней работой!',
+        'мультфильм': 'Расскажу о мультфильмах! Какой ваш любимый мультфильм?',
+        'как дела': 'Спасибо, хорошо! Как ваши дела?',
+        'спасибо': 'Пожалуйста! Есть еще вопросы?',
+        'помощь': 'Конечно, помогу! Какая проблема?',
+        'что': 'Могу рассказать на разные темы: учеба, мультфильмы, помощь с уроками',
+        'кто': 'Я ваш помощник Shynar! Готова помочь с учебой'
+    };
+    
+    const responses = responseLanguage === 'kz' ? responsesKZ : responsesRU;
+    const lowerQuestion = question.toLowerCase();
+    
+    // Ищем подходящий ответ
+    for (const [key, response] of Object.entries(responses)) {
+        if (lowerQuestion.includes(key)) {
+            return response;
+        }
+    }
+    
+    // Если ответ не найден
+    if (responseLanguage === 'kz') {
+        return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
+    } else {
+        return 'Извините, я не могу ответить на этот вопрос. Спросите что-то другое!';
+    }
+}
+
+// Остальные функции
+async function searchQuestion() {
+    const searchInput = document.getElementById('searchInput');
+    const question = searchInput.value.trim();
+    
+    if (question === '') {
+        if (currentLanguage === 'kz') {
+            alert('Сурақ енгізіңіз!');
+        } else {
+            alert('Введите вопрос!');
+        }
+        return;
+    }
+    
+    addMessage(question, 'user');
+    searchInput.value = '';
+    showTypingIndicator();
+    
+    try {
+        // Имитируем задержку для реалистичности
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const response = await getAIResponse(question);
+        hideTypingIndicator();
+        addMessage(response, 'bot');
+    } catch (error) {
+        hideTypingIndicator();
+        if (currentLanguage === 'kz') {
+            addMessage('Қате орын алды. Қайталап көріңіз.', 'bot');
+        } else {
+            addMessage('Произошла ошибка. Попробуйте еще раз.', 'bot');
+        }
+        console.error('Error:', error);
+    }
+}
+
+function handleSearchEnter(event) {
+    if (event.key === 'Enter') {
+        searchQuestion();
+    }
+}
+
+function addMessage(text, sender) {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    const messageText = document.createElement('div');
+    messageText.className = 'message-text';
+    messageText.textContent = text;
+    
+    messageDiv.appendChild(messageText);
+    chatMessages.appendChild(messageDiv);
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    indicator.style.display = 'block';
+}
+
+function hideTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    indicator.style.display = 'none';
+}
+
+function toggleChatbot() {
+    const chatbot = document.getElementById('ai-chatbot');
+    chatbot.style.display = chatbot.style.display === 'none' ? 'flex' : 'none';
+}
+
+function closeChatbot() {
+    document.getElementById('ai-chatbot').style.display = 'none';
+}
+
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            history.pushState(null, null, targetId);
+        }
+    });
+});
+</script>
         <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
