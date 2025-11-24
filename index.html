@@ -2046,6 +2046,88 @@
                 right: 15px;
             }
         }
+
+        /* Стили для поиска и смены языка */
+        .search-container {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #4e73df;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #searchInput:focus {
+            border-color: #2e59d9;
+            box-shadow: 0 0 5px rgba(78, 115, 223, 0.3);
+        }
+
+        .search-btn {
+            padding: 12px 20px;
+            background: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            background: #2e59d9;
+            transform: translateY(-2px);
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .lang-btn {
+            padding: 10px 20px;
+            background: #4e73df;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .lang-btn:hover {
+            background: #2e59d9;
+        }
+
+        .language-change-container {
+            text-align: center;
+            padding: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .change-lang-btn {
+            padding: 8px 16px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .change-lang-btn:hover {
+            background: #5a6268;
+        }
     </style>
 </head>
 <body>
@@ -2283,7 +2365,7 @@
         </div>
     </footer>
 
-   <!-- AI Chatbot -->
+<!-- AI Chatbot -->
 <div id="ai-chatbot">
     <div class="chat-header">
         <h3>👩‍🎓 Shynar</h3>
@@ -2510,28 +2592,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
-</script>
-        <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                    
-                    history.pushState(null, null, targetId);
-                }
-            });
-        });
-
-        // 🚀 УЛЬТРА-НАДЕЖНЫЙ AI ПОМОЩНИК
+    // 🚀 УЛЬТРА-НАДЕЖНЫЙ AI ПОМОЩНИК
         let isChatOpen = false;
         let conversationHistory = [];
 
@@ -2592,7 +2653,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 addBotMessage(aiResponse);
             } catch (error) {
                 console.error('Error:', error);
-                addBotMessage("Сәлем! 👋 Менен кез келген нәрсе туралы сұрай аласың! 📚✨");
+                addBotMessage("Привет! 👋 Я твой AI помощник! Сейчас использую локальный режим. Спроси меня о мультиках или английском! 📚✨");
             } finally {
                 sendBtn.disabled = false;
                 sendBtn.innerHTML = '📨';
@@ -2670,113 +2731,7 @@ async function getAIResponse(userMessage) {
     // Если все API не работают, используем локальные ответы
     return getSmartAIResponse(userMessage);
 }
-        // 💡 УМНЫЕ ЛОКАЛЬНЫЕ ОТВЕТЫ
-        function getSmartAIResponse(userMessage) {
-            const lowerMessage = userMessage.toLowerCase();
-            
-            const responses = {
-                greeting: [
-                    "Привет! 👋 Я твой AI помощник JuniorLingo! Рад тебя видеть! 🎉",
-                    "Хай! 🎈 Добро пожаловать на наш сайт изучения английского! 📚",
-                    "Приветствую! 🌟 Готов учить английский весело? 🚀"
-                ],
-                english: [
-                    "Английский - это круто! 🎓 Советую смотреть мультики на английском с субтитрами! 📺",
-                    "Учить английский с мультиками - супер идея! 🎬 Попробуй Peppa Pig для начала! 🐷",
-                    "Для английского важно практиковаться каждый день! 📝 Учи по 3-5 новых слов в день! 🗓️"
-                ],
-                cartoons: [
-                    "У нас есть классные мультики! 🎥 Peppa Pig, Mickey Mouse, Frozen - выбирай! 🌈",
-                    "Мультики помогают учить английский без скуки! 🐭 Какой тебе нравится больше?",
-                    "Лучшие мультики для английского: Peppa Pig (легко) 🐷, Mickey Mouse (весело) 🎬, Frozen (красиво) ❄️"
-                ],
-                help: [
-                    "Я могу: рассказать о мультиках 🎥, помочь с английским 📚, посоветовать игры 🎮",
-                    "Чем помочь? Могу объяснить грамматику, подсказать слова или посоветовать мультик! 🤗",
-                    "Готов помочь! 🎯 Спроси о мультиках, английском или просто поболтаем! 💬"
-                ],
-                default: [
-                    "Интересно! 🤔 Расскажи, что тебя привело на наш сайт? 🎓",
-                    "Крутой вопрос! 😄 Давай поговорим о чём-нибудь весёлом! Может, про мультики? 📺",
-                    "Здорово! 🚀 Что тебе больше нравится: мультики или сказки? 📚"
-                ]
-            };
-
-            if (/(привет|hello|hi|хай)/i.test(lowerMessage)) {
-                return responses.greeting[Math.floor(Math.random() * responses.greeting.length)];
-            }
-            if (/(английск|english|учить|learn)/i.test(lowerMessage)) {
-                return responses.english[Math.floor(Math.random() * responses.english.length)];
-            }
-            if (/(мульт|cartoon|пеппа|mickey|frozen|дисней)/i.test(lowerMessage)) {
-                return responses.cartoons[Math.floor(Math.random() * responses.cartoons.length)];
-            }
-            if (/(помоги|help|помощь)/i.test(lowerMessage)) {
-                return responses.help[Math.floor(Math.random() * responses.help.length)];
-            }
-            
-            return responses.default[Math.floor(Math.random() * responses.default.length)];
-        }
-
-        function addMessage(text, sender) {
-            const messages = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ' + sender + '-message';
-            
-            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            messageDiv.innerHTML = `
-                <div class="message-header">
-                    <strong>${sender === 'user' ? 'Вы' : 'Shynar'}:</strong>
-                    <small>${time}</small>
-                </div>
-                <div class="message-text">${text}</div>
-            `;
-            
-            messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight;
-            conversationHistory.push({ sender, text, timestamp: new Date() });
-        }
-
-        function addBotMessage(text) {
-            const messages = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message bot-message';
-            
-            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            messageDiv.innerHTML = `
-                <div class="message-header">
-                    <strong>Shynar:</strong>
-                    <small>${time}</small>
-                </div>
-                <div class="message-text">${text}</div>
-            `;
-            
-            messages.appendChild(messageDiv);
-            messages.scrollTop = messages.scrollHeight;
-            conversationHistory.push({ sender: 'bot', text, timestamp: new Date() });
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            const chatInput = document.getElementById('chat-input');
-            const toggleBtn = document.getElementById('chatbot-toggle-btn');
-            
-            toggleBtn.onclick = toggleChatbot;
-            
-            if (chatInput) {
-                chatInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        sendMessage();
-                    }
-                });
-            }
-            
-            document.getElementById('current-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            console.log('💬 Shynar загружен!');
-        });
-    </script>
+</script>
+    
 </body>
 </html>
