@@ -2282,24 +2282,31 @@
         </div>
     </footer>
 
- <!-- AI Chatbot -->
+<!-- AI Chatbot -->
 <div id="ai-chatbot">
     <div class="chat-header">
         <h3>👩‍🎓 Shynar</h3>
         <button class="close-chat" onclick="closeChatbot()">×</button>
     </div>
+    
     <div id="chat-messages">
+        <!-- Языковой выбор -->
         <div class="message bot-message">
             <div class="message-header">
                 <strong>Shynar:</strong>
-                <small id="current-time"></small>
             </div>
-            <div class="message-text">Сәлем! 👋 Менен кез келген нәрсе туралы сұрай аласың! 🎓✨</div>
+            <div class="message-text">
+                <p>Сәлем! 👋 Тілді таңдаңыз / Привет! 👋 Выберите язык</p>
+                <div class="language-buttons">
+                    <button onclick="selectLanguage('kz')" class="lang-btn">Қазақша</button>
+                    <button onclick="selectLanguage('ru')" class="lang-btn">Русский</button>
+                </div>
+            </div>
         </div>
     </div>
     
-    <!-- Красивый поиск -->
-    <div class="search-container">
+    <!-- Поле поиска (изначально скрыто) -->
+    <div class="search-container" id="searchContainer" style="display: none;">
         <input type="text" id="searchInput" placeholder="Сұрақ қойыңыз..." onkeypress="handleSearchEnter(event)">
         <button onclick="searchQuestion()" class="search-btn">Сұрау</button>
     </div>
@@ -2348,16 +2355,71 @@
     background: #2e59d9;
     transform: translateY(-2px);
 }
+
+.language-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.lang-btn {
+    padding: 10px 20px;
+    background: #4e73df;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.lang-btn:hover {
+    background: #2e59d9;
+}
 </style>
 
 <script>
+let currentLanguage = '';
+
+// Выбор языка
+function selectLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Показываем поле поиска
+    document.getElementById('searchContainer').style.display = 'flex';
+    
+    // Меняем placeholder в зависимости от языка
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.querySelector('.search-btn');
+    
+    if (lang === 'kz') {
+        searchInput.placeholder = 'Сұрақ қойыңыз...';
+        searchBtn.textContent = 'Сұрау';
+        addMessage('Тіл таңдалды! Қандай сұрағыңыз бар?', 'bot');
+    } else {
+        searchInput.placeholder = 'Задайте вопрос...';
+        searchBtn.textContent = 'Спросить';
+        addMessage('Язык выбран! Какой у вас вопрос?', 'bot');
+    }
+    
+    // Убираем кнопки выбора языка
+    const langButtons = document.querySelector('.language-buttons');
+    if (langButtons) {
+        langButtons.style.display = 'none';
+    }
+}
+
 // Функция для обработки поиска
-function searchQuestion() {
+async function searchQuestion() {
     const searchInput = document.getElementById('searchInput');
     const question = searchInput.value.trim();
     
     if (question === '') {
-        alert('Сурақ енгізіңіз!');
+        if (currentLanguage === 'kz') {
+            alert('Сурақ енгізіңіз!');
+        } else {
+            alert('Введите вопрос!');
+        }
         return;
     }
     
@@ -2370,22 +2432,67 @@ function searchQuestion() {
     // Показываем индикатор набора
     showTypingIndicator();
     
-    // Имитируем ответ бота (замените на реальный API)
-    setTimeout(() => {
+    try {
+        // Получаем ответ от AI
+        const response = await getAIResponse(question);
         hideTypingIndicator();
-        const response = getBotResponse(question);
         addMessage(response, 'bot');
-    }, 1000);
+    } catch (error) {
+        hideTypingIndicator();
+        if (currentLanguage === 'kz') {
+            addMessage('Қате орын алды. Қайталап көріңіз.', 'bot');
+        } else {
+            addMessage('Произошла ошибка. Попробуйте еще раз.', 'bot');
+        }
+        console.error('Error:', error);
+    }
 }
 
-// Функция для обработки Enter в поиске
+// Функция для получения ответа от AI (упрощенная версия)
+async function getAIResponse(question) {
+    // Здесь будет ваша реальная AI интеграция
+    // Пока используем заглушку
+    
+    const responsesKZ = {
+        'сәлем': 'Сәлеметсіз бе! Қандай көмек керек?',
+        'ағылшын': 'Ағылшын тілін үйрену үшін тәжірибе керек!',
+        'үй жұмысы': 'Үй жұмысына көмектесемін!',
+        'мультфильм': 'Мультфильмдер туралы айтайын!',
+        'қалайсың': 'Рахмет, жақсы! Сіз қалайсыз?'
+    };
+    
+    const responsesRU = {
+        'привет': 'Привет! Чем могу помочь?',
+        'английский': 'Для изучения английского нужна практика!',
+        'домашка': 'Помогу с домашкой!',
+        'мультфильм': 'Расскажу о мультфильмах!',
+        'как дела': 'Спасибо, хорошо! Как ваши дела?'
+    };
+    
+    const responses = currentLanguage === 'kz' ? responsesKZ : responsesRU;
+    const lowerQuestion = question.toLowerCase();
+    
+    for (const [key, response] of Object.entries(responses)) {
+        if (lowerQuestion.includes(key)) {
+            return response;
+        }
+    }
+    
+    // Если ответ не найден
+    if (currentLanguage === 'kz') {
+        return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
+    } else {
+        return 'Извините, я не могу ответить на этот вопрос. Спросите что-то другое!';
+    }
+}
+
+// Остальные функции остаются без изменений
 function handleSearchEnter(event) {
     if (event.key === 'Enter') {
         searchQuestion();
     }
 }
 
-// Функция для добавления сообщения
 function addMessage(text, sender) {
     const chatMessages = document.getElementById('chat-messages');
     const messageDiv = document.createElement('div');
@@ -2398,43 +2505,19 @@ function addMessage(text, sender) {
     messageDiv.appendChild(messageText);
     chatMessages.appendChild(messageDiv);
     
-    // Прокрутка вниз
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Функция для показа индикатора набора
 function showTypingIndicator() {
     const indicator = document.getElementById('typing-indicator');
     indicator.style.display = 'block';
 }
 
-// Функция для скрытия индикатора набора
 function hideTypingIndicator() {
     const indicator = document.getElementById('typing-indicator');
     indicator.style.display = 'none';
 }
 
-// Простая функция для ответов бота (замените на свою логику)
-function getBotResponse(question) {
-    const responses = {
-        'сәлем': 'Сәлеметсіз бе! Қандай көмек керек?',
-        'ағылшын': 'Ағылшын тілін үйрену үшін тәжірибе керек!',
-        'үй жұмысы': 'Үй жұмысына көмектесемін!',
-        'мультфильм': 'Мультфильмдер туралы айтайын!'
-    };
-    
-    const lowerQuestion = question.toLowerCase();
-    
-    for (const [key, response] of Object.entries(responses)) {
-        if (lowerQuestion.includes(key)) {
-            return response;
-        }
-    }
-    
-    return 'Кешіріңіз, бұл сураққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
-}
-
-// Функции для чата (если их нет)
 function toggleChatbot() {
     const chatbot = document.getElementById('ai-chatbot');
     chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
