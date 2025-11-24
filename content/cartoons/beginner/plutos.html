@@ -139,6 +139,231 @@
             margin-left: 10px;
         }
     </style>
+    <style>
+/* AI Chatbot Styles */
+#ai-chatbot {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    border: 2px solid #FF9EAA;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+#chatbot-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF9EAA, #FF809B);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 158, 170, 0.4);
+    z-index: 1001;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.chat-header {
+    background: linear-gradient(135deg, #FF9EAA, #FF809B);
+    color: white;
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-chat:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+#chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.message {
+    margin-bottom: 15px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.user-message {
+    text-align: right;
+}
+
+.user-message .message-text {
+    background: linear-gradient(135deg, #FF9EAA, #FF809B);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 15px 15px 0 15px;
+    display: inline-block;
+    max-width: 80%;
+}
+
+.bot-message .message-text {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px 15px 15px 0;
+    border: 1px solid #e9ecef;
+    display: inline-block;
+    max-width: 80%;
+}
+
+.message-header {
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.language-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.lang-btn {
+    padding: 8px 12px;
+    border: 2px solid #FF9EAA;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.lang-btn:hover {
+    background: #FF9EAA;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.search-container {
+    padding: 15px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 10px;
+}
+
+#searchInput {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+#searchInput:focus {
+    border-color: #FF9EAA;
+    outline: none;
+}
+
+.search-btn {
+    background: linear-gradient(135deg, #FF9EAA, #FF809B);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 158, 170, 0.3);
+}
+
+#typing-indicator {
+    padding: 10px 15px;
+    color: #6c757d;
+    font-style: italic;
+    display: none;
+    font-size: 14px;
+}
+
+.language-change-container {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.change-lang-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.change-lang-btn:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    #ai-chatbot {
+        width: 300px;
+        height: 400px;
+        right: 10px;
+        bottom: 70px;
+    }
+    
+    #chatbot-toggle-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 10px;
+        bottom: 10px;
+    }
+}
+</style>
 </head>
 <body>
     <header class="main-header">
