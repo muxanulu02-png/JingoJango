@@ -2383,6 +2383,7 @@
                 <div class="language-buttons">
                     <button onclick="selectLanguage('kz')" class="lang-btn">Қазақша</button>
                     <button onclick="selectLanguage('ru')" class="lang-btn">Русский</button>
+                     <button onclick="selectLanguage('eng')" class="lang-btn">English</button>
                 </div>
             </div>
         </div>
@@ -2397,7 +2398,7 @@
     <!-- Кнопка смены языка -->
     <div class="language-change-container" id="changeLanguageBtn" style="display: none;">
         <button onclick="changeLanguage()" class="change-lang-btn">
-            🌐 KAZ / RUS
+            🌐 KAZ / RUS / ENG
         </button>
     </div>
     
@@ -2431,6 +2432,11 @@ function selectLanguage(lang) {
         searchBtn.textContent = 'Спроси';
         searchBtn.style.padding = '12px 20px';
         addMessage('Язык выбран! Какой у вас вопрос?', 'bot');
+          } else {
+        searchInput.placeholder = 'Ask a question?...';
+        searchBtn.textContent = 'to send';
+        searchBtn.style.padding = '12px 20px';
+        addMessage('The language has been selected! What is your question?', 'bot');
     }
     
     // Убираем кнопки выбора языка
@@ -2448,6 +2454,9 @@ function changeLanguage() {
     } else {
         selectLanguage('kz');
         addMessage('Тіл қазақ тіліне өзгертілді!', 'bot');
+         } else {
+        selectLanguage('eng');
+        addMessage('Language changed to English!', 'bot');
     }
 }
 
@@ -2480,8 +2489,18 @@ async function getAIResponse(question) {
         'что': 'Могу рассказать на разные темы: учеба, мультфильмы, помощь с уроками',
         'кто': 'Я ваш помощник Shynar! Готова помочь с учебой'
     };
+       const responsesENG = {
+       'Hello': 'Hello! What help do you need?',
+ 'Hello': 'Hello! What help do you need?',
+ 'English': 'it takes practice to learn English! Exercise daily.',
+ 'housework': 'I help with the housework! What task?',
+ 'cartoon': 'let's talk about cartoons! What Cartoon do you love?',
+ 'how are you': 'thank you, good! How are you?',
+ 'thank you': 'if you are ready! Do you still have questions?',
+ 'help': 'of course I will help! What problem?'
+    };
     
-    const responses = responseLanguage === 'kz' ? responsesKZ : responsesRU;
+    const responses = responseLanguage === 'kz' ? responsesKZ : responsesRU; responsesENG;
     const lowerQuestion = question.toLowerCase();
     
     // Ищем подходящий ответ
@@ -2496,6 +2515,8 @@ async function getAIResponse(question) {
         return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
     } else {
         return 'Извините, я не могу ответить на этот вопрос. Спросите что-то другое!';
+            } else {
+        return 'Sorry, I can't answer this question. Ask something elsi!';
     }
 }
 
@@ -2509,6 +2530,8 @@ async function searchQuestion() {
             alert('Сурақ енгізіңіз!');
         } else {
             alert('Введите вопрос!');
+             } else {
+            alert('Enter a question!!');
         }
         return;
     }
