@@ -2379,6 +2379,7 @@
 </style>
 
 <script>
+    
 let currentLanguage = '';
 
 // Выбор языка
@@ -2862,5 +2863,190 @@ function closeChatbot() {
             console.log('💬 Shynar жүктелді!');
         });
     </script>
+    <script>
+let currentLanguage = '';
+
+// Выбор языка
+function selectLanguage(lang) {
+    currentLanguage = lang;
+    
+    // Показываем поле поиска
+    document.getElementById('searchContainer').style.display = 'flex';
+    
+    // Меняем placeholder в зависимости от языка
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.querySelector('.search-btn');
+    
+    if (lang === 'kz') {
+        searchInput.placeholder = 'Сұрақ қойыңыз...';
+        searchBtn.textContent = 'Сұрау';
+        addMessage('Тіл таңдалды! Қандай сұрағыңыз бар?', 'bot');
+    } else {
+        searchInput.placeholder = 'Задайте вопрос...';
+        searchBtn.textContent = 'Спросить';
+        addMessage('Язык выбран! Какой у вас вопрос?', 'bot');
+    }
+    
+    // Убираем кнопки выбора языка
+    const langButtons = document.querySelector('.language-buttons');
+    if (langButtons) {
+        langButtons.style.display = 'none';
+    }
+}
+
+// Функция для получения ответа от AI с учетом языка
+async function getAIResponse(question) {
+    // Определяем язык вопроса
+    const questionLanguage = detectLanguage(question);
+    
+    // Если язык вопроса не совпадает с выбранным, отвечаем на выбранном языке
+    const responseLanguage = currentLanguage;
+    
+    const responsesKZ = {
+        'сәлем': 'Сәлеметсіз бе! Қандай көмек керек?',
+        'салем': 'Сәлеметсіз бе! Қандай көмек керек?',
+        'ағылшын': 'Ағылшын тілін үйрену үшін тәжірибе керек! Күнделікті жаттығулар жасаңыз.',
+        'англис': 'Ағылшын тілін үйрену үшін тәжірибе керек!',
+        'үй жұмысы': 'Үй жұмысына көмектесемін! Қандай тапсырма?',
+        'уй жумысы': 'Үй жұмысына көмектесемін!',
+        'мультфильм': 'Мультфильмдер туралы айтайын! Сіз қандай мультфильмді жақсы көресіз?',
+        'мультик': 'Мультфильмдер туралы айтайын!',
+        'қалайсың': 'Рахмет, жақсы! Сіз қалайсыз?',
+        'калайсын': 'Рахмет, жақсы! Сіз қалайсыз?',
+        'рахмет': 'Әзіресе! Әлі де сұрақтарыңыз бар ма?',
+        'спасибо': 'Әзіресе!',
+        'көмек': 'Әрине, көмектесемін! Қандай мәселе?',
+        'комек': 'Әрине, көмектесемін!'
+    };
+    
+    const responsesRU = {
+        'привет': 'Привет! Чем могу помочь?',
+        'здравствуй': 'Здравствуйте! Как ваши дела?',
+        'английский': 'Для изучения английского нужна практика! Занимайтесь ежедневно.',
+        'англиский': 'Для изучения английского нужна практика!',
+        'домашка': 'Помогу с домашкой! Какое задание?',
+        'домашняя': 'Помогу с домашней работой!',
+        'мультфильм': 'Расскажу о мультфильмах! Какой ваш любимый мультфильм?',
+        'мультик': 'Расскажу о мультфильмах!',
+        'как дела': 'Спасибо, хорошо! Как ваши дела?',
+        'как ты': 'Спасибо, хорошо! А у вас?',
+        'спасибо': 'Пожалуйста! Есть еще вопросы?',
+        'рахмет': 'Пожалуйста!',
+        'помощь': 'Конечно, помогу! Какая проблема?',
+        'помоги': 'Конечно, помогу!'
+    };
+    
+    // Выбираем нужный словарь ответов
+    const responses = responseLanguage === 'kz' ? responsesKZ : responsesRU;
+    const lowerQuestion = question.toLowerCase();
+    
+    // Ищем подходящий ответ
+    for (const [key, response] of Object.entries(responses)) {
+        if (lowerQuestion.includes(key)) {
+            return response;
+        }
+    }
+    
+    // Если ответ не найден, отвечаем на выбранном языке
+    if (responseLanguage === 'kz') {
+        return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
+    } else {
+        return 'Извините, я не могу ответить на этот вопрос. Спросите что-то другое!';
+    }
+}
+
+// Функция для определения языка вопроса
+function detectLanguage(text) {
+    const kzWords = ['сәлем', 'салем', 'ағылшын', 'англис', 'үй', 'жумысы', 'уй', 'қалай', 'калай', 'рахмет', 'көмек', 'комек'];
+    const ruWords = ['привет', 'здравствуй', 'английский', 'англиский', 'домашка', 'домашняя', 'как', 'дела', 'спасибо', 'помощь', 'помоги'];
+    
+    const lowerText = text.toLowerCase();
+    let kzCount = 0;
+    let ruCount = 0;
+    
+    kzWords.forEach(word => {
+        if (lowerText.includes(word)) kzCount++;
+    });
+    
+    ruWords.forEach(word => {
+        if (lowerText.includes(word)) ruCount++;
+    });
+    
+    return kzCount >= ruCount ? 'kz' : 'ru';
+}
+
+// Остальные функции без изменений
+async function searchQuestion() {
+    const searchInput = document.getElementById('searchInput');
+    const question = searchInput.value.trim();
+    
+    if (question === '') {
+        if (currentLanguage === 'kz') {
+            alert('Сурақ енгізіңіз!');
+        } else {
+            alert('Введите вопрос!');
+        }
+        return;
+    }
+    
+    addMessage(question, 'user');
+    searchInput.value = '';
+    showTypingIndicator();
+    
+    try {
+        const response = await getAIResponse(question);
+        hideTypingIndicator();
+        addMessage(response, 'bot');
+    } catch (error) {
+        hideTypingIndicator();
+        if (currentLanguage === 'kz') {
+            addMessage('Қате орын алды. Қайталап көріңіз.', 'bot');
+        } else {
+            addMessage('Произошла ошибка. Попробуйте еще раз.', 'bot');
+        }
+        console.error('Error:', error);
+    }
+}
+
+function handleSearchEnter(event) {
+    if (event.key === 'Enter') {
+        searchQuestion();
+    }
+}
+
+function addMessage(text, sender) {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}-message`;
+    
+    const messageText = document.createElement('div');
+    messageText.className = 'message-text';
+    messageText.textContent = text;
+    
+    messageDiv.appendChild(messageText);
+    chatMessages.appendChild(messageDiv);
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    indicator.style.display = 'block';
+}
+
+function hideTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    indicator.style.display = 'none';
+}
+
+function toggleChatbot() {
+    const chatbot = document.getElementById('ai-chatbot');
+    chatbot.style.display = chatbot.style.display === 'none' ? 'block' : 'none';
+}
+
+function closeChatbot() {
+    document.getElementById('ai-chatbot').style.display = 'none';
+}
+</script>
 </body>
 </html>
