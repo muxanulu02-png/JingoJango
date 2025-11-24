@@ -2283,26 +2283,30 @@
     </footer>
 
     <!-- AI Chatbot -->
-    <div id="ai-chatbot">
-        <div class="chat-header">
-            <h3>👩‍🎓 Shynar </h3>
-            <button class="close-chat" onclick="closeChatbot()">×</button>
-        </div>
-        <div id="chat-messages">
-            <div class="message bot-message">
-                <div class="message-header">
-                    <strong>Shynar:</strong>
-                    <small id="current-time"></small>
-                </div>
-                <div class="message-text">Сәлем! 👋 Менен кез келген нәрсе туралы сұрай аласың! 🎓✨</div>
-            <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Сұрақ қойыңыз...">
-    <button onclick="searchQuestion()">Іздеу</button>
-</div>
-        <div id="typing-indicator">ЖИ теріп жатыр...</div>
+<div id="ai-chatbot">
+    <div class="chat-header">
+        <h3>👩‍🎓 Shynar</h3>
+        <button class="close-chat" onclick="closeChatbot()">×</button>
     </div>
+    <div id="chat-messages">
+        <div class="message bot-message">
+            <div class="message-header">
+                <strong>Shynar:</strong>
+                <small id="current-time"></small>
+            </div>
+            <div class="message-text">Сәлем! 👋 Менен кез келген нәрсе туралы сұрай аласың! 🎓✨</div>
+        </div>
+    </div>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Сұрақ қойыңыз...">
+        <button onclick="searchQuestion()">Іздеу</button>
+    </div>
+    
+    <div id="typing-indicator">ЖИ теріп жатыр...</div>
+</div>
 
-    <button id="chatbot-toggle-btn" onclick="toggleChatbot()">💬</button>
+<button id="chatbot-toggle-btn" onclick="toggleChatbot()">💬</button>
 
     <script>
         // Smooth scrolling
