@@ -2129,6 +2129,123 @@
         .change-lang-btn:hover {
             background: #5a6268;
         }
+        /* Адаптивные стили для чат-бота на мобильных устройствах */
+@media (max-width: 768px) {
+    #ai-chatbot {
+        width: 95vw !important;
+        height: 70vh !important;
+        right: 2.5vw !important;
+        bottom: 80px !important;
+        left: 2.5vw !important;
+        max-width: none !important;
+    }
+    
+    .chat-header h3 {
+        font-size: 1.1rem !important;
+    }
+    
+    .message {
+        max-width: 90% !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .search-container {
+        padding: 10px !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    #searchInput {
+        font-size: 16px !important;
+        padding: 12px 15px !important;
+    }
+    
+    .search-btn {
+        padding: 12px !important;
+        font-size: 16px !important;
+    }
+    
+    .language-buttons {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    .lang-btn {
+        padding: 12px 16px !important;
+        font-size: 14px !important;
+        text-align: center !important;
+    }
+    
+    .change-lang-btn {
+        padding: 10px 12px !important;
+        font-size: 12px !important;
+        text-align: center !important;
+    }
+    
+    #chatbot-toggle-btn {
+        width: 50px !important;
+        height: 50px !important;
+        font-size: 1.2rem !important;
+        bottom: 20px !important;
+        right: 20px !important;
+    }
+    
+    #typing-indicator {
+        font-size: 0.8rem !important;
+        padding: 8px 12px !important;
+    }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media (max-width: 480px) {
+    #ai-chatbot {
+        height: 65vh !important;
+        bottom: 70px !important;
+    }
+    
+    .chat-header {
+        padding: 12px !important;
+    }
+    
+    .message {
+        max-width: 95% !important;
+        padding: 8px 12px !important;
+    }
+    
+    .language-buttons {
+        gap: 6px !important;
+    }
+    
+    .lang-btn {
+        padding: 10px 12px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Исправление для iOS Safari */
+@supports (-webkit-touch-callout: none) {
+    #ai-chatbot {
+        height: 65vh !important;
+    }
+    
+    #searchInput {
+        font-size: 16px !important;
+    }
+}
+
+/* Портретная ориентация */
+@media (max-width: 768px) and (orientation: portrait) {
+    #ai-chatbot {
+        height: 60vh !important;
+    }
+}
+
+/* Альбомная ориентация */
+@media (max-width: 768px) and (orientation: landscape) {
+    #ai-chatbot {
+        height: 80vh !important;
+    }
+}
     </style>
 </head>
 <body>
