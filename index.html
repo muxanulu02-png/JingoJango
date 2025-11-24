@@ -2380,10 +2380,11 @@
                 <strong>Shynar:</strong>
             </div>
             <div class="message-text">
-                <p>Сәлем! 👋 Тілді таңдаңыз / Привет! 👋 Выберите язык</p>
+                <p>Сәлем! 👋 Тілді таңдаңыз / Привет! 👋 Выберите язык / Hello! 👋 Choose language</p>
                 <div class="language-buttons">
                     <button onclick="selectLanguage('kz')" class="lang-btn">Қазақша</button>
                     <button onclick="selectLanguage('ru')" class="lang-btn">Русский</button>
+                    <button onclick="selectLanguage('en')" class="lang-btn">English</button>
                 </div>
             </div>
         </div>
@@ -2398,11 +2399,11 @@
     <!-- Кнопка смены языка -->
     <div class="language-change-container" id="changeLanguageBtn" style="display: none;">
         <button onclick="changeLanguage()" class="change-lang-btn">
-            🌐 KAZ / RUS
+            🌐 Тілді өзгерту / Сменить язык / Change language
         </button>
     </div>
     
-    <div id="typing-indicator">ЖИ теріп жатыр...</div>
+    <div id="typing-indicator">Жауап дайындалуда...</div>
 </div>
 
 <button id="chatbot-toggle-btn" onclick="toggleChatbot()">💬</button>
@@ -2425,13 +2426,15 @@ function selectLanguage(lang) {
     if (lang === 'kz') {
         searchInput.placeholder = 'Сұрақ қойыңыз...';
         searchBtn.textContent = 'Сұрау';
-        searchBtn.style.padding = '12px 20px';
         addMessage('Тіл таңдалды! Қандай сұрағыңыз бар?', 'bot');
-    } else {
+    } else if (lang === 'ru') {
         searchInput.placeholder = 'Задайте вопрос...';
         searchBtn.textContent = 'Спроси';
-        searchBtn.style.padding = '12px 20px';
         addMessage('Язык выбран! Какой у вас вопрос?', 'bot');
+    } else {
+        searchInput.placeholder = 'Ask a question...';
+        searchBtn.textContent = 'Ask';
+        addMessage('Language selected! What is your question?', 'bot');
     }
     
     // Убираем кнопки выбора языка
@@ -2446,6 +2449,9 @@ function changeLanguage() {
     if (currentLanguage === 'kz') {
         selectLanguage('ru');
         addMessage('Язык изменен на русский!', 'bot');
+    } else if (currentLanguage === 'ru') {
+        selectLanguage('en');
+        addMessage('Language changed to English!', 'bot');
     } else {
         selectLanguage('kz');
         addMessage('Тіл қазақ тіліне өзгертілді!', 'bot');
@@ -2454,7 +2460,6 @@ function changeLanguage() {
 
 // Функция для получения ответа от AI с учетом ВЫБРАННОГО языка
 async function getAIResponse(question) {
-    // Используем ТОЛЬКО выбранный язык
     const responseLanguage = currentLanguage;
     
     const responsesKZ = {
@@ -2473,16 +2478,26 @@ async function getAIResponse(question) {
         'здравствуй': 'Здравствуйте! Как ваши дела?',
         'английский': 'Для изучения английского нужна практика! Занимайтесь ежедневно.',
         'домашка': 'Помогу с домашкой! Какое задание?',
-        'домашняя': 'Помогу с домашней работой!',
         'мультфильм': 'Расскажу о мультфильмах! Какой ваш любимый мультфильм?',
         'как дела': 'Спасибо, хорошо! Как ваши дела?',
         'спасибо': 'Пожалуйста! Есть еще вопросы?',
-        'помощь': 'Конечно, помогу! Какая проблема?',
-        'что': 'Могу рассказать на разные темы: учеба, мультфильмы, помощь с уроками',
-        'кто': 'Я ваш помощник Shynar! Готова помочь с учебой'
+        'помощь': 'Конечно, помогу! Какая проблема?'
     };
     
-    const responses = responseLanguage === 'kz' ? responsesKZ : responsesRU;
+    const responsesEN = {
+        'hello': 'Hello! How can I help you?',
+        'hi': 'Hi there! What would you like to know?',
+        'english': 'Learning English takes practice! Try to study every day.',
+        'homework': 'I can help with homework! What assignment?',
+        'cartoon': 'Let\'s talk about cartoons! What\'s your favorite cartoon?',
+        'how are you': 'I\'m great, thanks! How about you?',
+        'thank you': 'You\'re welcome! Any other questions?',
+        'help': 'Of course! What do you need help with?'
+    };
+    
+    const responses = responseLanguage === 'kz' ? responsesKZ : 
+                     responseLanguage === 'ru' ? responsesRU : responsesEN;
+    
     const lowerQuestion = question.toLowerCase();
     
     // Ищем подходящий ответ
@@ -2495,21 +2510,25 @@ async function getAIResponse(question) {
     // Если ответ не найден
     if (responseLanguage === 'kz') {
         return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
-    } else {
+    } else if (responseLanguage === 'ru') {
         return 'Извините, я не могу ответить на этот вопрос. Спросите что-то другое!';
+    } else {
+        return 'Sorry, I cannot answer this question. Please ask something else!';
     }
 }
 
-// Остальные функции
+// Остальные функции остаются без изменений
 async function searchQuestion() {
     const searchInput = document.getElementById('searchInput');
     const question = searchInput.value.trim();
     
     if (question === '') {
         if (currentLanguage === 'kz') {
-            alert('Сурақ енгізіңіз!');
-        } else {
+            alert('Сұрақ енгізіңіз!');
+        } else if (currentLanguage === 'ru') {
             alert('Введите вопрос!');
+        } else {
+            alert('Please enter a question!');
         }
         return;
     }
@@ -2519,7 +2538,6 @@ async function searchQuestion() {
     showTypingIndicator();
     
     try {
-        // Имитируем задержку для реалистичности
         await new Promise(resolve => setTimeout(resolve, 1000));
         const response = await getAIResponse(question);
         hideTypingIndicator();
@@ -2528,10 +2546,11 @@ async function searchQuestion() {
         hideTypingIndicator();
         if (currentLanguage === 'kz') {
             addMessage('Қате орын алды. Қайталап көріңіз.', 'bot');
-        } else {
+        } else if (currentLanguage === 'ru') {
             addMessage('Произошла ошибка. Попробуйте еще раз.', 'bot');
+        } else {
+            addMessage('An error occurred. Please try again.', 'bot');
         }
-        console.error('Error:', error);
     }
 }
 
@@ -2558,6 +2577,13 @@ function addMessage(text, sender) {
 
 function showTypingIndicator() {
     const indicator = document.getElementById('typing-indicator');
+    if (currentLanguage === 'kz') {
+        indicator.textContent = 'Жауап дайындалуда...';
+    } else if (currentLanguage === 'ru') {
+        indicator.textContent = 'Ответ готовится...';
+    } else {
+        indicator.textContent = 'Preparing response...';
+    }
     indicator.style.display = 'block';
 }
 
@@ -2574,24 +2600,6 @@ function toggleChatbot() {
 function closeChatbot() {
     document.getElementById('ai-chatbot').style.display = 'none';
 }
-
-// Smooth scrolling
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            targetElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            
-            history.pushState(null, null, targetId);
-        }
-    });
 });
     // 🚀 УЛЬТРА-НАДЕЖНЫЙ AI ПОМОЩНИК
         let isChatOpen = false;
