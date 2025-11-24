@@ -2285,16 +2285,16 @@
     <!-- AI Chatbot -->
     <div id="ai-chatbot">
         <div class="chat-header">
-            <h3>🤖 Қазақ Көмекшісі</h3>
+            <h3>👩‍🎓 Shynar </h3>
             <button class="close-chat" onclick="closeChatbot()">×</button>
         </div>
         <div id="chat-messages">
             <div class="message bot-message">
                 <div class="message-header">
-                    <strong>Қазақ Көмекшісі:</strong>
+                    <strong>Shynar:</strong>
                     <small id="current-time"></small>
                 </div>
-                <div class="message-text">Сәлем! 👋 Мен сенің ағылшын тілін үйренуге арналған AI көмекшісімін! Маған кез келген нәрсе туралы сұрай аласың! 🎓✨</div>
+                <div class="message-text">Сәлем! 👋 Менен кез келген нәрсе туралы сұрай аласың! 🎓✨</div>
             </div>
         </div>
         <div class="quick-questions">
@@ -2600,7 +2600,7 @@
             
             messageDiv.innerHTML = `
                 <div class="message-header">
-                    <strong>${sender === 'user' ? 'Сіз' : 'Қазақ Көмекшісі'}:</strong>
+                    <strong>${sender === 'user' ? 'Сіз' : 'Shynar'}:</strong>
                     <small>${time}</small>
                 </div>
                 <div class="message-text">${text}</div>
@@ -2620,7 +2620,7 @@
             
             messageDiv.innerHTML = `
                 <div class="message-header">
-                    <strong>Қазақ Көмекшісі:</strong>
+                    <strong>Shynar:</strong>
                     <small>${time}</small>
                 </div>
                 <div class="message-text">${text}</div>
@@ -2645,7 +2645,7 @@
             
             document.getElementById('current-time').textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            console.log('💬 Қазақ Көмекшісі жүктелді!');
+            console.log('💬 Shynar жүктелді!');
         });
     </script>
 </body>
