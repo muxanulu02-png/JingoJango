@@ -2410,6 +2410,7 @@
 
 <script>
 let currentLanguage = '';
+let isChatOpen = false;
 
 // Выбор языка
 function selectLanguage(lang) {
@@ -2458,66 +2459,36 @@ function changeLanguage() {
     }
 }
 
-// Функция для получения ответа от AI с учетом ВЫБРАННОГО языка
-async function getAIResponse(question) {
-    const responseLanguage = currentLanguage;
+// Основные функции чата
+function toggleChatbot() {
+    const chatbot = document.getElementById('ai-chatbot');
+    const toggleBtn = document.getElementById('chatbot-toggle-btn');
     
-    const responsesKZ = {
-        'сәлем': 'Сәлеметсіз бе! Қандай көмек керек?',
-        'салем': 'Сәлеметсіз бе! Қандай көмек керек?',
-        'ағылшын': 'Ағылшын тілін үйрену үшін тәжірибе керек! Күнделікті жаттығулар жасаңыз.',
-        'үй жұмысы': 'Үй жұмысына көмектесемін! Қандай тапсырма?',
-        'мультфильм': 'Мультфильмдер туралы айтайын! Сіз қандай мультфильмді жақсы көресіз?',
-        'қалайсың': 'Рахмет, жақсы! Сіз қалайсыз?',
-        'рахмет': 'Әзіресе! Әлі де сұрақтарыңыз бар ма?',
-        'көмек': 'Әрине, көмектесемін! Қандай мәселе?'
-    };
+    isChatOpen = !isChatOpen;
+    chatbot.style.display = isChatOpen ? 'flex' : 'none';
     
-    const responsesRU = {
-        'привет': 'Привет! Чем могу помочь?',
-        'здравствуй': 'Здравствуйте! Как ваши дела?',
-        'английский': 'Для изучения английского нужна практика! Занимайтесь ежедневно.',
-        'домашка': 'Помогу с домашкой! Какое задание?',
-        'мультфильм': 'Расскажу о мультфильмах! Какой ваш любимый мультфильм?',
-        'как дела': 'Спасибо, хорошо! Как ваши дела?',
-        'спасибо': 'Пожалуйста! Есть еще вопросы?',
-        'помощь': 'Конечно, помогу! Какая проблема?'
-    };
-    
-    const responsesEN = {
-        'hello': 'Hello! How can I help you?',
-        'hi': 'Hi there! What would you like to know?',
-        'english': 'Learning English takes practice! Try to study every day.',
-        'homework': 'I can help with homework! What assignment?',
-        'cartoon': 'Let\'s talk about cartoons! What\'s your favorite cartoon?',
-        'how are you': 'I\'m great, thanks! How about you?',
-        'thank you': 'You\'re welcome! Any other questions?',
-        'help': 'Of course! What do you need help with?'
-    };
-    
-    const responses = responseLanguage === 'kz' ? responsesKZ : 
-                     responseLanguage === 'ru' ? responsesRU : responsesEN;
-    
-    const lowerQuestion = question.toLowerCase();
-    
-    // Ищем подходящий ответ
-    for (const [key, response] of Object.entries(responses)) {
-        if (lowerQuestion.includes(key)) {
-            return response;
-        }
-    }
-    
-    // Если ответ не найден
-    if (responseLanguage === 'kz') {
-        return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. Басқа нәрсе сұраңыз!';
-    } else if (responseLanguage === 'ru') {
-        return 'Извините, я не могу ответить на этот вопрос. Спросите что-то другое!';
+    if (isChatOpen) {
+        toggleBtn.style.animation = 'none';
+        toggleBtn.innerHTML = '✕';
+        toggleBtn.style.background = 'linear-gradient(135deg, #FF809B, #FF9EAA)';
     } else {
-        return 'Sorry, I cannot answer this question. Please ask something else!';
+        toggleBtn.style.animation = 'float 3s ease-in-out infinite';
+        toggleBtn.innerHTML = '💬';
+        toggleBtn.style.background = 'linear-gradient(135deg, #FF9EAA, #FF809B)';
     }
 }
 
-// Остальные функции остаются без изменений
+function closeChatbot() {
+    const chatbot = document.getElementById('ai-chatbot');
+    const toggleBtn = document.getElementById('chatbot-toggle-btn');
+    
+    chatbot.style.display = 'none';
+    isChatOpen = false;
+    toggleBtn.style.animation = 'float 3s ease-in-out infinite';
+    toggleBtn.innerHTML = '💬';
+    toggleBtn.style.background = 'linear-gradient(135deg, #FF9EAA, #FF809B)';
+}
+
 async function searchQuestion() {
     const searchInput = document.getElementById('searchInput');
     const question = searchInput.value.trim();
@@ -2538,19 +2509,15 @@ async function searchQuestion() {
     showTypingIndicator();
     
     try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const response = await getAIResponse(question);
+        // Сначала пробуем API
+        const apiResponse = await getAIResponse(question);
         hideTypingIndicator();
-        addMessage(response, 'bot');
+        addMessage(apiResponse, 'bot');
     } catch (error) {
+        // Если API не работает, используем локальные ответы
         hideTypingIndicator();
-        if (currentLanguage === 'kz') {
-            addMessage('Қате орын алды. Қайталап көріңіз.', 'bot');
-        } else if (currentLanguage === 'ru') {
-            addMessage('Произошла ошибка. Попробуйте еще раз.', 'bot');
-        } else {
-            addMessage('An error occurred. Please try again.', 'bot');
-        }
+        const localResponse = getLocalAIResponse(question);
+        addMessage(localResponse, 'bot');
     }
 }
 
@@ -2592,86 +2559,7 @@ function hideTypingIndicator() {
     indicator.style.display = 'none';
 }
 
-function toggleChatbot() {
-    const chatbot = document.getElementById('ai-chatbot');
-    chatbot.style.display = chatbot.style.display === 'none' ? 'flex' : 'none';
-}
-
-function closeChatbot() {
-    document.getElementById('ai-chatbot').style.display = 'none';
-}
-});
-    // 🚀 УЛЬТРА-НАДЕЖНЫЙ AI ПОМОЩНИК
-        let isChatOpen = false;
-        let conversationHistory = [];
-
-        function toggleChatbot() {
-            const chatbot = document.getElementById('ai-chatbot');
-            const toggleBtn = document.getElementById('chatbot-toggle-btn');
-            
-            isChatOpen = !isChatOpen;
-            chatbot.style.display = isChatOpen ? 'flex' : 'none';
-            
-            if (isChatOpen) {
-                toggleBtn.style.animation = 'none';
-                toggleBtn.innerHTML = '✕';
-                toggleBtn.style.background = 'linear-gradient(135deg, #FF809B, #FF9EAA)';
-                document.getElementById('chat-input').focus();
-            } else {
-                toggleBtn.style.animation = 'float 3s ease-in-out infinite';
-                toggleBtn.innerHTML = '💬';
-                toggleBtn.style.background = 'linear-gradient(135deg, #FF9EAA, #FF809B)';
-            }
-        }
-
-        function closeChatbot() {
-            const chatbot = document.getElementById('ai-chatbot');
-            const toggleBtn = document.getElementById('chatbot-toggle-btn');
-            
-            chatbot.style.display = 'none';
-            isChatOpen = false;
-            toggleBtn.style.animation = 'float 3s ease-in-out infinite';
-            toggleBtn.innerHTML = '💬';
-            toggleBtn.style.background = 'linear-gradient(135deg, #FF9EAA, #FF809B)';
-        }
-
-        function quickQuestion(question) {
-            document.getElementById('chat-input').value = question;
-            sendMessage();
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('chat-input');
-            const sendBtn = document.getElementById('send-btn');
-            const message = input.value.trim();
-            
-            if (!message) return;
-
-            sendBtn.disabled = true;
-            sendBtn.innerHTML = '⏳';
-            sendBtn.style.background = 'linear-gradient(135deg, #FFB74D, #FFA726)';
-            
-            addMessage(message, 'user');
-            input.value = '';
-
-            const typingIndicator = document.getElementById('typing-indicator');
-            typingIndicator.style.display = 'block';
-
-            try {
-                const aiResponse = await getAIResponse(message);
-                addBotMessage(aiResponse);
-            } catch (error) {
-                console.error('Error:', error);
-                addBotMessage("Привет! 👋 Я твой AI помощник! Сейчас использую локальный режим. Спроси меня о мультиках или английском! 📚✨");
-            } finally {
-                sendBtn.disabled = false;
-                sendBtn.innerHTML = '📨';
-                sendBtn.style.background = 'linear-gradient(135deg, #FF9EAA, #FF809B)';
-                typingIndicator.style.display = 'none';
-            }
-        }
-
-      // 🎯 AI С ФИЛЬТРАЦИЕЙ РЕКЛАМЫ
+// 🎯 AI С ФИЛЬТРАЦИЕЙ РЕКЛАМЫ (ваш API)
 async function getAIResponse(userMessage) {
     // Попробуем самый простой и работающий API
     try {
@@ -2693,7 +2581,7 @@ async function getAIResponse(userMessage) {
                 // Удаляем двойные переносы строк после удаления рекламы
                 cleanAnswer = cleanAnswer.replace(/\n\s*\n/g, '\n');
                 
-                return cleanAnswer.trim() || "Отличный вопрос! Давай обсудим английский! 🎓";
+                return cleanAnswer.trim() || getLocalAIResponse(userMessage);
             }
         }
     } catch (error) {
@@ -2738,8 +2626,94 @@ async function getAIResponse(userMessage) {
     }
 
     // Если все API не работают, используем локальные ответы
-    return getSmartAIResponse(userMessage);
+    return getLocalAIResponse(userMessage);
 }
+
+// Локальные ответы на выбранном языке
+function getLocalAIResponse(question) {
+    const responseLanguage = currentLanguage;
+    
+    const responsesKZ = {
+        'сәлем': 'Сәлеметсіз бе! 👋 Ағылшын тілін үйренуге көмектесемін!',
+        'салем': 'Сәлеметсіз бе! 👋 Қандай көмек керек?',
+        'ағылшын': 'Ағылшын тілін үйрену үшін тәжірибе керек! 📚 Күнделікті жаттығулар жасаңыз.',
+        'үй жұмысы': 'Үй жұмысына көмектесемін! ✏️ Қандай тапсырма?',
+        'мультфильм': 'Мультфильмдер туралы айтайын! 🎬 Сіз қандай мультфильмді жақсы көресіз?',
+        'қалайсың': 'Рахмет, жақсы! 😊 Сіз қалайсыз?',
+        'рахмет': 'Әзіресе! 👍 Әлі де сұрақтарыңыз бар ма?',
+        'көмек': 'Әрине, көмектесемін! 💫 Қандай мәселе?',
+        'пеппа': 'Пеппа Пиг - керемет мультфильм! 🐷 Ағылшын тілін үйренуге жақсы.',
+        'микки': 'Микки Маус - классикалық кейіпкер! 🐭',
+        'ақыл': 'Ақылды сұрақ! 🤔 Мен ағылшын тілі, мультфильмдер және үй жұмысы туралы айта аламын.'
+    };
+    
+    const responsesRU = {
+        'привет': 'Привет! 👋 Чем могу помочь с английским?',
+        'здравствуй': 'Здравствуйте! 👋 Как ваши дела?',
+        'английский': 'Для изучения английского нужна практика! 📚 Занимайтесь ежедневно.',
+        'домашка': 'Помогу с домашкой! ✏️ Какое задание?',
+        'домашняя': 'Помогу с домашней работой! 📝',
+        'мультфильм': 'Расскажу о мультфильмах! 🎬 Какой ваш любимый мультфильм?',
+        'как дела': 'Спасибо, хорошо! 😊 Как ваши дела?',
+        'спасибо': 'Пожалуйста! 👍 Есть еще вопросы?',
+        'помощь': 'Конечно, помогу! 💫 Какая проблема?',
+        'пеппа': 'Пеппа Пиг - отличный мультфильм! 🐷 Хорош для изучения английского.',
+        'микки': 'Микки Маус - классический персонаж! 🐭',
+        'умный': 'Умный вопрос! 🤔 Я могу рассказать об английском, мультфильмах и домашке.'
+    };
+    
+    const responsesEN = {
+        'hello': 'Hello! 👋 How can I help you with English?',
+        'hi': 'Hi there! 👋 What would you like to know?',
+        'english': 'Learning English takes practice! 📚 Try to study every day.',
+        'homework': 'I can help with homework! ✏️ What assignment?',
+        'cartoon': 'Let\'s talk about cartoons! 🎬 What\'s your favorite cartoon?',
+        'how are you': 'I\'m great, thanks! 😊 How about you?',
+        'thank you': 'You\'re welcome! 👍 Any other questions?',
+        'help': 'Of course! 💫 What do you need help with?',
+        'peppa': 'Peppa Pig is a great cartoon! 🐷 Good for learning English.',
+        'mickey': 'Mickey Mouse is a classic character! 🐭',
+        'smart': 'Smart question! 🤔 I can tell you about English, cartoons, and homework.'
+    };
+    
+    const responses = responseLanguage === 'kz' ? responsesKZ : 
+                     responseLanguage === 'ru' ? responsesRU : responsesEN;
+    
+    const lowerQuestion = question.toLowerCase();
+    
+    // Ищем подходящий ответ
+    for (const [key, response] of Object.entries(responses)) {
+        if (lowerQuestion.includes(key)) {
+            return response;
+        }
+    }
+    
+    // Если ответ не найден
+    if (responseLanguage === 'kz') {
+        return 'Кешіріңіз, бұл сұраққа жауап бере алмаймын. 😔 Ағылшын тілі, мультфильмдер немесе үй жұмысы туралы сұраңыз!';
+    } else if (responseLanguage === 'ru') {
+        return 'Извините, я не могу ответить на этот вопрос. 😔 Спросите о английском, мультфильмах или домашке!';
+    } else {
+        return 'Sorry, I cannot answer this question. 😔 Ask about English, cartoons, or homework!';
+    }
+}
+
+// Smooth scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
 </script>
     
 </body>
