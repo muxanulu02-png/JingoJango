@@ -2397,11 +2397,11 @@
     </div>
 
     <!-- Кнопка смены языка -->
-    <div class="language-change-container" id="changeLanguageBtn" style="display: none;">
-        <button onclick="changeLanguage()" class="change-lang-btn">
-            🌐 Тілді өзгерту / Сменить язык / Change language
-        </button>
-    </div>
+ <div class="language-change-container" id="changeLanguageBtn" style="display: none;">
+    <button onclick="changeLanguage()" class="change-lang-btn">
+        🌐 
+    </button>
+</div>
     
     <div id="typing-indicator">Жауап дайындалуда...</div>
 </div>
@@ -2445,20 +2445,60 @@ function selectLanguage(lang) {
     }
 }
 
-// Функция для смены языка во время беседы
+// Функция для выбора конкретного языка
 function changeLanguage() {
-    if (currentLanguage === 'kz') {
-        selectLanguage('ru');
-        addMessage('Язык изменен на русский!', 'bot');
-    } else if (currentLanguage === 'ru') {
-        selectLanguage('en');
-        addMessage('Language changed to English!', 'bot');
-    } else {
-        selectLanguage('kz');
-        addMessage('Тіл қазақ тіліне өзгертілді!', 'bot');
-    }
+    // Создаем кнопки для выбора языка
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot-message';
+    messageDiv.innerHTML = `
+        <div class="message-header">
+            <strong>Shynar:</strong>
+        </div>
+        <div class="message-text">
+            <p>Выберите язык / Тілді таңдаңыз / Choose language:</p>
+            <div class="language-buttons">
+                <button onclick="selectSpecificLanguage('kz')" class="lang-btn">🇰🇿 Қазақша</button>
+                <button onclick="selectSpecificLanguage('ru')" class="lang-btn">🇷🇺 Русский</button>
+                <button onclick="selectSpecificLanguage('en')" class="lang-btn">🇺🇸 English</button>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('chat-messages').appendChild(messageDiv);
+    document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
 }
 
+// Функция для выбора конкретного языка
+function selectSpecificLanguage(lang) {
+    if (lang === currentLanguage) {
+        // Если выбран текущий язык
+        if (lang === 'kz') {
+            addMessage('Сіз қазір қазақ тілінде сөйлесіп жатырсыз!', 'bot');
+        } else if (lang === 'ru') {
+            addMessage('Вы уже используете русский язык!', 'bot');
+        } else {
+            addMessage('You are already using English!', 'bot');
+        }
+    } else {
+        // Меняем на выбранный язык
+        selectLanguage(lang);
+        if (lang === 'kz') {
+            addMessage('Тіл қазақ тіліне өзгертілді!', 'bot');
+        } else if (lang === 'ru') {
+            addMessage('Язык изменен на русский!', 'bot');
+        } else {
+            addMessage('Language changed to English!', 'bot');
+        }
+    }
+    
+    // Убираем кнопки выбора языка
+    const languageButtons = document.querySelectorAll('.language-buttons');
+    languageButtons.forEach(buttons => {
+        if (buttons.parentElement && buttons.parentElement.parentElement) {
+            buttons.parentElement.parentElement.remove();
+        }
+    });
+}
 // Основные функции чата
 function toggleChatbot() {
     const chatbot = document.getElementById('ai-chatbot');
