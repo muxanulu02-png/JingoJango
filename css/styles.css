@@ -1823,5 +1823,18 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+/* Установка фона */
+body {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Убрать старый текст фона */
+.background-text {
+    display: none;
+}
 
 /* ... остальной ваш CSS код остается без изменений ... */
