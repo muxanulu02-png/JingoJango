@@ -1836,6 +1836,13 @@ body {
 .background-text {
     display: none;
 }
+@media (max-width: 768px) {
+    .hero {
+        background-size: contain !important;
+        height: 400px !important;
+        background-position: center !important;
+    }
+}
 
 /* ... остальной ваш CSS код остается без изменений ... */
  какую удалить
