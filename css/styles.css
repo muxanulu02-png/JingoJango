@@ -143,14 +143,24 @@ body {
 }
 
 /* Hero section */
+/* Hero section */
 .hero {
     background-image: url('background.jpg');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     min-height: 800px;
     position: relative;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .hero {
+        background-size: contain; /* вписать без обрезки */
+        background-position: top center;
+        height: 400px;
+        min-height: 400px;
+        background-color: #000; /* фон вокруг фото */
+    }
 }
 
 .hero-content {
