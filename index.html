@@ -2278,16 +2278,22 @@
     </header>
 
     <main>
-     <section class="hero" style="
-    background-image: url('background.jpg'); 
-    background-size: 100% auto; 
-    background-position: center; 
-    background-repeat: no-repeat; 
-    min-height: 600px;
-    height: 100vh;
-    position: relative; 
-    overflow: hidden;
-">
+    <section class="hero" style="background-image: url('background.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; padding: 100px 0; min-height: 600px; position: relative; overflow: hidden;">
+    <div class="container">
+        <div class="hero-content">
+            <!-- Оставляем пустым чтобы не было дублирующего текста -->
+            <div class="hero-text"></div>
+            <div class="hero-decorations">
+                <div class="floating-element book">📚</div>
+                <div class="floating-element star">⭐</div>
+                <div class="floating-element pencil">✏️</div>
+                <div class="floating-element heart">❤️</div>
+                <div class="floating-element magic-wand">🪄</div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-wave"></div>
+</section>
         <!-- Cartoons Section -->
         <section class="section" id="cartoons">
             <div class="container">
