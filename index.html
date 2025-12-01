@@ -2289,19 +2289,19 @@
     position: relative;
     overflow: hidden;
 ">
-    <!-- Центральная картинка -->
-    <div class="center-image" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <img src="da.png" alt="Center" style="width: 350px; height: auto;">
+      <!-- Центральная картинка -->
+    <div class="center-image">
+        <img src="da.png" alt="Center">
     </div>
     
-    <!-- Вращающаяся слева снизу -->
-    <div class="rotating-left" style="position: absolute; bottom: 0; left: 0; animation: rotate-left 4s linear infinite;">
-        <img src="da1.png" alt="Left" style="width: 350px; height: auto;">
+    <!-- Вращающаяся слева снизу - СДВИНУТА ВЛЕВО -->
+    <div class="rotating-left" style="position: absolute; bottom: 0; left: -80px; z-index: 20;">
+        <img src="da1.png" alt="Left">
     </div>
     
-    <!-- Вращающаяся справа сверху -->
-    <div class="rotating-right" style="position: absolute; top: 0; right: 0; animation: rotate-right 4s linear infinite;">
-        <img src="da2.png" alt="Right" style="width: 350px; height: auto;">
+    <!-- Вращающаяся справа сверху - СДВИНУТА ВПРАВО -->
+    <div class="rotating-right" style="position: absolute; top: 0; right: -80px; z-index: 20;">
+        <img src="da2.png" alt="Right">
     </div>
 </section>
         <!-- Cartoons Section -->
