@@ -1729,11 +1729,52 @@ body {
     filter: drop-shadow(0 10px 25px rgba(0,0,0,0.4));
 }
 
-@keyframes bounce-png {
-    0%, 100% { 
-        background-size: 250px auto, cover;
-    }
-    50% { 
-        background-size: 270px auto, cover;
-    }
+/* Центральная картинка */
+.center-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.center-image img {
+    width: 400px !important;
+    height: auto !important;
+}
+
+/* Вращающаяся слева снизу */
+.rotating-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    animation: rotate-left 4s linear infinite;
+}
+
+.rotating-left img {
+    width: 280px !important;
+    height: auto !important;
+}
+
+/* Вращающаяся справа сверху */
+.rotating-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    animation: rotate-right 4s linear infinite;
+}
+
+.rotating-right img {
+    width: 280px !important;
+    height: auto !important;
+}
+
+/* Анимации вращения */
+@keyframes rotate-left {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes rotate-right {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
 }
