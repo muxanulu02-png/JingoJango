@@ -143,7 +143,6 @@ body {
 }
 
 /* Hero section */
-/* Hero section */
 .hero {
     background-image: url('background.jpg');
     background-size: cover;
@@ -155,11 +154,11 @@ body {
 
 @media (max-width: 768px) {
     .hero {
-        background-size: contain; /* вписать без обрезки */
+        background-size: contain;
         background-position: top center;
         height: 400px;
         min-height: 400px;
-        background-color: #000; /* фон вокруг фото */
+        background-color: #000;
     }
 }
 
@@ -1713,12 +1712,14 @@ body {
 .background-text {
     display: none;
 }
+
 /* Центральная картинка - ПУЛЬСИРУЕТ */
 .center-image {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 10;
     animation: bounce-png 2s ease-in-out infinite;
 }
 
@@ -1732,6 +1733,7 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
+    z-index: 10;
     animation: rotate-left 4s linear infinite;
 }
 
@@ -1745,6 +1747,7 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 10;
     animation: rotate-right 4s linear infinite;
 }
 
