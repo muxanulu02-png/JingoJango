@@ -2278,10 +2278,22 @@
     </header>
 
     <main>
- <section class="hero" style="
-    background-image: url('da.png'), url('background.jpg');
-    background-position: center, center;
-    background-size: 250px auto, cover;
+<section class="hero" style="
+    background-image: 
+        url('da.png'),   /* главная по центру */
+        url('da1.png'),  /* слева снизу */
+        url('da2.png'),  /* справа сверху */
+        url('background.jpg'); /* фон */
+    background-position: 
+        center,          /* центр - главная */
+        20% 80%,        /* слева снизу */
+        80% 20%,        /* справа сверху */
+        center;         /* фон */
+    background-size: 
+        250px auto,     /* главная - побольше */
+        120px auto,     /* левый узор */
+        120px auto,     /* правый узор */
+        cover;          /* фон */
     background-repeat: no-repeat;
     height: 800px;
     padding: 0;
