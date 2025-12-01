@@ -1713,3 +1713,27 @@ body {
 .background-text {
     display: none;
 }
+/* Анимированная PNG картинка поверх фона */
+.floating-character {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    animation: bounce-png 2s ease-in-out infinite;
+}
+
+.floating-character img {
+    width: 250px;
+    height: auto;
+    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.4));
+}
+
+@keyframes bounce-png {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.1); 
+    }
+}
