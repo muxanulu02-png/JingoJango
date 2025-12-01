@@ -1713,28 +1713,13 @@ body {
 .background-text {
     display: none;
 }
-/* Анимированная PNG картинка поверх фона */
-.floating-character {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    animation: bounce-png 2s ease-in-out infinite;
-}
-
-.floating-character img {
-    width: 250px;
-    height: auto;
-    filter: drop-shadow(0 10px 25px rgba(0,0,0,0.4));
-}
-
-/* Центральная картинка */
+/* Центральная картинка - ПУЛЬСИРУЕТ */
 .center-image {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    animation: bounce-png 2s ease-in-out infinite;
 }
 
 .center-image img {
@@ -1742,7 +1727,7 @@ body {
     height: auto !important;
 }
 
-/* Вращающаяся слева снизу */
+/* Вращающаяся слева снизу - ВРАЩАЕТСЯ */
 .rotating-left {
     position: absolute;
     bottom: 0;
@@ -1755,7 +1740,7 @@ body {
     height: auto !important;
 }
 
-/* Вращающаяся справа сверху */
+/* Вращающаяся справа сверху - ВРАЩАЕТСЯ */
 .rotating-right {
     position: absolute;
     top: 0;
@@ -1768,7 +1753,7 @@ body {
     height: auto !important;
 }
 
-/* Анимации вращения */
+/* Анимация вращения для da1 и da2 */
 @keyframes rotate-left {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -1777,4 +1762,14 @@ body {
 @keyframes rotate-right {
     from { transform: rotate(0deg); }
     to { transform: rotate(-360deg); }
+}
+
+/* Анимация пульсации для da */
+@keyframes bounce-png {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.1); 
+    }
 }
