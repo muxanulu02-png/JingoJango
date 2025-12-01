@@ -1712,45 +1712,40 @@ body {
 .background-text {
     display: none;
 }
-
-/* Центральная картинка - ПУЛЬСИРУЕТ */
-.center-image {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-    animation: bounce-png 4s ease-in-out infinite;
-}
-
-.center-image img {
-    width: 400px !important;
-    height: auto !important;
-}
-
-.rotating-left {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-}
-
+/* Исправление: анимация вращения на САМИХ КАРТИНКАХ */
 .rotating-left img {
     width: 280px !important;
     height: auto !important;
-    animation: rotate-left 4s linear infinite; /* Анимация на IMG */
-}
-
-/* Вращающаяся справа сверху - ВРАЩАЕТСЯ */
-.rotating-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
+    animation: simple-rotate-left 4s linear infinite !important;
 }
 
 .rotating-right img {
     width: 280px !important;
     height: auto !important;
-    animation: rotate-right 4s linear infinite; /* Анимация на IMG */
+    animation: simple-rotate-right 4s linear infinite !important;
+}
+
+/* Простая вращающаяся анимация */
+@keyframes simple-rotate-left {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes simple-rotate-right {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+}
+
+/* Центральная картинка пульсирует */
+.center-image {
+    animation: bounce-png 2s ease-in-out infinite !important;
+}
+
+@keyframes bounce-png {
+    0%, 100% { 
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.1); 
+    }
 }
