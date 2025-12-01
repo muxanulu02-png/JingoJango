@@ -1720,7 +1720,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    animation: bounce-png 2s ease-in-out infinite;
+    animation: bounce-png 4s ease-in-out infinite;
 }
 
 .center-image img {
@@ -1728,32 +1728,13 @@ body {
     height: auto !important;
 }
 
-/* Вращающаяся слева снизу - ВРАЩАЕТСЯ */
-.rotating-left {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    animation: rotate-left 4s linear infinite;
-}
-
+/* Исправление анимаций вращения */
 .rotating-left img {
-    width: 280px !important;
-    height: auto !important;
-}
-
-/* Вращающаяся справа сверху - ВРАЩАЕТСЯ */
-.rotating-right {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    animation: rotate-right 4s linear infinite;
+    animation: rotate-left 4s linear infinite !important;
 }
 
 .rotating-right img {
-    width: 280px !important;
-    height: auto !important;
+    animation: rotate-right 4s linear infinite !important;
 }
 
 /* Анимация вращения для da1 и da2 */
