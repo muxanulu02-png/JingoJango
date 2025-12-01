@@ -2279,21 +2279,9 @@
 
     <main>
 <section class="hero" style="
-    background-image: 
-        url('da.png'),   /* главная по центру */
-        url('da1.png'),  /* слева снизу */
-        url('da2.png'),  /* справа сверху */
-        url('background.jpg'); /* фон */
-    background-position: 
-        center,          /* центр - главная */
-        0% 100%,        /* левый нижний угол */
-        100% 0%,        /* правый верхний угол */
-        center;         /* фон */
-    background-size: 
-        400px auto,     /* главная - УВЕЛИЧЕНА ДО 400px */
-        280px auto,     /* левый узор - УВЕЛИЧЕН ДО 280px */
-        280px auto,     /* правый узор - УВЕЛИЧЕН ДО 280px */
-        cover;          /* фон */
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     height: 800px;
     padding: 0;
@@ -2301,6 +2289,20 @@
     position: relative;
     overflow: hidden;
 ">
+    <!-- Центральная картинка -->
+    <div class="center-image" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <img src="da.png" alt="Center" style="width: 320px; height: auto;">
+    </div>
+    
+    <!-- Вращающаяся слева снизу -->
+    <div class="rotating-left" style="position: absolute; bottom: 0; left: 0; animation: rotate-left 4s linear infinite;">
+        <img src="da1.png" alt="Left" style="width: 280px; height: auto;">
+    </div>
+    
+    <!-- Вращающаяся справа сверху -->
+    <div class="rotating-right" style="position: absolute; top: 0; right: 0; animation: rotate-right 4s linear infinite;">
+        <img src="da2.png" alt="Right" style="width: 280px; height: auto;">
+    </div>
 </section>
         <!-- Cartoons Section -->
         <section class="section" id="cartoons">
