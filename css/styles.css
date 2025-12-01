@@ -1728,32 +1728,29 @@ body {
     height: auto !important;
 }
 
-/* Исправление анимаций вращения */
+.rotating-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+}
+
 .rotating-left img {
-    animation: rotate-left 4s linear infinite !important;
+    width: 280px !important;
+    height: auto !important;
+    animation: rotate-left 4s linear infinite; /* Анимация на IMG */
+}
+
+/* Вращающаяся справа сверху - ВРАЩАЕТСЯ */
+.rotating-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
 }
 
 .rotating-right img {
-    animation: rotate-right 4s linear infinite !important;
-}
-
-/* Анимация вращения для da1 и da2 */
-@keyframes rotate-left {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes rotate-right {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
-}
-
-/* Анимация пульсации для da */
-@keyframes bounce-png {
-    0%, 100% { 
-        transform: translate(-50%, -50%) scale(1); 
-    }
-    50% { 
-        transform: translate(-50%, -50%) scale(1.1); 
-    }
+    width: 280px !important;
+    height: auto !important;
+    animation: rotate-right 4s linear infinite; /* Анимация на IMG */
 }
