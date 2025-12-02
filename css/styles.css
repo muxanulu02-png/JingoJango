@@ -1758,4 +1758,60 @@ body {
 .rotating-right {
     right: -30px !important;
     top: 0 !important;
+    /* Адаптация hero секции для смартфонов */
+@media screen and (max-width: 768px) {
+  .hero {
+    height: 500px !important; /* Уменьшаем высоту */
+    min-height: 500px !important;
+  }
+  
+  /* Уменьшаем вращающиеся картинки */
+  .rotating-left img,
+  .rotating-right img {
+    width: 200px !important;
+  }
+  
+  /* Сдвигаем вращающиеся картинки еще дальше за края */
+  .rotating-left {
+    left: -100px !important;
+    bottom: -50px !important;
+  }
+  
+  .rotating-right {
+    right: -100px !important;
+    top: -50px !important;
+  }
+  
+  /* Уменьшаем центральную картинку */
+  .center-image img {
+    width: 200px !important;
+  }
+}
+
+/* Для очень маленьких экранов */
+@media screen and (max-width: 480px) {
+  .hero {
+    height: 400px !important;
+    min-height: 400px !important;
+  }
+  
+  .rotating-left img,
+  .rotating-right img {
+    width: 150px !important;
+  }
+  
+  .center-image img {
+    width: 150px !important;
+  }
+  
+  .rotating-left {
+    left: -120px !important;
+    bottom: -80px !important;
+  }
+  
+  .rotating-right {
+    right: -120px !important;
+    top: -80px !important;
+  }
+}
 }
