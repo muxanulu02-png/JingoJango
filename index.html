@@ -2322,31 +2322,78 @@
     /* Адаптация для смартфонов */
     @media screen and (max-width: 768px) {
       .hero {
-        height: 500px !important;
+        height: 450px !important;
+        background-position: top center !important;
       }
       
       .rotating-left,
       .rotating-right {
-        display: none !important;
+        display: block !important; /* Показываем но уменьшаем */
+        opacity: 0.3 !important; /* Делаем полупрозрачными */
+      }
+      
+      .rotating-left {
+        left: -150px !important;
+        bottom: -50px !important;
+      }
+      
+      .rotating-right {
+        right: -150px !important;
+        top: -50px !important;
       }
       
       .rotating-left img,
       .rotating-right img {
-        width: 250px !important;
+        width: 280px !important;
+      }
+      
+      .center-image {
+        z-index: 20 !important;
       }
       
       .center-image img {
-        width: 220px !important;
-        animation: bounce-png-mobile 8s ease-in-out infinite !important;
+        width: 200px !important;
+        animation: bounce-png-mobile 6s ease-in-out infinite !important;
       }
     }
     
     @media screen and (max-width: 480px) {
       .hero {
-        height: 400px !important;
+        height: 350px !important;
+      }
+      
+      .rotating-left {
+        left: -180px !important;
+        bottom: -80px !important;
+      }
+      
+      .rotating-right {
+        right: -180px !important;
+        top: -80px !important;
+      }
+      
+      .rotating-left img,
+      .rotating-right img {
+        width: 220px !important;
       }
       
       .center-image img {
+        width: 160px !important;
+      }
+    }
+    
+    /* Для самых маленьких телефонов */
+    @media screen and (max-width: 360px) {
+      .hero {
+        height: 300px !important;
+      }
+      
+      .center-image img {
+        width: 130px !important;
+      }
+      
+      .rotating-left img,
+      .rotating-right img {
         width: 180px !important;
       }
     }
@@ -2356,10 +2403,11 @@
         transform: scale(1) !important; 
       }
       50% { 
-        transform: scale(1.05) !important; 
+        transform: scale(1.08) !important; 
       }
     }
   </style>
+</section>
 </section>
 </section>
         <!-- Cartoons Section -->
