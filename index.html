@@ -2291,34 +2291,76 @@
 ">
   <div class="rotating-left" style="position: absolute; bottom: 0; left: -80px; z-index: 10;">
     <img src="da1.png" alt="Left" style="width: 410px; animation: rotate-left 16s linear infinite;">
-</div>
+  </div>
 
-<div class="rotating-right" style="position: absolute; top: 0; right: -80px; z-index: 10;">
+  <div class="rotating-right" style="position: absolute; top: 0; right: -80px; z-index: 10;">
     <img src="da2.png" alt="Right" style="width: 410px; animation: rotate-right 16s linear infinite;">
-</div>
+  </div>
 
-<div class="center-image" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+  <div class="center-image" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
     <img src="da.png" alt="Center" style="width: 330px; animation: bounce-png 10s ease-in-out infinite;">
-</div>
+  </div>
 
-<style>
-@keyframes rotate-left {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-@keyframes rotate-right {
-    from { transform: rotate(360deg); }
-    to { transform: rotate(0deg); }
-}
-@keyframes bounce-png {
-    0%, 100% { 
+  <style>
+    @keyframes rotate-left {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes rotate-right {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+    @keyframes bounce-png {
+      0%, 100% { 
         transform: scale(1); 
-    }
-    50% { 
+      }
+      50% { 
         transform: scale(1.1); 
+      }
     }
-}
-</style>
+    
+    /* Адаптация для смартфонов */
+    @media screen and (max-width: 768px) {
+      .hero {
+        height: 500px !important;
+      }
+      
+      .rotating-left,
+      .rotating-right {
+        display: none !important;
+      }
+      
+      .rotating-left img,
+      .rotating-right img {
+        width: 250px !important;
+      }
+      
+      .center-image img {
+        width: 220px !important;
+        animation: bounce-png-mobile 8s ease-in-out infinite !important;
+      }
+    }
+    
+    @media screen and (max-width: 480px) {
+      .hero {
+        height: 400px !important;
+      }
+      
+      .center-image img {
+        width: 180px !important;
+      }
+    }
+    
+    @keyframes bounce-png-mobile {
+      0%, 100% { 
+        transform: scale(1) !important; 
+      }
+      50% { 
+        transform: scale(1.05) !important; 
+      }
+    }
+  </style>
+</section>
 </section>
         <!-- Cartoons Section -->
         <section class="section" id="cartoons">
