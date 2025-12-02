@@ -2328,8 +2328,8 @@
       
       .rotating-left,
       .rotating-right {
-        display: block !important; /* Показываем но уменьшаем */
-        opacity: 0.3 !important; /* Делаем полупрозрачными */
+        display: block !important;
+        opacity: 0.3 !important;
       }
       
       .rotating-left {
@@ -2353,7 +2353,7 @@
       
       .center-image img {
         width: 200px !important;
-        animation: bounce-png-mobile 6s ease-in-out infinite !important;
+        animation: bounce-png 6s ease-in-out infinite !important; /* Используем ту же анимацию! */
       }
     }
     
@@ -2379,6 +2379,7 @@
       
       .center-image img {
         width: 160px !important;
+        animation: bounce-png 5s ease-in-out infinite !important; /* Быстрее на маленьких экранах */
       }
     }
     
@@ -2390,6 +2391,7 @@
       
       .center-image img {
         width: 130px !important;
+        animation: bounce-png 4s ease-in-out infinite !important; /* Еще быстрее */
       }
       
       .rotating-left img,
@@ -2397,18 +2399,7 @@
         width: 180px !important;
       }
     }
-    
-    @keyframes bounce-png-mobile {
-      0%, 100% { 
-        transform: scale(1) !important; 
-      }
-      50% { 
-        transform: scale(1.08) !important; 
-      }
-    }
   </style>
-</section>
-</section>
 </section>
         <!-- Cartoons Section -->
         <section class="section" id="cartoons">
